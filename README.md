@@ -1,5 +1,7 @@
 # Dotfiles
 
-These are my dotfiles; you can freely use them.
+These are my dotfiles, and you are welcome to use them.
+*(MacOS with Apple Silicon)*
+*Please note that some Neovim plugins may require additional external packages to be installed.*
 
-Including: NvChad, WezTerm, Fish, Starship.
+This repository includes configurations for NvChad, WezTerm, Fish, and Starship.
