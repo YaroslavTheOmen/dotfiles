@@ -2,6 +2,12 @@ local cmp = require "cmp"
 
 return {
 
+  -- lazygit
+  {
+    "kdheepak/lazygit.nvim",
+    cmd = "LazyGit",
+  },
+
   --none.ls
   {
     "nvimtools/none-ls.nvim",
@@ -62,6 +68,7 @@ return {
 
   {
     "neovim/nvim-lspconfig",
+    dependencies = { "b0o/schemastore.nvim" }, -- Add schemastore as a dependency
     config = function()
       require("nvchad.configs.lspconfig").defaults()
       require "configs.lspconfig"
