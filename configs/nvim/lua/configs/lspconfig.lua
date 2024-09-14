@@ -1,62 +1,58 @@
--- Import LSP configurations from NvChad
-local on_attach = require("nvchad.configs.lspconfig").on_attach
-local on_init = require("nvchad.configs.lspconfig").on_init
-local capabilities = require("nvchad.configs.lspconfig").capabilities
-
--- Enable additional LSP capabilities supported by nvim-cmp
-capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities.textDocument.completion.completionItem.snippetSupport = true
-capabilities.textDocument.completion.completionItem.documentationFormat = { "markdown", "plaintext" }
-capabilities.textDocument.completion.completionItem.preselectSupport = true
-capabilities.textDocument.completion.completionItem.insertReplaceSupport = true
-capabilities.textDocument.completion.completionItem.labelDetailsSupport = true
-capabilities.textDocument.completion.completionItem.deprecatedSupport = true
-capabilities.textDocument.completion.completionItem.commitCharactersSupport = true
-capabilities.textDocument.completion.completionItem.tagSupport = { valueSet = { 1 } }
-capabilities.textDocument.completion.completionItem.resolveSupport = {
-  properties = { "documentation", "detail", "additionalTextEdits" },
-}
-
--- Required imports
+-- Import necessary modules
 local lspconfig = require "lspconfig"
 local util = require "lspconfig/util"
+local cmp_nvim_lsp = require "cmp_nvim_lsp"
+local schemastore = require "schemastore"
 
--- Common LSP on_attach function to enable keybindings and features across all languages
+-- Define capabilities
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities = cmp_nvim_lsp.default_capabilities(capabilities)
+
+-- Custom on_attach function to set keybindings
 local function custom_on_attach(client, bufnr)
-  -- Enable standard keybindings for LSP features
+  -- Set up keybindings
   local opts = { noremap = true, silent = true }
-  vim.api.nvim_buf_set_keymap(bufnr, "n", "gd", "<Cmd>lua vim.lsp.buf.definition()<CR>", opts)
-  vim.api.nvim_buf_set_keymap(bufnr, "n", "gD", "<Cmd>lua vim.lsp.buf.declaration()<CR>", opts)
-  vim.api.nvim_buf_set_keymap(bufnr, "n", "gr", "<Cmd>lua vim.lsp.buf.references()<CR>", opts)
-  vim.api.nvim_buf_set_keymap(bufnr, "n", "K", "<Cmd>lua vim.lsp.buf.hover()<CR>", opts)
-  vim.api.nvim_buf_set_keymap(bufnr, "n", "<C-k>", "<Cmd>lua vim.lsp.buf.signature_help()<CR>", opts)
-  vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>rn", "<Cmd>lua vim.lsp.buf.rename()<CR>", opts)
-  vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>ca", "<Cmd>lua vim.lsp.buf.code_action()<CR>", opts)
-  vim.api.nvim_buf_set_keymap(bufnr, "n", "[d", "<Cmd>lua vim.diagnostic.goto_prev()<CR>", opts)
-  vim.api.nvim_buf_set_keymap(bufnr, "n", "]d", "<Cmd>lua vim.diagnostic.goto_next()<CR>", opts)
+  local keymap = vim.api.nvim_buf_set_keymap
+  keymap(bufnr, "n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", opts)
+  keymap(bufnr, "n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", opts)
+  keymap(bufnr, "n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>", opts)
+  keymap(bufnr, "n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)
+  keymap(bufnr, "n", "<C-k>", "<cmd>lua vim.lsp.buf.signature_help()<CR>", opts)
+  keymap(bufnr, "n", "<leader>rn", "<cmd>lua vim.lsp.buf.rename()<CR>", opts)
+  keymap(bufnr, "n", "<leader>ca", "<cmd>lua vim.lsp.buf.code_action()<CR>", opts)
+  keymap(bufnr, "n", "[d", "<cmd>lua vim.diagnostic.goto_prev()<CR>", opts)
+  keymap(bufnr, "n", "]d", "<cmd>lua vim.diagnostic.goto_next()<CR>", opts)
 
-  -- Autoformat on save if supported
-  if client.server_capabilities.documentFormattingProvider then
-    vim.cmd [[
-      augroup LspAutocommands
-        autocmd! * <buffer>
-        autocmd BufWritePre <buffer> lua vim.lsp.buf.format({ async = true })
-      augroup END
-    ]]
-  end
+  -- Remove autoformatting on save from on_attach to avoid conflicts
+  -- as conform's format_on_save handles formatting
 end
 
--- Update LSP configuration to include snippet support
-capabilities = vim.tbl_deep_extend("force", capabilities, require("cmp_nvim_lsp").default_capabilities())
+-- Configure LSP servers
+local servers = {
+  -- Lua LSP server
+  lua_ls = {
+    settings = {
+      Lua = {
+        runtime = {
+          version = "LuaJIT",
+          path = vim.split(package.path, ";"),
+        },
+        diagnostics = {
+          globals = { "vim" },
+        },
+        workspace = {
+          library = vim.api.nvim_get_runtime_file("", true),
+          checkThirdParty = false,
+        },
+        telemetry = {
+          enable = false,
+        },
+      },
+    },
+  },
 
--- Python LSP setup with pyright and ruff_lsp
-local servers_python = { "pyright", "ruff_lsp" }
-
-for _, lsp in ipairs(servers_python) do
-  lspconfig[lsp].setup {
-    on_attach = custom_on_attach,
-    capabilities = capabilities,
-    filetypes = { "python" },
+  -- Python LSP servers
+  pyright = {
     settings = {
       python = {
         analysis = {
@@ -66,16 +62,11 @@ for _, lsp in ipairs(servers_python) do
         },
       },
     },
-  }
-end
+  },
+  ruff_lsp = {},
 
--- Web development LSP setup (TypeScript, Tailwind, etc.)
-local servers_web = { "tsserver", "tailwindcss", "eslint" }
-
-for _, lsp in ipairs(servers_web) do
-  lspconfig[lsp].setup {
-    on_attach = custom_on_attach,
-    capabilities = capabilities,
+  -- Web development LSP servers
+  ts_ls = {
     settings = {
       typescript = {
         inlayHints = {
@@ -86,81 +77,124 @@ for _, lsp in ipairs(servers_web) do
         },
       },
     },
-  }
-end
+  },
+  tailwindcss = {},
+  eslint = {},
 
--- Go LSP setup (gopls)
-lspconfig.gopls.setup {
-  on_attach = custom_on_attach,
-  capabilities = capabilities,
-  filetypes = { "go", "gomod", "gowork", "gotmpl" },
-  settings = {
-    gopls = {
-      completeUnimported = true,
-      usePlaceholders = true,
-      analyses = {
-        unusedparams = true,
-        unreachable = true,
+  -- Go LSP server
+  gopls = {
+    filetypes = { "go", "gomod", "gowork", "gotmpl" },
+    settings = {
+      gopls = {
+        completeUnimported = true,
+        usePlaceholders = true,
+        analyses = {
+          unusedparams = true,
+          unreachable = true,
+        },
+      },
+    },
+  },
+
+  -- C/C++ LSP server
+  clangd = {
+    cmd = { "clangd", "--background-index", "--clang-tidy", "--completion-style=detailed" },
+    filetypes = { "c", "cpp", "objc", "objcpp" },
+    root_dir = util.root_pattern("compile_commands.json", "compile_flags.txt", ".git"),
+    capabilities = capabilities,
+  },
+
+  -- HTML LSP server
+  html = {
+    capabilities = vim.tbl_extend("keep", capabilities, {
+      documentFormatting = false,
+    }),
+    settings = {
+      html = {
+        format = {
+          enable = true,
+        },
+        hover = {
+          documentation = true,
+          references = true,
+        },
+      },
+    },
+  },
+
+  -- CSS LSP server
+  cssls = {
+    capabilities = vim.tbl_extend("keep", capabilities, {
+      documentFormatting = false,
+    }),
+    settings = {
+      css = {
+        validate = true,
+        lint = {
+          unknownAtRules = "ignore",
+        },
+      },
+      scss = {
+        validate = true,
+        lint = {
+          unknownAtRules = "ignore",
+        },
+      },
+      less = {
+        validate = true,
+        lint = {
+          unknownAtRules = "ignore",
+        },
+      },
+    },
+  },
+
+  -- JSON LSP server with schemastore
+  jsonls = {
+    settings = {
+      json = {
+        schemas = schemastore.json.schemas(),
+        validate = { enable = true },
+      },
+    },
+  },
+
+  -- YAML LSP server with schemastore
+  yamlls = {
+    settings = {
+      yaml = {
+        schemas = schemastore.yaml.schemas(),
+        validate = true,
+        schemaStore = {
+          enable = false,
+          url = "",
+        },
       },
     },
   },
 }
 
--- HTML, CSS LSP setup (default configuration)
-local servers = { "html", "cssls" }
-
-for _, lsp in ipairs(servers) do
-  lspconfig[lsp].setup {
-    on_attach = custom_on_attach,
-    capabilities = capabilities,
-  }
+-- Setup LSP servers with configurations
+for server_name, config in pairs(servers) do
+  config.on_attach = custom_on_attach
+  config.capabilities = capabilities
+  lspconfig[server_name].setup(config)
 end
 
--- C++ LSP setup with clangd
-lspconfig.clangd.setup {
-  on_attach = custom_on_attach,
-  capabilities = capabilities,
-}
-
--- Ensure schemastore is available
-local schemastore = require "schemastore"
-
--- JSON setup with schema validation from schemastore
-lspconfig.jsonls.setup {
-  on_attach = custom_on_attach,
-  capabilities = capabilities,
-  settings = {
-    json = {
-      schemas = schemastore.json.schemas(),
-      validate = { enable = true },
+-- Rust setup using rustaceanvim
+vim.g.rustaceanvim = {
+  server = {
+    on_attach = custom_on_attach,
+    capabilities = capabilities,
+    settings = {
+      ["rust-analyzer"] = {
+        checkOnSave = {
+          command = "clippy", -- or "check"
+        },
+        diagnostics = {
+          enable = true,
+        },
+      },
     },
   },
 }
-
--- YAML setup with schema validation from schemastore
-lspconfig.yamlls.setup {
-  on_attach = custom_on_attach,
-  capabilities = capabilities,
-  settings = {
-    yaml = {
-      schemas = schemastore.yaml.schemas(),
-      validate = true,
-    },
-  },
-}
-
--- rust
---lspconfig.rust_analyzer.setup {
---  on_attach = on_attach,
---  on_init = on_init,
---  capabilities = capabilities,
---  filetypes = { "rust" },
---  root_dir = util.root_pattern "Cargo.toml",
---  settings = {
---    ["rust_analyzer"] = {
---      Cargo = {
---        allFeatures = true,
---      },
---    },
---  },
---}

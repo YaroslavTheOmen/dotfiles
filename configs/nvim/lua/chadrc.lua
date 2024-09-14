@@ -1,16 +1,44 @@
--- This file  needs to have same structure as nvconfig.lua 
--- https://github.com/NvChad/NvChad/blob/v2.5/lua/nvconfig.lua
+-- ~/.config/nvim/lua/custom/chadrc.lua
 
 ---@type ChadrcConfig
 local M = {}
 
 M.ui = {
-	theme = "one_light",
+  theme = "one_light",
+}
 
-	-- hl_override = {
-	-- 	Comment = { italic = true },
-	-- 	["@comment"] = { italic = true },
-	-- },
+M.mason = {
+  pkgs = {
+    -- extra
+    "luacheck",
+
+    -- Language Servers
+    "lua-language-server",
+    "html-lsp",
+    "css-lsp",
+    "typescript-language-server",
+    "tailwindcss-language-server",
+    "pyright",
+    "ruff-lsp",
+    "rust-analyzer",
+    "gopls",
+    "clangd",
+
+    -- Formatters
+    "stylua",
+    "prettierd",
+    "clang-format",
+    "black",
+    "gofumpt",
+    "rustfmt",
+
+    -- Linters
+    "mypy",
+    "eslint_d",
+    "luacheck",
+    "golangci-lint",
+    -- "clang-tidy",
+  },
 }
 
 return M
