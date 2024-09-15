@@ -74,29 +74,6 @@ return {
   },
 
   -- Treesitter for syntax highlighting
-  {
-    "nvim-treesitter/nvim-treesitter",
-    opts = {
-      ensure_installed = {
-        "vim",
-        "lua",
-        "html",
-        "css",
-        "javascript",
-        "typescript",
-        "tsx",
-        "c",
-        "cpp",
-        "python",
-        "rust",
-        "go",
-      },
-    },
-  },
-
-  -- Git integration
-  { "tpope/vim-fugitive", event = "VeryLazy" },
-
   -- Wilder for command-line completion
   {
     "gelguy/wilder.nvim",
