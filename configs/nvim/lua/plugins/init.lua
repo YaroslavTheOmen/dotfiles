@@ -5,6 +5,51 @@ return {
     cmd = "LazyGit",
   },
 
+  -- v3.0
+  {
+    "folke/trouble.nvim",
+    cmd = "Trouble",
+    config = function()
+      dofile(vim.g.base46_cache .. "trouble")
+      require("trouble").setup()
+    end,
+  },
+
+  -- Essential dependency
+  "nvim-lua/plenary.nvim",
+
+  -- todo comments
+  {
+    "folke/todo-comments.nvim",
+    event = "VeryLazy",
+    requires = { "nvim-lua/plenary.nvim" },
+    opts = {
+      -- your configuration comes here
+      -- or leave it empty to use the default settings
+      -- refer to the configuration section below
+    },
+    config = function(_, opts)
+      require("todo-comments").setup(opts)
+    end,
+  },
+
+  -- NvChad UI plugin
+  {
+    "nvchad/ui",
+    config = function()
+      require "nvchad"
+    end,
+  },
+
+  -- NvChad Base46 plugin
+  {
+    "nvchad/base46",
+    lazy = false,
+    build = function()
+      require("base46").load_all_highlights()
+    end,
+  },
+
   -- none-ls
   {
     "nvimtools/none-ls.nvim",

@@ -104,6 +104,23 @@ local servers = {
     capabilities = capabilities,
   },
 
+  -- Add ccls configuration
+  --ccls = {
+  --  cmd = { "ccls" },
+  --  filetypes = { "c", "cpp", "objc", "objcpp" },
+  --  root_dir = util.root_pattern("compile_commands.json", "compile_flags.txt", ".git"),
+  --  capabilities = capabilities,
+  --  init_options = {
+  --    compilationDatabaseDirectory = "build",
+  --    index = {
+  --      threads = 0,
+  --    },
+  --    clang = {
+  --      excludeArgs = { "-frounding-math" },
+  --    },
+  --  },
+  --},
+
   -- HTML LSP server
   html = {
     capabilities = vim.tbl_extend("keep", capabilities, {
