@@ -3,6 +3,14 @@ return {
   {
     "kdheepak/lazygit.nvim",
     cmd = "LazyGit",
+    config = function()
+      vim.g.lazygit_floating_window_use_plenary = 0 -- Disables floating terminal
+    end,
+  },
+  -- vim-floaterm
+  {
+    "voldikss/vim-floaterm",
+    event = "VeryLazy",
   },
 
   -- v3.0
@@ -119,6 +127,30 @@ return {
   },
 
   -- Treesitter for syntax highlighting
+
+  {
+    "nvim-treesitter/nvim-treesitter",
+    opts = {
+      ensure_installed = {
+        "vim",
+        "lua",
+        "html",
+        "css",
+        "javascript",
+        "typescript",
+        "tsx",
+        "c",
+        "cpp",
+        "python",
+        "rust",
+        "go",
+      },
+    },
+  },
+
+  -- Git integration
+  { "tpope/vim-fugitive", event = "VeryLazy" },
+
   -- Wilder for command-line completion
   {
     "gelguy/wilder.nvim",
