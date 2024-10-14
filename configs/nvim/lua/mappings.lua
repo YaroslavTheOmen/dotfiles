@@ -20,7 +20,7 @@ end, { desc = "open theme picker" })
 
 -- minty
 map("n", "<Leader>to", function()
-  require("minty.huefy").toggle { border = true }
+  require("minty.huefy").open { border = true }
 end, { desc = "fancy color picker" })
 
 -- menu
