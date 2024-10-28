@@ -4,6 +4,26 @@ local util = require "lspconfig/util"
 local cmp_nvim_lsp = require "cmp_nvim_lsp"
 local schemastore = require "schemastore"
 
+-- Initialize Mason and Mason-Lspconfig
+require("mason").setup()
+require("mason-lspconfig").setup {
+  ensure_installed = {
+    "lua_ls",
+    "pyright",
+    "ruff_lsp",
+    "ts_ls",
+    "tailwindcss",
+    "eslint",
+    "gopls",
+    "clangd",
+    "html",
+    "cssls",
+    "jsonls",
+    "yamlls",
+    -- Add other servers you want to ensure are installed
+  },
+}
+
 -- Define capabilities
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = cmp_nvim_lsp.default_capabilities(capabilities)
@@ -23,8 +43,13 @@ local function custom_on_attach(client, bufnr)
   keymap(bufnr, "n", "[d", "<cmd>lua vim.diagnostic.goto_prev()<CR>", opts)
   keymap(bufnr, "n", "]d", "<cmd>lua vim.diagnostic.goto_next()<CR>", opts)
 
-  -- Remove autoformatting on save from on_attach to avoid conflicts
-  -- as conform's format_on_save handles formatting
+  -- Disable formatting via LSP to prevent conflicts with other formatters
+  if client.server_capabilities.document_formatting then
+    client.server_capabilities.document_formatting = false
+  end
+  if client.server_capabilities.document_range_formatting then
+    client.server_capabilities.document_range_formatting = false
+  end
 end
 
 -- Configure LSP servers
@@ -53,6 +78,7 @@ local servers = {
 
   -- Python LSP servers
   pyright = {
+    cmd = { "pyright-langserver", "--stdio" },
     settings = {
       python = {
         analysis = {
@@ -66,9 +92,17 @@ local servers = {
   ruff_lsp = {},
 
   -- Web development LSP servers
-  ts_ls = {
+  ts_ls = { -- Replaced from tsserver to ts_ls
     settings = {
       typescript = {
+        inlayHints = {
+          includeInlayParameterNameHints = "all",
+          includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+          includeInlayFunctionParameterTypeHints = true,
+          includeInlayVariableTypeHints = true,
+        },
+      },
+      javascript = { -- Add JavaScript settings if needed
         inlayHints = {
           includeInlayParameterNameHints = "all",
           includeInlayParameterNameHintsWhenArgumentMatchesName = false,
@@ -103,23 +137,6 @@ local servers = {
     root_dir = util.root_pattern("compile_commands.json", "compile_flags.txt", ".git"),
     capabilities = capabilities,
   },
-
-  -- Add ccls configuration
-  --ccls = {
-  --  cmd = { "ccls" },
-  --  filetypes = { "c", "cpp", "objc", "objcpp" },
-  --  root_dir = util.root_pattern("compile_commands.json", "compile_flags.txt", ".git"),
-  --  capabilities = capabilities,
-  --  init_options = {
-  --    compilationDatabaseDirectory = "build",
-  --    index = {
-  --      threads = 0,
-  --    },
-  --    clang = {
-  --      excludeArgs = { "-frounding-math" },
-  --    },
-  --  },
-  --},
 
   -- HTML LSP server
   html = {
@@ -191,12 +208,23 @@ local servers = {
   },
 }
 
--- Setup LSP servers with configurations
-for server_name, config in pairs(servers) do
-  config.on_attach = custom_on_attach
-  config.capabilities = capabilities
-  lspconfig[server_name].setup(config)
-end
+-- Setup LSP servers with mason-lspconfig
+require("mason-lspconfig").setup_handlers {
+  -- Default handler for all servers
+  function(server_name)
+    local config = {
+      on_attach = custom_on_attach,
+      capabilities = capabilities,
+    }
+
+    -- Apply specific settings based on the server
+    if servers[server_name] then
+      config = vim.tbl_deep_extend("force", config, servers[server_name])
+    end
+
+    lspconfig[server_name].setup(config)
+  end,
+}
 
 -- Rust setup using rustaceanvim
 vim.g.rustaceanvim = {
