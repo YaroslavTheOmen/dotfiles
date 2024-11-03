@@ -1,5 +1,11 @@
 # Dotfiles
 
+**WezTerm+Fish+Starship**
+<img src="./images/Wezterm+Fish+Starship.png" alt="WezTerm+Fish+Starship"/>
+
+**NvChad(nvim)**
+<img src="./images/NvChad(nvim).png" alt="NvChad(nvim)"/>
+
 These are my awesome dotfiles, and you are welcome to use them.
 
 This repository includes configurations for
@@ -11,6 +17,10 @@ This repository includes configurations for
 
 _These configs were made for Apple Silicon, so you may need to change some paths._
 
+**Included plugins for NvChad (Neovim) are listed at the end. [All Plugins](<#All-Plugins-NvChad-(Neovim)>)**
+
+If you encounter any issues or have questions, please feel free to open an issue on the project's GitHub repository.
+
 ## Table of Contents
 
 - [Dependencies](#dependencies)
@@ -19,6 +29,8 @@ _These configs were made for Apple Silicon, so you may need to change some paths
   - [WezTerm](#wezterm)
   - [Fish and Starship](#fish-and-starship)
 - [Install](#install)
+- [All Plugins](<#All-Plugins-NvChad-(nvim)>)
+- [Acknowledgements](#Acknowledgements)
 
 ## Dependencies
 
@@ -33,12 +45,6 @@ You need these fonts for **WezTerm** and **NvChad (nvim)**:
 
 - Install Neovim (https://github.com/neovim/neovim#install-from-package)
 - Install NvChad (https://nvchad.com/docs/quickstart/install)
-- Install languages to work with them in nvim:
-
-  - Go
-  - Rust
-  - Python
-  - C++
 
 - For the gelguy/wilder plugin, create a venv in the **nvim config folder** and install pynvim via pip:
 
@@ -103,3 +109,67 @@ For NvChad config:
 3. (x2) Restart again and run `:Lazy sync`
 
 If you encounter any issues or have questions, please feel free to open an issue on the project's GitHub repository.
+
+## All Plugins NvChad (nvim)
+
+### 1. Lazy
+
+- [williamboman/mason.nvim](https://github.com/williamboman/mason.nvim)
+- [williamboman/mason-lspconfig.nvim](https://github.com/williamboman/mason-lspconfig.nvim)
+- [neovim/nvim-lspconfig](https://github.com/neovim/nvim-lspconfig)
+- [kdheepak/lazygit.nvim](https://github.com/kdheepak/lazygit.nvim)
+- [voldikss/vim-floaterm](https://github.com/voldikss/vim-floaterm)
+- [folke/trouble.nvim](https://github.com/folke/trouble.nvim)
+- [nvim-lua/plenary.nvim](https://github.com/nvim-lua/plenary.nvim)
+- [folke/todo-comments.nvim](https://github.com/folke/todo-comments.nvim)
+- [nvchad/ui](https://github.com/NvChad/ui)
+- [nvchad/base46](https://github.com/NvChad/base46)
+- [nvimtools/none-ls.nvim](https://github.com/nvimtools/none-ls.nvim)
+- [mfussenegger/nvim-lint](https://github.com/mfussenegger/nvim-lint)
+- [stevearc/conform.nvim](https://github.com/stevearc/conform.nvim)
+- [windwp/nvim-ts-autotag](https://github.com/windwp/nvim-ts-autotag)
+- [olexsmir/gopher.nvim](https://github.com/olexsmir/gopher.nvim)
+- [mrcjkb/rustaceanvim](https://github.com/mrcjkb/rustaceanvim)
+- [b0o/schemastore.nvim](https://github.com/b0o/schemastore.nvim)
+- [nvim-treesitter/nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter)
+- [tpope/vim-fugitive](https://github.com/tpope/vim-fugitive)
+- [gelguy/wilder.nvim](https://github.com/gelguy/wilder.nvim)
+
+### 2. Mason
+
+- **Linters:**
+
+  - `luacheck`
+
+- **LSP Servers:**
+
+  - `lua-language-server`
+  - `html-lsp`
+  - `css-lsp`
+  - `typescript-language-server`
+  - `tailwindcss-language-server`
+  - `pyright`
+  - `ruff-lsp`
+  - `rust-analyzer`
+  - `gopls`
+  - `clangd`
+
+- **Formatters:**
+
+  - `stylua`
+  - `prettierd`
+  - `clang-format`
+  - `black`
+  - `gofumpt`
+  - `rustfmt`
+
+- **Analysis Tools:**
+
+  - `mypy`
+  - `eslint_d`
+  - `luacheck`
+  - `golangci-lint`
+
+## Acknowledgements
+
+**Disclaimer**: I am not the creator of the plugins included in this configuration. All plugins are the work of their respective authors. Please review the licenses of each plugin before using or modifying them in your own projects.
