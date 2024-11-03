@@ -91,7 +91,7 @@ config.default_prog = { "/opt/homebrew/bin/fish", "-l" }
 
 ## Install
 
-You should manually choose configs that you need and copy these files to their specific directories:
+You should manually choose configs that you need and copy these files to their specific directories (with the changes described above in [Dependencies](#dependencies)):
 
 - `configs/terminal/.wezterm.lua` should be placed in `~/.config`
 - `configs/terminal/config.fish` should be placed in `~/.config/fish/`
