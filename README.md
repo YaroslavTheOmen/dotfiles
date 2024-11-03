@@ -17,9 +17,9 @@ This repository includes configurations for
 
 _These configs were made for Apple Silicon, so you may need to change some paths._
 
-**Included plugins for NvChad (Neovim) are listed at the end. [All Plugins](<#All-Plugins-NvChad-(Neovim)>)**
+_If you are going to use NvChad (Neovim), check `configs/nvim/lua/mappings.lua`._
 
-If you encounter any issues or have questions, please feel free to open an issue on the project's GitHub repository.
+**Included plugins for NvChad (Neovim) are listed at the end. [All Plugins](<#All-Plugins-NvChad-(Neovim)>)**
 
 ## Table of Contents
 
@@ -29,7 +29,7 @@ If you encounter any issues or have questions, please feel free to open an issue
   - [WezTerm](#wezterm)
   - [Fish and Starship](#fish-and-starship)
 - [Install](#install)
-- [All Plugins](<#All-Plugins-NvChad-(nvim)>)
+- [All-Plugins-NvChad-(nvim)>](<#All-Plugins-NvChad-(nvim)>)
 - [Acknowledgements](#Acknowledgements)
 
 ## Dependencies
