@@ -62,7 +62,7 @@ pip3 install pynvim
 vim.g.base46_cache = vim.fn.stdpath "data" .. "/base46/"
 vim.g.mapleader = " "
 -- path to your shell
-vim.o.shell = ""
+vim.o.shell = "/opt/homebrew/bin/fish"
 -- path to your python3 in venv (for gelguy/wilder)
 vim.g.python3_host_prog = ""
 vim.g.loaded_python3_provider = 1
@@ -74,7 +74,7 @@ vim.g.loaded_python3_provider = 1
 - Change this line to your shell path:
 
 ```lua
--- Set default program (optional)
+-- Set shell path
 config.default_prog = { "/opt/homebrew/bin/fish", "-l" }
 ```
 
