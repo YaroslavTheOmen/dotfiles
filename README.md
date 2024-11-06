@@ -1,6 +1,6 @@
 <div align="center">
 
-# dotfiles
+# .dotfiles
 
 </div>
 
@@ -51,10 +51,13 @@ You need these fonts for **WezTerm** and **NvChad (nvim)**:
 
 You should manually choose configs that you need and copy these files to their specific directories:
 
-- `configs/terminal/.wezterm.lua` should be placed in `~/.config` (change fish _path_)
-- `configs/terminal/config.fish` should be placed in `~/.config/fish/`(change starship _path_)
+- `configs/terminal/.wezterm.lua` should be placed in `~/.config`
+  - change **fish-shell path**
+- `configs/terminal/config.fish` should be placed in `~/.config/fish/`
+  - change **starship path**
 - `configs/terminal/starship.toml` should be placed in `~/.config`
-- `config/nvim/lua` (entire folder) should be placed in `~/.config/nvim` (change _paths_ at `config/nvim/init.lua`)
+- `config/nvim/lua` (entire folder) should be placed in `~/.config/nvim`
+  - change _paths_ at `config/nvim/init.lua`
 
 If you encounter any issues or have questions, please feel free to open an issue on the project's GitHub repository.
 
@@ -111,7 +114,7 @@ For nvim-cmp:
   - `typescript-language-server`
   - `tailwindcss-language-server`
   - `pyright`
-  - `ruff-lsp`
+  - `ruff`
   - `rust-analyzer`
   - `gopls`
   - `clangd`
