@@ -1,4 +1,8 @@
-<h1 style="text-align:center;">Dotfiles</h1>
+<div align="center">
+
+# dotfiles
+
+</div>
 
 <img src="./images/dotfiles.png" alt="Nvchad + terminal image (config applied)"/>
 
@@ -51,18 +55,6 @@ You should manually choose configs that you need and copy these files to their s
 - `configs/terminal/config.fish` should be placed in `~/.config/fish/`(change starship _path_)
 - `configs/terminal/starship.toml` should be placed in `~/.config`
 - `config/nvim/lua` (entire folder) should be placed in `~/.config/nvim` (change _paths_ at `config/nvim/init.lua`)
-
-After copying:
-
-- For Fish/Starship/WezTerm:
-
-  1. Restart the applications to apply changes
-
-- For NvChad config:
-
-  1. Open Neovim and wait for packages to install
-  2. (x2) Restart and run `:MasonInstallAll`
-  3. (x2) Restart again and run `:Lazy sync`
 
 If you encounter any issues or have questions, please feel free to open an issue on the project's GitHub repository.
 
