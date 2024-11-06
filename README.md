@@ -57,7 +57,7 @@ You should manually choose configs that you need and copy these files to their s
   - change **starship path**
 - `configs/terminal/starship.toml` should be placed in `~/.config`
 - `config/nvim/lua` (entire folder) should be placed in `~/.config/nvim`
-  - change _paths_ at `config/nvim/init.lua`
+  - change **paths** at `config/nvim/init.lua`
 
 If you encounter any issues or have questions, please feel free to open an issue on the project's GitHub repository.
 
