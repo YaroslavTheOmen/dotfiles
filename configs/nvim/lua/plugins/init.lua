@@ -1,8 +1,10 @@
 return {
 
+  -- Base for NvChad
   { "williamboman/mason.nvim" },
   { "williamboman/mason-lspconfig.nvim" },
   { "neovim/nvim-lspconfig" },
+  { "nvchad/showkeys", cmd = "ShowkeysToggle" },
 
   -- LazyGit
   {
@@ -156,40 +158,111 @@ return {
   -- Git integration
   { "tpope/vim-fugitive", event = "VeryLazy" },
 
-  -- Wilder for command-line completion
+  -- autocompletion
   {
-    "gelguy/wilder.nvim",
+    "hrsh7th/nvim-cmp",
     event = "VeryLazy",
-    build = ":UpdateRemotePlugins",
+    dependencies = {
+      "hrsh7th/cmp-buffer",
+      "hrsh7th/cmp-path",
+      "saadparwaiz1/cmp_luasnip",
+      "hrsh7th/cmp-cmdline",
+      "L3MON4D3/LuaSnip",
+      "rafamadriz/friendly-snippets",
+      "hrsh7th/cmp-nvim-lsp",
+      "onsails/lspkind-nvim",
+    },
     config = function()
-      local wilder = require "wilder"
-      wilder.setup { modes = { ":", "/", "?" } }
-      wilder.set_option("pipeline", {
-        wilder.branch(
-          wilder.python_file_finder_pipeline {
-            file_command = function(_, arg)
-              if string.find(arg, ".") then
-                return { "fd", "-tf", "-H" }
-              else
-                return { "fd", "-tf" }
-              end
-            end,
-            dir_command = { "fd", "-td" },
-            filters = { "fuzzy_filter", "difflib_sorter" },
+      -- Set completeopt
+      vim.opt.completeopt = { "menu", "menuone", "noselect" }
+
+      -- Load LuaSnip
+      local luasnip = require "luasnip"
+      require("luasnip.loaders.from_vscode").lazy_load()
+
+      -- Load lspkind for symbols
+      local lspkind = require "lspkind"
+
+      -- Setup nvim-cmp
+      local cmp = require "cmp"
+
+      -- Setup capabilities for LSP (to be used in LSP setup)
+      local capabilities = require("cmp_nvim_lsp").default_capabilities()
+
+      cmp.setup {
+        snippet = {
+          expand = function(args)
+            luasnip.lsp_expand(args.body)
+          end,
+        },
+        mapping = cmp.mapping.preset.insert {
+          ["<C-b>"] = cmp.mapping.scroll_docs(-4),
+          ["<C-f>"] = cmp.mapping.scroll_docs(4),
+          ["<C-Space>"] = cmp.mapping.complete(),
+          ["<C-e>"] = cmp.mapping.abort(),
+          ["<CR>"] = cmp.mapping.confirm { select = true },
+
+          ["<Tab>"] = cmp.mapping(function(fallback)
+            if cmp.visible() then
+              cmp.select_next_item()
+            elseif luasnip.expand_or_jumpable() then
+              luasnip.expand_or_jump()
+            else
+              fallback()
+            end
+          end, { "i", "s" }),
+          ["<S-Tab>"] = cmp.mapping(function(fallback)
+            if cmp.visible() then
+              cmp.select_prev_item()
+            elseif luasnip.jumpable(-1) then
+              luasnip.jump(-1)
+            else
+              fallback()
+            end
+          end, { "i", "s" }),
+        },
+        sources = cmp.config.sources {
+          { name = "nvim_lsp" },
+          { name = "luasnip" },
+          { name = "path" },
+          { name = "buffer" },
+        },
+        window = {
+          completion = cmp.config.window.bordered {
+            border = "single", -- Customize as needed ("single", "rounded", etc.)
+            -- winhighlight = "Normal:CmpPmenu,FloatBorder:CmpPmenuBorder,CursorLine:PmenuSel,Search:None",
+            -- scrollbar = false, -- Disable the scrollbar
+            col_offset = 0,
+            side_padding = 1,
           },
-          wilder.cmdline_pipeline(),
-          wilder.python_search_pipeline()
-        ),
+          documentation = cmp.config.window.bordered {
+            border = "single",
+            -- winhighlight = "Normal:CmpPmenuDoc,FloatBorder:CmpPmenuBorder,CursorLine:PmenuSel,Search:None",
+            -- scrollbar = false, -- Disable the scrollbar for documentation window
+          },
+        },
+        experimental = {
+          ghost_text = true,
+          native_menu = false,
+        },
+      }
+
+      -- Setup for command-line mode completions
+      cmp.setup.cmdline("/", {
+        mapping = cmp.mapping.preset.cmdline(),
+        sources = {
+          { name = "buffer" },
+        },
       })
-      wilder.set_option(
-        "renderer",
-        wilder.popupmenu_renderer {
-          highlighter = wilder.basic_highlighter(),
-          left = { " " },
-          right = { " ", wilder.popupmenu_scrollbar { thumb_char = " " } },
-          highlights = { default = "WilderMenu", accent = "WilderAccent" },
-        }
-      )
+
+      cmp.setup.cmdline(":", {
+        mapping = cmp.mapping.preset.cmdline(),
+        sources = cmp.config.sources({
+          { name = "path" },
+        }, {
+          { name = "cmdline" },
+        }),
+      })
     end,
   },
 }
