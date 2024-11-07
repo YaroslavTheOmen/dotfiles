@@ -67,6 +67,7 @@ If you encounter any issues or have questions, please feel free to open an issue
 
 General:
 
+- [github/copilot.vim](https://github.com/github/copilot.vim)
 - [williamboman/mason.nvim](https://github.com/williamboman/mason.nvim)
 - [williamboman/mason-lspconfig.nvim](https://github.com/williamboman/mason-lspconfig.nvim)
 - [neovim/nvim-lspconfig](https://github.com/neovim/nvim-lspconfig)

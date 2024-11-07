@@ -1,268 +1,271 @@
 return {
 
-  -- Base for NvChad
-  { "williamboman/mason.nvim" },
-  { "williamboman/mason-lspconfig.nvim" },
-  { "neovim/nvim-lspconfig" },
-  { "nvchad/showkeys", cmd = "ShowkeysToggle" },
+	-- github copilot
+	{ "github/copilot.vim", event = "VeryLazy" },
 
-  -- LazyGit
-  {
-    "kdheepak/lazygit.nvim",
-    cmd = "LazyGit",
-    config = function()
-      vim.g.lazygit_floating_window_use_plenary = 0 -- Disables floating terminal
-    end,
-  },
-  -- vim-floaterm
-  {
-    "voldikss/vim-floaterm",
-    event = "VeryLazy",
-  },
+	-- Base for NvChad
+	{ "williamboman/mason.nvim" },
+	{ "williamboman/mason-lspconfig.nvim" },
+	{ "neovim/nvim-lspconfig" },
+	{ "nvchad/showkeys", cmd = "ShowkeysToggle" },
 
-  -- v3.0
-  {
-    "folke/trouble.nvim",
-    cmd = "Trouble",
-    config = function()
-      dofile(vim.g.base46_cache .. "trouble")
-      require("trouble").setup()
-    end,
-  },
+	-- LazyGit
+	{
+		"kdheepak/lazygit.nvim",
+		cmd = "LazyGit",
+		config = function()
+			vim.g.lazygit_floating_window_use_plenary = 0 -- Disables floating terminal
+		end,
+	},
+	-- vim-floaterm
+	{
+		"voldikss/vim-floaterm",
+		event = "VeryLazy",
+	},
 
-  -- Essential dependency
-  "nvim-lua/plenary.nvim",
+	-- v3.0
+	{
+		"folke/trouble.nvim",
+		cmd = "Trouble",
+		config = function()
+			dofile(vim.g.base46_cache .. "trouble")
+			require("trouble").setup()
+		end,
+	},
 
-  -- todo comments
-  {
-    "folke/todo-comments.nvim",
-    event = "VeryLazy",
-    requires = { "nvim-lua/plenary.nvim" },
-    opts = {
-      -- your configuration comes here
-      -- or leave it empty to use the default settings
-      -- refer to the configuration section below
-    },
-    config = function(_, opts)
-      require("todo-comments").setup(opts)
-    end,
-  },
+	-- Essential dependency
+	"nvim-lua/plenary.nvim",
 
-  -- NvChad UI plugin
-  {
-    "nvchad/ui",
-    config = function()
-      require "nvchad"
-    end,
-  },
+	-- todo comments
+	{
+		"folke/todo-comments.nvim",
+		event = "VeryLazy",
+		requires = { "nvim-lua/plenary.nvim" },
+		opts = {
+			-- your configuration comes here
+			-- or leave it empty to use the default settings
+			-- refer to the configuration section below
+		},
+		config = function(_, opts)
+			require("todo-comments").setup(opts)
+		end,
+	},
 
-  -- NvChad Base46 plugin
-  {
-    "nvchad/base46",
-    lazy = false,
-    build = function()
-      require("base46").load_all_highlights()
-    end,
-  },
+	-- NvChad UI plugin
+	{
+		"nvchad/ui",
+		config = function()
+			require("nvchad")
+		end,
+	},
 
-  -- none-ls
-  {
-    "nvimtools/none-ls.nvim",
-    config = function()
-      require "configs.none-ls"
-    end,
-  },
+	-- NvChad Base46 plugin
+	{
+		"nvchad/base46",
+		lazy = false,
+		build = function()
+			require("base46").load_all_highlights()
+		end,
+	},
 
-  -- nvim-lint
-  {
-    "mfussenegger/nvim-lint",
-    event = "VeryLazy",
-    config = function()
-      require "configs.nvim-lint"
-    end,
-  },
+	-- none-ls
+	{
+		"nvimtools/none-ls.nvim",
+		config = function()
+			require("configs.none-ls")
+		end,
+	},
 
-  -- conform
-  {
-    "stevearc/conform.nvim",
-    event = "BufWritePre",
-    config = function()
-      require "configs.conform"
-    end,
-  },
+	-- nvim-lint
+	{
+		"mfussenegger/nvim-lint",
+		event = "VeryLazy",
+		config = function()
+			require("configs.nvim-lint")
+		end,
+	},
 
-  -- nvim-ts-autotag for web development
-  {
-    "windwp/nvim-ts-autotag",
-    ft = { "html", "xml", "javascript", "javascriptreact", "typescript", "typescriptreact" },
-    config = function()
-      require("nvim-ts-autotag").setup()
-    end,
-  },
+	-- conform
+	{
+		"stevearc/conform.nvim",
+		event = "BufWritePre",
+		config = function()
+			require("configs.conform")
+		end,
+	},
 
-  -- Gopher for Go development
-  {
-    "olexsmir/gopher.nvim",
-    ft = "go",
-    config = function(_, opts)
-      require("gopher").setup(opts)
-    end,
-    build = function()
-      vim.cmd [[silent! GoInstallDeps]]
-    end,
-  },
+	-- nvim-ts-autotag for web development
+	{
+		"windwp/nvim-ts-autotag",
+		ft = { "html", "xml", "javascript", "javascriptreact", "typescript", "typescriptreact" },
+		config = function()
+			require("nvim-ts-autotag").setup()
+		end,
+	},
 
-  -- RustaceanVim for Rust development
-  {
-    "mrcjkb/rustaceanvim",
-    ft = { "rust" },
-    dependencies = "neovim/nvim-lspconfig",
-  },
+	-- Gopher for Go development
+	{
+		"olexsmir/gopher.nvim",
+		ft = "go",
+		config = function(_, opts)
+			require("gopher").setup(opts)
+		end,
+		build = function()
+			vim.cmd([[silent! GoInstallDeps]])
+		end,
+	},
 
-  -- nvim-lspconfig with schemastore
-  {
-    "neovim/nvim-lspconfig",
-    dependencies = { "b0o/schemastore.nvim" },
-    config = function()
-      require "configs.lspconfig"
-    end,
-  },
+	-- RustaceanVim for Rust development
+	{
+		"mrcjkb/rustaceanvim",
+		ft = { "rust" },
+		dependencies = "neovim/nvim-lspconfig",
+	},
 
-  -- Mason for managing external tools
-  {
-    "williamboman/mason.nvim",
-  },
+	-- nvim-lspconfig with schemastore
+	{
+		"neovim/nvim-lspconfig",
+		dependencies = { "b0o/schemastore.nvim" },
+		config = function()
+			require("configs.lspconfig")
+		end,
+	},
 
-  -- Treesitter for syntax highlighting
+	-- Mason for managing external tools
+	{
+		"williamboman/mason.nvim",
+	},
 
-  {
-    "nvim-treesitter/nvim-treesitter",
-    opts = {
-      ensure_installed = {
-        "vim",
-        "lua",
-        "html",
-        "css",
-        "javascript",
-        "typescript",
-        "tsx",
-        "c",
-        "cpp",
-        "python",
-        "rust",
-        "go",
-      },
-    },
-  },
+	-- Treesitter for syntax highlighting
 
-  -- Git integration
-  { "tpope/vim-fugitive", event = "VeryLazy" },
+	{
+		"nvim-treesitter/nvim-treesitter",
+		opts = {
+			ensure_installed = {
+				"vim",
+				"lua",
+				"html",
+				"css",
+				"javascript",
+				"typescript",
+				"tsx",
+				"c",
+				"cpp",
+				"python",
+				"rust",
+				"go",
+			},
+		},
+	},
 
-  -- autocompletion
-  {
-    "hrsh7th/nvim-cmp",
-    event = "VeryLazy",
-    dependencies = {
-      "hrsh7th/cmp-buffer",
-      "hrsh7th/cmp-path",
-      "saadparwaiz1/cmp_luasnip",
-      "hrsh7th/cmp-cmdline",
-      "L3MON4D3/LuaSnip",
-      "rafamadriz/friendly-snippets",
-      "hrsh7th/cmp-nvim-lsp",
-      "onsails/lspkind-nvim",
-    },
-    config = function()
-      -- Set completeopt
-      vim.opt.completeopt = { "menu", "menuone", "noselect" }
+	-- Git integration
+	{ "tpope/vim-fugitive", event = "VeryLazy" },
 
-      -- Load LuaSnip
-      local luasnip = require "luasnip"
-      require("luasnip.loaders.from_vscode").lazy_load()
+	-- autocompletion
+	{
+		"hrsh7th/nvim-cmp",
+		event = "VeryLazy",
+		dependencies = {
+			"hrsh7th/cmp-buffer",
+			"hrsh7th/cmp-path",
+			"saadparwaiz1/cmp_luasnip",
+			"hrsh7th/cmp-cmdline",
+			"L3MON4D3/LuaSnip",
+			"rafamadriz/friendly-snippets",
+			"hrsh7th/cmp-nvim-lsp",
+			"onsails/lspkind-nvim",
+		},
+		config = function()
+			-- Set completeopt
+			vim.opt.completeopt = { "menu", "menuone", "noselect" }
 
-      -- Load lspkind for symbols
-      local lspkind = require "lspkind"
+			-- Load LuaSnip
+			local luasnip = require("luasnip")
+			require("luasnip.loaders.from_vscode").lazy_load()
 
-      -- Setup nvim-cmp
-      local cmp = require "cmp"
+			-- Load lspkind for symbols
+			local lspkind = require("lspkind")
 
-      -- Setup capabilities for LSP (to be used in LSP setup)
-      local capabilities = require("cmp_nvim_lsp").default_capabilities()
+			-- Setup nvim-cmp
+			local cmp = require("cmp")
 
-      cmp.setup {
-        snippet = {
-          expand = function(args)
-            luasnip.lsp_expand(args.body)
-          end,
-        },
-        mapping = cmp.mapping.preset.insert {
-          ["<C-b>"] = cmp.mapping.scroll_docs(-4),
-          ["<C-f>"] = cmp.mapping.scroll_docs(4),
-          ["<C-Space>"] = cmp.mapping.complete(),
-          ["<C-e>"] = cmp.mapping.abort(),
-          ["<CR>"] = cmp.mapping.confirm { select = true },
+			-- Setup capabilities for LSP (to be used in LSP setup)
+			local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
-          ["<Tab>"] = cmp.mapping(function(fallback)
-            if cmp.visible() then
-              cmp.select_next_item()
-            elseif luasnip.expand_or_jumpable() then
-              luasnip.expand_or_jump()
-            else
-              fallback()
-            end
-          end, { "i", "s" }),
-          ["<S-Tab>"] = cmp.mapping(function(fallback)
-            if cmp.visible() then
-              cmp.select_prev_item()
-            elseif luasnip.jumpable(-1) then
-              luasnip.jump(-1)
-            else
-              fallback()
-            end
-          end, { "i", "s" }),
-        },
-        sources = cmp.config.sources {
-          { name = "nvim_lsp" },
-          { name = "luasnip" },
-          { name = "path" },
-          { name = "buffer" },
-        },
-        window = {
-          completion = cmp.config.window.bordered {
-            border = "single", -- Customize as needed ("single", "rounded", etc.)
-            -- winhighlight = "Normal:CmpPmenu,FloatBorder:CmpPmenuBorder,CursorLine:PmenuSel,Search:None",
-            -- scrollbar = false, -- Disable the scrollbar
-            col_offset = 0,
-            side_padding = 1,
-          },
-          documentation = cmp.config.window.bordered {
-            border = "single",
-            -- winhighlight = "Normal:CmpPmenuDoc,FloatBorder:CmpPmenuBorder,CursorLine:PmenuSel,Search:None",
-            -- scrollbar = false, -- Disable the scrollbar for documentation window
-          },
-        },
-        experimental = {
-          ghost_text = true,
-          native_menu = false,
-        },
-      }
+			cmp.setup({
+				snippet = {
+					expand = function(args)
+						luasnip.lsp_expand(args.body)
+					end,
+				},
+				mapping = cmp.mapping.preset.insert({
+					["<C-b>"] = cmp.mapping.scroll_docs(-4),
+					["<C-f>"] = cmp.mapping.scroll_docs(4),
+					["<C-Space>"] = cmp.mapping.complete(),
+					["<C-e>"] = cmp.mapping.abort(),
+					["<CR>"] = cmp.mapping.confirm({ select = true }),
 
-      -- Setup for command-line mode completions
-      cmp.setup.cmdline("/", {
-        mapping = cmp.mapping.preset.cmdline(),
-        sources = {
-          { name = "buffer" },
-        },
-      })
+					["<Tab>"] = cmp.mapping(function(fallback)
+						if cmp.visible() then
+							cmp.select_next_item()
+						elseif luasnip.expand_or_jumpable() then
+							luasnip.expand_or_jump()
+						else
+							fallback()
+						end
+					end, { "i", "s" }),
+					["<S-Tab>"] = cmp.mapping(function(fallback)
+						if cmp.visible() then
+							cmp.select_prev_item()
+						elseif luasnip.jumpable(-1) then
+							luasnip.jump(-1)
+						else
+							fallback()
+						end
+					end, { "i", "s" }),
+				}),
+				sources = cmp.config.sources({
+					{ name = "nvim_lsp" },
+					{ name = "luasnip" },
+					{ name = "path" },
+					{ name = "buffer" },
+				}),
+				window = {
+					completion = cmp.config.window.bordered({
+						border = "single", -- Customize as needed ("single", "rounded", etc.)
+						-- winhighlight = "Normal:CmpPmenu,FloatBorder:CmpPmenuBorder,CursorLine:PmenuSel,Search:None",
+						-- scrollbar = false, -- Disable the scrollbar
+						col_offset = 0,
+						side_padding = 1,
+					}),
+					documentation = cmp.config.window.bordered({
+						border = "single",
+						-- winhighlight = "Normal:CmpPmenuDoc,FloatBorder:CmpPmenuBorder,CursorLine:PmenuSel,Search:None",
+						-- scrollbar = false, -- Disable the scrollbar for documentation window
+					}),
+				},
+				experimental = {
+					ghost_text = true,
+					native_menu = false,
+				},
+			})
 
-      cmp.setup.cmdline(":", {
-        mapping = cmp.mapping.preset.cmdline(),
-        sources = cmp.config.sources({
-          { name = "path" },
-        }, {
-          { name = "cmdline" },
-        }),
-      })
-    end,
-  },
+			-- Setup for command-line mode completions
+			cmp.setup.cmdline("/", {
+				mapping = cmp.mapping.preset.cmdline(),
+				sources = {
+					{ name = "buffer" },
+				},
+			})
+
+			cmp.setup.cmdline(":", {
+				mapping = cmp.mapping.preset.cmdline(),
+				sources = cmp.config.sources({
+					{ name = "path" },
+				}, {
+					{ name = "cmdline" },
+				}),
+			})
+		end,
+	},
 }
