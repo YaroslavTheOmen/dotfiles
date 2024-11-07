@@ -2,16 +2,9 @@
 require("nvchad.mappings")
 local map = vim.keymap.set
 
--- github copilot
--- create mapping to turn on copilot
-map("n", "<leader>co", function()
-	require("copilot").start()
-end, { desc = " Turn on copilot" })
-
--- create mapping to turn off copilot
-map("n", "<leader>ct", function()
-	require("copilot").stop()
-end, { desc = " Turn off copilot" })
+-- Github
+map("n", "<Leader>co", ":Copilot enable<CR>", { desc = "Enable Copilot", noremap = true, silent = true })
+map("n", "<Leader>cf", ":Copilot disable<CR>", { desc = "Disable Copilot", noremap = true, silent = true })
 
 -- General mappings
 map("n", ";", ":", { desc = "Enter command mode" })
