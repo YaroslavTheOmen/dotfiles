@@ -69,6 +69,3 @@ vim.g.floaterm_height = 0.8
 vim.g.floaterm_width = 0.8
 vim.g.floaterm_wintype = "float"
 vim.g.floaterm_position = "center"
-
--- Save file with Ctrl+S
-map({ "n", "i", "v" }, "<C-s>", "<cmd>w<CR>", { desc = "Save file", noremap = true, silent = true })
