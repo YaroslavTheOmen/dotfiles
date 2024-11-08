@@ -3,8 +3,8 @@ require("nvchad.mappings")
 local map = vim.keymap.set
 
 -- Github
-map("n", "<Leader>co", ":Copilot enable<CR>", { desc = "Enable Copilot", noremap = true, silent = true })
-map("n", "<Leader>cf", ":Copilot disable<CR>", { desc = "Disable Copilot", noremap = true, silent = true })
+map("n", "<Leader>co", ":Copilot enable<CR>", { desc = " Enable Copilot", noremap = true, silent = true })
+map("n", "<Leader>cf", ":Copilot disable<CR>", { desc = " Disable Copilot", noremap = true, silent = true })
 
 -- General mappings
 map("n", ";", ":", { desc = "Enter command mode" })
@@ -36,6 +36,7 @@ vim.keymap.set("n", "<RightMouse>", function()
 	require("menu").open(options, { mouse = true })
 end, {})
 
+-- Notes Plugin
 vim.keymap.set("n", "]t", function()
 	require("todo-comments").jump_next()
 end, { desc = "Next todo comment" })
@@ -45,9 +46,9 @@ vim.keymap.set("n", "[t", function()
 end, { desc = "Previous todo comment" })
 
 -- You can also specify a list of valid jump keywords
-vim.keymap.set("n", "]t", function()
-	require("todo-comments").jump_next({ keywords = { "ERROR", "WARNING" } })
-end, { desc = "Next error/warning todo comment" })
+--vim.keymap.set("n", "]t", function()
+--	require("todo-comments").jump_next({ keywords = { "ERROR", "WARNING" } })
+--end, { desc = "Next error/warning todo comment" })
 
 -- turn of lazygit terminal
 vim.api.nvim_create_autocmd("TermOpen", {
