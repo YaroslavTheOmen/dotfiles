@@ -89,6 +89,8 @@ General:
 - [tpope/vim-fugitive](https://github.com/tpope/vim-fugitive)
 - [nvchad/showkeys](https://github.com/nvzone/showkeys)
 - [hrsh7th/nvim-cmp](https://github.com/hrsh7th/nvim-cmp)
+- [zbirenbaum/copilot-cmp](https://github.com/zbirenbaum/copilot-cmp)
+- [zbirenbaum/copilot.lua](https://github.com/zbirenbaum/copilot.lua)
 
 For nvim-cmp:
 
