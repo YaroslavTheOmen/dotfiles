@@ -65,41 +65,41 @@ If you encounter any issues or have questions, please feel free to open an issue
 
 ### 1. Lazy
 
-General:
+- General:
 
-- [williamboman/mason.nvim](https://github.com/williamboman/mason.nvim)
-- [williamboman/mason-lspconfig.nvim](https://github.com/williamboman/mason-lspconfig.nvim)
-- [neovim/nvim-lspconfig](https://github.com/neovim/nvim-lspconfig)
-- [kdheepak/lazygit.nvim](https://github.com/kdheepak/lazygit.nvim)
-- [voldikss/vim-floaterm](https://github.com/voldikss/vim-floaterm)
-- [folke/trouble.nvim](https://github.com/folke/trouble.nvim)
-- [nvim-lua/plenary.nvim](https://github.com/nvim-lua/plenary.nvim)
-- [folke/todo-comments.nvim](https://github.com/folke/todo-comments.nvim)
-- [nvchad/ui](https://github.com/NvChad/ui)
-- [nvchad/base46](https://github.com/NvChad/base46)
-- [nvimtools/none-ls.nvim](https://github.com/nvimtools/none-ls.nvim)
-- [mfussenegger/nvim-lint](https://github.com/mfussenegger/nvim-lint)
-- [stevearc/conform.nvim](https://github.com/stevearc/conform.nvim)
-- [windwp/nvim-ts-autotag](https://github.com/windwp/nvim-ts-autotag)
-- [olexsmir/gopher.nvim](https://github.com/olexsmir/gopher.nvim)
-- [mrcjkb/rustaceanvim](https://github.com/mrcjkb/rustaceanvim)
-- [b0o/schemastore.nvim](https://github.com/b0o/schemastore.nvim)
-- [nvim-treesitter/nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter)
-- [tpope/vim-fugitive](https://github.com/tpope/vim-fugitive)
-- [nvchad/showkeys](https://github.com/nvzone/showkeys)
-- [hrsh7th/nvim-cmp](https://github.com/hrsh7th/nvim-cmp)
-- [github/copilot.vim](https://github.com/github/copilot.vim)
+  - [williamboman/mason.nvim](https://github.com/williamboman/mason.nvim)
+  - [williamboman/mason-lspconfig.nvim](https://github.com/williamboman/mason-lspconfig.nvim)
+  - [neovim/nvim-lspconfig](https://github.com/neovim/nvim-lspconfig)
+  - [kdheepak/lazygit.nvim](https://github.com/kdheepak/lazygit.nvim)
+  - [voldikss/vim-floaterm](https://github.com/voldikss/vim-floaterm)
+  - [folke/trouble.nvim](https://github.com/folke/trouble.nvim)
+  - [nvim-lua/plenary.nvim](https://github.com/nvim-lua/plenary.nvim)
+  - [folke/todo-comments.nvim](https://github.com/folke/todo-comments.nvim)
+  - [nvchad/ui](https://github.com/NvChad/ui)
+  - [nvchad/base46](https://github.com/NvChad/base46)
+  - [nvimtools/none-ls.nvim](https://github.com/nvimtools/none-ls.nvim)
+  - [mfussenegger/nvim-lint](https://github.com/mfussenegger/nvim-lint)
+  - [stevearc/conform.nvim](https://github.com/stevearc/conform.nvim)
+  - [windwp/nvim-ts-autotag](https://github.com/windwp/nvim-ts-autotag)
+  - [olexsmir/gopher.nvim](https://github.com/olexsmir/gopher.nvim)
+  - [mrcjkb/rustaceanvim](https://github.com/mrcjkb/rustaceanvim)
+  - [b0o/schemastore.nvim](https://github.com/b0o/schemastore.nvim)
+  - [nvim-treesitter/nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter)
+  - [tpope/vim-fugitive](https://github.com/tpope/vim-fugitive)
+  - [nvchad/showkeys](https://github.com/nvzone/showkeys)
+  - [hrsh7th/nvim-cmp](https://github.com/hrsh7th/nvim-cmp)
+  - [github/copilot.vim](https://github.com/github/copilot.vim)
 
-  For nvim-cmp:
+- For nvim-cmp:
 
-- [hrsh7th/cmp-buffer](https://github.com/hrsh7th/cmp-buffer)
-- [hrsh7th/cmp-path](https://github.com/hrsh7th/cmp-path)
-- [saadparwaiz1/cmp_luasnip](https://github.com/saadparwaiz1/cmp_luasnip)
-- [hrsh7th/cmp-cmdline](https://github.com/hrsh7th/cmp-cmdline)
-- [L3MON4D3/LuaSnip](https://github.com/L3MON4D3/LuaSnip)
-- [rafamadriz/friendly-snippets](https://github.com/rafamadriz/friendly-snippets)
-- [hrsh7th/cmp-nvim-lsp](https://github.com/hrsh7th/cmp-nvim-lsp)
-- [onsails/lspkind-nvim](https://github.com/onsails/lspkind-nvim)
+  - [hrsh7th/cmp-buffer](https://github.com/hrsh7th/cmp-buffer)
+  - [hrsh7th/cmp-path](https://github.com/hrsh7th/cmp-path)
+  - [saadparwaiz1/cmp_luasnip](https://github.com/saadparwaiz1/cmp_luasnip)
+  - [hrsh7th/cmp-cmdline](https://github.com/hrsh7th/cmp-cmdline)
+  - [L3MON4D3/LuaSnip](https://github.com/L3MON4D3/LuaSnip)
+  - [rafamadriz/friendly-snippets](https://github.com/rafamadriz/friendly-snippets)
+  - [hrsh7th/cmp-nvim-lsp](https://github.com/hrsh7th/cmp-nvim-lsp)
+  - [onsails/lspkind-nvim](https://github.com/onsails/lspkind-nvim)
 
 ### 2. Mason
 
