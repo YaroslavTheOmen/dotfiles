@@ -14,7 +14,7 @@ map("i", "jk", "<ESC>", { desc = "Exit insert mode" })
 
 -- Git mappings
 map("n", "<Leader>gg", ":G<CR>", { desc = " Git status", noremap = true, silent = true })
-map("n", "<Leader>gz", ":FloatermNew LazyGit<CR>", { desc = " Open Lazygit", noremap = true, silent = true })
+map("n", "<Leader>gz", ":LazyGit<CR>", { desc = " Open Lazygit", noremap = true, silent = true })
 
 -- modern theme picer
 map("n", "<leader-th>", function()
@@ -61,14 +61,19 @@ vim.api.nvim_create_autocmd("TermOpen", {
 })
 
 -- floating terminal
--- Create a new floating terminal
 map("n", "<Leader>tN", "<cmd>FloatermNew<CR>", { desc = "New floating terminal", noremap = true, silent = true })
 map("n", "<Leader>tt", "<cmd>FloatermToggle<CR>", { desc = "Toggle floating terminal", noremap = true, silent = true })
 map("n", "<Leader>tk", "<cmd>FloatermKill<CR>", { desc = "Kill floating terminal", noremap = true, silent = true })
 map("n", "<Leader>tn", "<cmd>FloatermNext<CR>", { desc = "Next floating terminal", noremap = true, silent = true })
 map("n", "<Leader>tp", "<cmd>FloatermPrev<CR>", { desc = "Previous floating terminal", noremap = true, silent = true })
+map(
+  "n",
+  "<Leader>ta",
+  "<cmd>FloatermKill!<CR>",
+  { desc = "Kill all floating terminals", noremap = true, silent = true }
+)
 
-vim.g.floaterm_height = 0.8
-vim.g.floaterm_width = 0.8
+vim.g.floaterm_height = 0.9
+vim.g.floaterm_width = 0.9
 vim.g.floaterm_wintype = "float"
 vim.g.floaterm_position = "center"

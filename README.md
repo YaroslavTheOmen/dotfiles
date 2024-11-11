@@ -67,7 +67,6 @@ If you encounter any issues or have questions, please feel free to open an issue
 
 General:
 
-- [github/copilot.vim](https://github.com/github/copilot.vim)
 - [williamboman/mason.nvim](https://github.com/williamboman/mason.nvim)
 - [williamboman/mason-lspconfig.nvim](https://github.com/williamboman/mason-lspconfig.nvim)
 - [neovim/nvim-lspconfig](https://github.com/neovim/nvim-lspconfig)
@@ -89,10 +88,9 @@ General:
 - [tpope/vim-fugitive](https://github.com/tpope/vim-fugitive)
 - [nvchad/showkeys](https://github.com/nvzone/showkeys)
 - [hrsh7th/nvim-cmp](https://github.com/hrsh7th/nvim-cmp)
-- [zbirenbaum/copilot-cmp](https://github.com/zbirenbaum/copilot-cmp)
-- [zbirenbaum/copilot.lua](https://github.com/zbirenbaum/copilot.lua)
+- [github/copilot.vim](https://github.com/github/copilot.vim)
 
-For nvim-cmp:
+  For nvim-cmp:
 
 - [hrsh7th/cmp-buffer](https://github.com/hrsh7th/cmp-buffer)
 - [hrsh7th/cmp-path](https://github.com/hrsh7th/cmp-path)
