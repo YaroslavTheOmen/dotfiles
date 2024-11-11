@@ -5,6 +5,8 @@ local map = vim.keymap.set
 -- Github
 map("n", "<Leader>co", ":Copilot enable<CR>", { desc = " Enable Copilot", noremap = true, silent = true })
 map("n", "<Leader>cf", ":Copilot disable<CR>", { desc = " Disable Copilot", noremap = true, silent = true })
+vim.api.nvim_set_keymap("i", "<M-l>", 'copilot#Accept("<CR>")', { silent = true, expr = true })
+vim.g.copilot_no_tab_map = true
 
 -- General mappings
 map("n", ";", ":", { desc = "Enter command mode" })
