@@ -8,7 +8,7 @@
 
 **If you find this config useful, please consider giving it a ⭐ to support Me**
 
-1. NvChad `configs/nvim/lua`,
+1. NvChad `configs/nvim/`,
 2. WezTerm `configs/terminal/.wezterm.lua`,
 3. Fish `configs/terminal/config.fish`,
 4. Starship `configs/terminal/starship.toml`.
@@ -56,7 +56,7 @@ You should manually choose configs that you need and copy these files to their s
 - `configs/terminal/config.fish` should be placed in `~/.config/fish/`
   - change **starship path**
 - `configs/terminal/starship.toml` should be placed in `~/.config`
-- `config/nvim/lua` (entire folder) should be placed in `~/.config/nvim`
+- `config/nvim/` (entire folder) should be placed in `~/.config/nvim`
   - change **paths** at `config/nvim/init.lua`
 
 If you encounter any issues or have questions, please feel free to open an issue on the project's GitHub repository.
