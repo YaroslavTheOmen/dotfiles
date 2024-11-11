@@ -30,22 +30,22 @@
 
 You need these fonts for **WezTerm** and **NvChad (nvim)**:
 
-- Install JetBrains Mono (https://github.com/JetBrains/JetBrainsMono#installation)
-- Install Hack Nerd Font (https://github.com/ryanoasis/nerd-fonts?tab=readme-ov-file#font-installation)
+- [Install JetBrains Mono](https://github.com/JetBrains/JetBrainsMono#installation)
+- [Install Hack Nerd Font](https://github.com/ryanoasis/nerd-fonts?tab=readme-ov-file#font-installation)
 
 ### For NvChad (nvim)
 
-- Install Neovim (https://github.com/neovim/neovim#install-from-package)
-- Install NvChad (https://nvchad.com/docs/quickstart/install)
+- [Install Neovim](https://github.com/neovim/neovim#install-from-package)
+- [Install NvChad](https://nvchad.com/docs/quickstart/install)
 
 ### WezTerm
 
-- Install WezTerm (https://wezfurlong.org/wezterm/installation)
+- [Install WezTerm](https://wezfurlong.org/wezterm/installation)
 
 ### Fish and Starship
 
-- Install Fish Shell (https://github.com/fish-shell/fish-shell#getting-fish)
-- Install Starship (https://github.com/starship/starship#-installation)
+- [Install Fish Shell](https://github.com/fish-shell/fish-shell#getting-fish)
+- [Install Starship](https://github.com/starship/starship#-installation)
 
 ## Install
 
