@@ -51,13 +51,13 @@ You need these fonts for **WezTerm** and **NvChad (nvim)**:
 
 You should manually choose configs that you need and copy these files to their specific directories:
 
-- `configs/terminal/.wezterm.lua` should be placed in `~/.config`
+- `configs/terminal/.wezterm.lua` should be placed in `~/`
   - change **fish-shell path**
 - `configs/terminal/config.fish` should be placed in `~/.config/fish/`
   - change **starship path**
-- `configs/terminal/starship.toml` should be placed in `~/.config`
-- `config/nvim/` should be placed in `~/.config/nvim`
-  - change **paths** at `config/nvim/init.lua`
+- `configs/terminal/starship.toml` should be placed in `~/.config/`
+- `config/nvim/` should be placed in `~/.config/nvim/`
+  - change **paths** in `config/nvim/init.lua`
 
 If you encounter any issues or have questions, please feel free to open an issue on the project's GitHub repository.
 
