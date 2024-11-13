@@ -6,8 +6,6 @@
 
 <img src="./images/dotfiles.png" alt="Nvchad + terminal image (config applied)"/>
 
-**If you find this config useful, please consider giving it a ⭐ to support Me**
-
 1. NvChad `configs/nvim/`,
 2. WezTerm `configs/terminal/.wezterm.lua`,
 3. Fish `configs/terminal/config.fish`,
