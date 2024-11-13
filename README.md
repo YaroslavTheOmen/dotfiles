@@ -49,13 +49,13 @@ You need these fonts for **WezTerm** and **NvChad**:
 ### Packages
 
 - git
-- npm
+- go
 - lazygit
 - lua
 - luarocks
-- rust
-- go
+- npm
 - python
+- rust
 
 _Install these packages via your package manager, as they are required for some Neovim plugins and LSP servers_
 
@@ -63,13 +63,13 @@ _Install these packages via your package manager, as they are required for some 
 
 You should manually choose configs that you need and copy these files to their specific directories:
 
+- `config/nvim/` should be placed in `~/.config/nvim/`
+  - change **paths** in `config/nvim/init.lua`
 - `configs/terminal/.wezterm.lua` should be placed in `~/`
   - change **fish-shell path**
 - `configs/terminal/config.fish` should be placed in `~/.config/fish/`
   - change **starship path**
 - `configs/terminal/starship.toml` should be placed in `~/.config/`
-- `config/nvim/` should be placed in `~/.config/nvim/`
-  - change **paths** in `config/nvim/init.lua`
 
 If you encounter any issues or have questions, please feel free to open an issue on the project's GitHub repository.
 
