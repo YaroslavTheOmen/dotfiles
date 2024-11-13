@@ -6,10 +6,10 @@
 
 <img src="./images/dotfiles.png" alt="Nvchad + terminal image (config applied)"/>
 
-1. NvChad `configs/nvim/`,
-2. WezTerm `configs/terminal/.wezterm.lua`,
-3. Fish `configs/terminal/config.fish`,
-4. Starship `configs/terminal/starship.toml`.
+1. NvChad
+2. WezTerm
+3. Fish
+4. Starship
 
 ## Table of Contents
 
@@ -61,15 +61,27 @@ _Install these packages via your package manager, as they are required for some 
 
 ## Install
 
-You should manually choose configs that you need and copy these files to their specific directories:
+To install all configurations, run the following commands:
 
-- `config/nvim/` should be placed in `~/.config/nvim/`
-  - change **paths** in `config/nvim/init.lua`
-- `configs/terminal/.wezterm.lua` should be placed in `~/`
-  - change **fish-shell path**
-- `configs/terminal/config.fish` should be placed in `~/.config/fish/`
-  - change **starship path**
-- `configs/terminal/starship.toml` should be placed in `~/.config/`
+```sh
+git clone git@github.com:YaroslavTheOmen/dotfiles.git
+cd dotfiles
+chmod +x install.sh
+./install.sh
+```
+
+Alternatively, you can manually copy the files you need:
+
+1. NvChad: `.config/nvim`
+2. WezTerm: `.wezterm.lua`
+3. Fish: `.config/fish/config.fish`
+4. Starship: `.config/starship.toml`
+
+**Don't forget to update the necessary paths:**
+
+- shell path, Python venv path, and `base46_cache` path in `.config/nvim/init.lua` (at the beginning)
+- shell path in `.wezterm.lua`
+- starship path and `$PATH` using `set -x PATH` in `.config/fish/config.fish`
 
 If you encounter any issues or have questions, please feel free to open an issue on the project's GitHub repository.
 
