@@ -17,18 +17,19 @@
 
 - [Dependencies](#dependencies)
   - [Fonts](#fonts)
-  - [NvChad (nvim)](#for-nvchad-nvim)
+  - [NvChad](#for-nvchad-nvim)
   - [WezTerm](#wezterm)
   - [Fish and Starship](#fish-and-starship)
+  - [Packages](#packages)
 - [Install](#install)
-- [All Plugins](#all-plugins-nvchad-nvim)
+- [All Plugins](#all-plugins-nvchad)
 - [Acknowledgements](#Acknowledgements)
 
 ## Dependencies
 
 ### Fonts
 
-You need these fonts for **WezTerm** and **NvChad (nvim)**:
+You need these fonts for **WezTerm** and **NvChad**:
 
 - [Install JetBrains Mono](https://github.com/JetBrains/JetBrainsMono#installation)
 - [Install Hack Nerd Font](https://github.com/ryanoasis/nerd-fonts?tab=readme-ov-file#font-installation)
@@ -47,6 +48,19 @@ You need these fonts for **WezTerm** and **NvChad (nvim)**:
 - [Install Fish Shell](https://github.com/fish-shell/fish-shell#getting-fish)
 - [Install Starship](https://github.com/starship/starship#-installation)
 
+### Packages
+
+- git
+- npm
+- lazygit
+- lua
+- luarocks
+- rust
+- go
+- python
+
+_Install these packages via your package manager, as they are required for some Neovim plugins and LSP servers_
+
 ## Install
 
 You should manually choose configs that you need and copy these files to their specific directories:
@@ -61,7 +75,7 @@ You should manually choose configs that you need and copy these files to their s
 
 If you encounter any issues or have questions, please feel free to open an issue on the project's GitHub repository.
 
-## All Plugins NvChad (nvim)
+## All Plugins NvChad
 
 ### 1. Lazy
 
