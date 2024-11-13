@@ -27,7 +27,7 @@
 
 ### Fonts
 
-You need these fonts for **WezTerm** and **NvChad**:
+You need these fonts for WezTerm and NvChad:
 
 - [Install JetBrains Mono](https://github.com/JetBrains/JetBrainsMono#installation)
 - [Install Hack Nerd Font](https://github.com/ryanoasis/nerd-fonts?tab=readme-ov-file#font-installation)
@@ -63,7 +63,7 @@ _Install these packages via your package manager, as they are required for some 
 
 To install all configurations, run the following commands:
 
-```sh
+```bash
 git clone git@github.com:YaroslavTheOmen/dotfiles.git
 cd dotfiles
 chmod +x install.sh
@@ -79,7 +79,7 @@ Alternatively, you can manually copy the files you need:
 
 **Don't forget to update the necessary paths:**
 
-- shell path, Python venv path, and `base46_cache` path in `.config/nvim/init.lua` (at the beginning)
+- shell path, Python venv path, and base46 path in `.config/nvim/init.lua` (at the beginning)
 - shell path in `.wezterm.lua`
 - starship path and `$PATH` using `set -x PATH` in `.config/fish/config.fish`
 
@@ -114,7 +114,7 @@ If you encounter any issues or have questions, please feel free to open an issue
   - [hrsh7th/nvim-cmp](https://github.com/hrsh7th/nvim-cmp)
   - [github/copilot.vim](https://github.com/github/copilot.vim)
 
-- For nvim-cmp:
+- Nvim-cmp:
 
   - [hrsh7th/cmp-buffer](https://github.com/hrsh7th/cmp-buffer)
   - [hrsh7th/cmp-path](https://github.com/hrsh7th/cmp-path)
@@ -127,11 +127,11 @@ If you encounter any issues or have questions, please feel free to open an issue
 
 ### 2. Mason
 
-- **Linters:**
+- Linters:
 
   - `luacheck`
 
-- **LSP Servers:**
+- LSP Servers:
 
   - `lua-language-server`
   - `html-lsp`
@@ -144,7 +144,7 @@ If you encounter any issues or have questions, please feel free to open an issue
   - `gopls`
   - `clangd`
 
-- **Formatters:**
+- Formatters:
 
   - `stylua`
   - `prettierd`
@@ -153,7 +153,7 @@ If you encounter any issues or have questions, please feel free to open an issue
   - `gofumpt`
   - `rustfmt`
 
-- **Analysis Tools:**
+- Analysis Tools:
 
   - `mypy`
   - `eslint_d`
