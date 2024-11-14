@@ -6,7 +6,7 @@
 
 <img src="./images/dotfiles.png" alt="Nvchad + terminal image (config applied)"/>
 
-1. NvChad
+1. NvChad v3.0
 2. WezTerm
 3. Fish
 4. Starship
@@ -27,7 +27,7 @@
 
 ### Fonts
 
-You need these fonts for WezTerm and NvChad:
+You need these fonts for NvChad and WezTerm:
 
 - [Install JetBrains Mono](https://github.com/JetBrains/JetBrainsMono#installation)
 - [Install Hack Nerd Font](https://github.com/ryanoasis/nerd-fonts?tab=readme-ov-file#font-installation)
@@ -91,39 +91,39 @@ If you encounter any issues or have questions, please feel free to open an issue
 
 - General:
 
-  - [williamboman/mason.nvim](https://github.com/williamboman/mason.nvim)
-  - [williamboman/mason-lspconfig.nvim](https://github.com/williamboman/mason-lspconfig.nvim)
-  - [neovim/nvim-lspconfig](https://github.com/neovim/nvim-lspconfig)
-  - [kdheepak/lazygit.nvim](https://github.com/kdheepak/lazygit.nvim)
-  - [voldikss/vim-floaterm](https://github.com/voldikss/vim-floaterm)
-  - [folke/trouble.nvim](https://github.com/folke/trouble.nvim)
-  - [nvim-lua/plenary.nvim](https://github.com/nvim-lua/plenary.nvim)
-  - [folke/todo-comments.nvim](https://github.com/folke/todo-comments.nvim)
-  - [nvchad/ui](https://github.com/NvChad/ui)
-  - [nvchad/base46](https://github.com/NvChad/base46)
-  - [nvimtools/none-ls.nvim](https://github.com/nvimtools/none-ls.nvim)
-  - [mfussenegger/nvim-lint](https://github.com/mfussenegger/nvim-lint)
-  - [stevearc/conform.nvim](https://github.com/stevearc/conform.nvim)
-  - [windwp/nvim-ts-autotag](https://github.com/windwp/nvim-ts-autotag)
-  - [olexsmir/gopher.nvim](https://github.com/olexsmir/gopher.nvim)
-  - [mrcjkb/rustaceanvim](https://github.com/mrcjkb/rustaceanvim)
   - [b0o/schemastore.nvim](https://github.com/b0o/schemastore.nvim)
-  - [nvim-treesitter/nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter)
-  - [tpope/vim-fugitive](https://github.com/tpope/vim-fugitive)
-  - [nvchad/showkeys](https://github.com/nvzone/showkeys)
-  - [hrsh7th/nvim-cmp](https://github.com/hrsh7th/nvim-cmp)
+  - [folke/todo-comments.nvim](https://github.com/folke/todo-comments.nvim)
+  - [folke/trouble.nvim](https://github.com/folke/trouble.nvim)
   - [github/copilot.vim](https://github.com/github/copilot.vim)
+  - [hrsh7th/nvim-cmp](https://github.com/hrsh7th/nvim-cmp)
+  - [kdheepak/lazygit.nvim](https://github.com/kdheepak/lazygit.nvim)
+  - [mfussenegger/nvim-lint](https://github.com/mfussenegger/nvim-lint)
+  - [mrcjkb/rustaceanvim](https://github.com/mrcjkb/rustaceanvim)
+  - [neovim/nvim-lspconfig](https://github.com/neovim/nvim-lspconfig)
+  - [nvchad/base46](https://github.com/NvChad/base46)
+  - [nvchad/showkeys](https://github.com/nvzone/showkeys)
+  - [nvchad/ui](https://github.com/NvChad/ui)
+  - [nvim-lua/plenary.nvim](https://github.com/nvim-lua/plenary.nvim)
+  - [nvim-treesitter/nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter)
+  - [nvimtools/none-ls.nvim](https://github.com/nvimtools/none-ls.nvim)
+  - [olexsmir/gopher.nvim](https://github.com/olexsmir/gopher.nvim)
+  - [stevearc/conform.nvim](https://github.com/stevearc/conform.nvim)
+  - [tpope/vim-fugitive](https://github.com/tpope/vim-fugitive)
+  - [voldikss/vim-floaterm](https://github.com/voldikss/vim-floaterm)
+  - [williamboman/mason-lspconfig.nvim](https://github.com/williamboman/mason-lspconfig.nvim)
+  - [williamboman/mason.nvim](https://github.com/williamboman/mason.nvim)
+  - [windwp/nvim-ts-autotag](https://github.com/windwp/nvim-ts-autotag)
 
 - Nvim-cmp:
 
   - [hrsh7th/cmp-buffer](https://github.com/hrsh7th/cmp-buffer)
-  - [hrsh7th/cmp-path](https://github.com/hrsh7th/cmp-path)
-  - [saadparwaiz1/cmp_luasnip](https://github.com/saadparwaiz1/cmp_luasnip)
   - [hrsh7th/cmp-cmdline](https://github.com/hrsh7th/cmp-cmdline)
-  - [L3MON4D3/LuaSnip](https://github.com/L3MON4D3/LuaSnip)
-  - [rafamadriz/friendly-snippets](https://github.com/rafamadriz/friendly-snippets)
   - [hrsh7th/cmp-nvim-lsp](https://github.com/hrsh7th/cmp-nvim-lsp)
+  - [hrsh7th/cmp-path](https://github.com/hrsh7th/cmp-path)
+  - [L3MON4D3/LuaSnip](https://github.com/L3MON4D3/LuaSnip)
   - [onsails/lspkind-nvim](https://github.com/onsails/lspkind-nvim)
+  - [rafamadriz/friendly-snippets](https://github.com/rafamadriz/friendly-snippets)
+  - [saadparwaiz1/cmp_luasnip](https://github.com/saadparwaiz1/cmp_luasnip)
 
 ### 2. Mason
 
@@ -133,32 +133,32 @@ If you encounter any issues or have questions, please feel free to open an issue
 
 - LSP Servers:
 
-  - `lua-language-server`
-  - `html-lsp`
+  - `clangd`
   - `css-lsp`
-  - `typescript-language-server`
-  - `tailwindcss-language-server`
+  - `gopls`
+  - `html-lsp`
+  - `lua-language-server`
   - `pyright`
   - `ruff`
   - `rust-analyzer`
-  - `gopls`
-  - `clangd`
+  - `tailwindcss-language-server`
+  - `typescript-language-server`
 
 - Formatters:
 
-  - `stylua`
-  - `prettierd`
-  - `clang-format`
   - `black`
+  - `clang-format`
   - `gofumpt`
+  - `prettierd`
   - `rustfmt`
+  - `stylua`
 
 - Analysis Tools:
 
-  - `mypy`
   - `eslint_d`
-  - `luacheck`
   - `golangci-lint`
+  - `luacheck`
+  - `mypy`
 
 ## Acknowledgements
 
