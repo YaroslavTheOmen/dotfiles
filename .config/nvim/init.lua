@@ -3,14 +3,9 @@ vim.g.mapleader = " "
 vim.o.shell = "/opt/homebrew/bin/fish"
 vim.g.python3_host_prog = "/Users/yaroslavaugustus/.config/nvim/venv/bin/python3"
 vim.g.loaded_python3_provider = 1
-vim.lsp.handlers["textDocument/hover"] =
-   vim.lsp.with(vim.lsp.handlers.hover, { border = "rounded" })
-vim.lsp.handlers["textDocument/signatureHelp"] =
-   vim.lsp.with(vim.lsp.handlers.signature_help, { border = "rounded" })
 
-for _, v in ipairs(vim.fn.readdir(vim.g.base46_cache)) do
-   dofile(vim.g.base46_cache .. v)
-end
+dofile(vim.g.base46_cache .. "defaults")
+dofile(vim.g.base46_cache .. "statusline")
 
 -- bootstrap lazy and all plugins
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
@@ -48,3 +43,13 @@ require("nvchad.autocmds")
 vim.schedule(function()
    require("mappings")
 end)
+
+for _, method in ipairs({ "textDocument/diagnostic", "workspace/diagnostic" }) do
+   local default_diagnostic_handler = vim.lsp.handlers[method]
+   vim.lsp.handlers[method] = function(err, result, context, config)
+      if err ~= nil and err.code == -32802 then
+         return
+      end
+      return default_diagnostic_handler(err, result, context, config)
+   end
+end
