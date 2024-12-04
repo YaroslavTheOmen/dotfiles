@@ -53,3 +53,11 @@ for _, method in ipairs({ "textDocument/diagnostic", "workspace/diagnostic" }) d
       return default_diagnostic_handler(err, result, context, config)
    end
 end
+
+vim.g.rustaceanvim = {
+   tools = {},
+   server = {
+      -- TODO: Fix this https://github.com/hrsh7th/cmp-nvim-lsp/issues/72
+      capabilities = vim.lsp.protocol.make_client_capabilities(),
+   },
+}
