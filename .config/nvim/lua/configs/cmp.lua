@@ -1,51 +1,64 @@
 -- Set completeopt
 vim.opt.completeopt = { "menu", "menuone", "noselect" }
 
--- Load LuaSnip
+-- Snippets and Dependencies
 local luasnip = require("luasnip")
 require("luasnip.loaders.from_vscode").lazy_load()
 
--- Load lspkind for symbols
-local lspkind = require("lspkind")
-
--- Setup nvim-cmp
+local lspkind = require("lspkind") -- Optional for fancy symbols
 local cmp = require("cmp")
 
--- Setup capabilities for LSP (to be used in LSP setup)
+-- Helper: <Tab>/<S-Tab> logic
+local function tab_complete(fallback)
+   if cmp.visible() then
+      cmp.select_next_item()
+   elseif luasnip.expand_or_jumpable() then
+      luasnip.expand_or_jump()
+   else
+      fallback()
+   end
+end
+
+local function shift_tab_complete(fallback)
+   if cmp.visible() then
+      cmp.select_prev_item()
+   elseif luasnip.jumpable(-1) then
+      luasnip.jump(-1)
+   else
+      fallback()
+   end
+end
+
+-- Setup capabilities for LSP (use in LSP config)
 local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
+-- Main CMP Setup
 cmp.setup({
    snippet = {
       expand = function(args)
-         luasnip.lsp_expand(args.body)
+         luasnip.lsp_expand(args.body) -- Use LuaSnip
       end,
    },
+
    mapping = cmp.mapping.preset.insert({
+      -- Scrolling docs
       ["<C-b>"] = cmp.mapping.scroll_docs(-4),
       ["<C-f>"] = cmp.mapping.scroll_docs(4),
+
+      -- Invoke completion
       ["<C-Space>"] = cmp.mapping.complete(),
+
+      -- Abort completion
       ["<C-e>"] = cmp.mapping.abort(),
+
+      -- Confirm selection
       ["<CR>"] = cmp.mapping.confirm({ select = false }),
-      ["<Tab>"] = cmp.mapping(function(fallback)
-         if cmp.visible() then
-            cmp.select_next_item()
-         elseif luasnip.expand_or_jumpable() then
-            luasnip.expand_or_jump()
-         else
-            fallback()
-         end
-      end, { "i", "s" }),
 
-      ["<S-Tab>"] = cmp.mapping(function(fallback)
-         if cmp.visible() then
-            cmp.select_prev_item()
-         elseif luasnip.jumpable(-1) then
-            luasnip.jump(-1)
-         else
-            fallback()
-         end
-      end, { "i", "s" }),
+      -- Tab completion
+      ["<Tab>"] = cmp.mapping(tab_complete, { "i", "s" }),
+      ["<S-Tab>"] = cmp.mapping(shift_tab_complete, { "i", "s" }),
 
+      -- Pass <Up>/<Down> to Neovim directly
       ["<Up>"] = cmp.mapping(function(fallback)
          fallback()
       end, { "i", "s" }),
@@ -53,15 +66,17 @@ cmp.setup({
          fallback()
       end, { "i", "s" }),
    }),
+
    sources = cmp.config.sources({
       { name = "nvim_lsp" },
       { name = "luasnip" },
       { name = "buffer" },
       { name = "path" },
    }),
+
    window = {
       completion = cmp.config.window.bordered({
-         border = "single", -- Customize as needed ("single", "rounded", etc.)
+         border = "single", -- "single", "rounded", etc.
          col_offset = 0,
          side_padding = 1,
       }),
@@ -69,13 +84,15 @@ cmp.setup({
          border = "single",
       }),
    },
+
    experimental = {
       ghost_text = true,
       native_menu = false,
    },
 })
 
--- Setup for command-line mode completions
+-- CMP Setup for Command-line mode
+-- For searching in the buffer with '/'
 cmp.setup.cmdline("/", {
    mapping = cmp.mapping.preset.cmdline(),
    sources = {
@@ -83,6 +100,7 @@ cmp.setup.cmdline("/", {
    },
 })
 
+-- For command-line ':' completions
 cmp.setup.cmdline(":", {
    mapping = cmp.mapping.preset.cmdline(),
    sources = cmp.config.sources({
@@ -91,3 +109,8 @@ cmp.setup.cmdline(":", {
       { name = "cmdline" },
    }),
 })
+
+-- Export LSP Capabilities (use in your LSP servers)
+return {
+   capabilities = capabilities,
+}

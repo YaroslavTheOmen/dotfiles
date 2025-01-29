@@ -1,8 +1,7 @@
 return {
 
-   -- v3.0 plugins
+   -- v3.0 plugin
    "nvim-lua/plenary.nvim",
-
    {
       "nvchad/ui",
       config = function()
@@ -10,6 +9,7 @@ return {
       end,
    },
 
+   -- v3.0 plugin
    {
       "nvchad/base46",
       lazy = true,
@@ -18,9 +18,13 @@ return {
       end,
    },
 
+   -- v3.0 plugin
    { "nvzone/volt", lazy = true },
+
+   -- v3.0 plugin
    { "nvzone/menu", lazy = true },
 
+   -- v3.0 plugin
    {
       "nvzone/minty",
       cmd = { "Shades", "Huefy" },
@@ -40,6 +44,7 @@ return {
          vim.g.lazygit_floating_window_use_plenary = 0 -- Disables floating terminal
       end,
    },
+
    -- vim-floaterm
    {
       "voldikss/vim-floaterm",
@@ -147,18 +152,20 @@ return {
       "nvim-treesitter/nvim-treesitter",
       opts = {
          ensure_installed = {
-            "vim",
-            "lua",
-            "html",
-            "css",
-            "javascript",
-            "typescript",
-            "tsx",
             "c",
+            "cmake",
             "cpp",
+            "css",
+            "dockerfile",
+            "go",
+            "html",
+            "javascript",
+            "lua",
             "python",
             "rust",
-            "go",
+            "tsx",
+            "typescript",
+            "vim",
          },
       },
    },

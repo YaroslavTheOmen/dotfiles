@@ -1,31 +1,41 @@
--- lua/configs/nvim-lint.lua
+-- 1. Require and configure 'nvim-lint' modules
+local lint = require("lint")
 
-local luacheck = require "lint.linters.luacheck"
-
+-- Configure luacheck
+local luacheck = require("lint.linters.luacheck")
 luacheck.args = {
-  "--globals",
-  "vim",
-  "--std",
-  "lua51",
-  "--codes",
-  "--no-color",
-  "-",
+   "--globals",
+   "vim",
+   "--std",
+   "lua51",
+   "--codes",
+   "--no-color",
+   "-",
 }
 
-require("lint").linters_by_ft = {
-  python = { "mypy" },
-  javascript = { "eslint_d" },
-  typescript = { "eslint_d" },
-  lua = { "luacheck" },
-  go = { "golangcilint" },
-  -- c = { "clangtidy" },
-  -- cpp = { "clangtidy" },
-  -- Add more filetypes and linters as needed
+-- 2. Define linters for filetypes
+-- Some filetypes share the same linter (e.g., "eslint_d")
+local eslint_filetypes = { "javascript", "typescript" }
+
+local linters_by_ft = {
+   python = { "mypy" },
+   lua = { "luacheck" },
+   go = { "golangcilint" },
+   -- c   = { "clangtidy" },
+   -- cpp = { "clangtidy" },
 }
 
--- Set up autocommand to run linter on save
-vim.api.nvim_create_autocmd({ "BufWritePost" }, {
-  callback = function()
-    require("lint").try_lint()
-  end,
+-- Assign 'eslint_d' to each filetype in eslint_filetypes
+for _, ft in ipairs(eslint_filetypes) do
+   linters_by_ft[ft] = { "eslint_d" }
+end
+
+-- Finally set it on nvim-lint
+lint.linters_by_ft = linters_by_ft
+
+-- 3. Run lint on save
+vim.api.nvim_create_autocmd("BufWritePost", {
+   callback = function()
+      lint.try_lint()
+   end,
 })

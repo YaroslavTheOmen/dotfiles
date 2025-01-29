@@ -129,14 +129,13 @@ If you encounter any issues or have questions, please feel free to open an issue
 
 ### 2. Mason
 
-- Linters:
-
-  - `luacheck`
-
-- LSP Servers:
+- Language Servers
 
   - `clangd`
+  - `cmake-language-server`
   - `css-lsp`
+  - `docker-compose-language-service`
+  - `dockerfile-language-server`
   - `gopls`
   - `html-lsp`
   - `lua-language-server`
@@ -146,17 +145,16 @@ If you encounter any issues or have questions, please feel free to open an issue
   - `tailwindcss-language-server`
   - `typescript-language-server`
 
-- Formatters:
+- Formatters
 
-  - `yapf` or `black`
   - `clang-format`
   - `gofumpt`
   - `prettierd`
   - `rustfmt`
   - `stylua`
+  - `yapf`
 
-- Analysis Tools:
-
+- Linters
   - `eslint_d`
   - `golangci-lint`
   - `luacheck`

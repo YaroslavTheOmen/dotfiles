@@ -58,35 +58,34 @@ M.cheatsheet = {
 M.mason = {
    cmd = true,
    pkgs = {
-      -- List of packages to install
-      -- extra
-      "luacheck",
-
       -- Language Servers
-      "lua-language-server",
-      "html-lsp",
+      "clangd",
+      "cmake-language-server",
       "css-lsp",
-      "typescript-language-server",
-      "tailwindcss-language-server",
+      "docker-compose-language-service",
+      "dockerfile-language-server",
+      "gopls",
+      "html-lsp",
+      "lua-language-server",
       "pyright",
       "ruff",
       "rust-analyzer",
-      "gopls",
-      "clangd",
+      "tailwindcss-language-server",
+      "typescript-language-server",
 
       -- Formatters
-      "stylua",
-      "prettierd",
       "clang-format",
-      "yapf", --"black",
       "gofumpt",
+      "prettierd",
       "rustfmt",
+      "stylua",
+      "yapf",
 
       -- Linters
-      "mypy",
       "eslint_d",
-      "luacheck",
       "golangci-lint",
+      "luacheck",
+      "mypy",
    },
 }
 

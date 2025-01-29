@@ -1,33 +1,39 @@
--- lua/configs/conform.lua
-
 local conform = require("conform")
 
-conform.setup({
-   -- Configure formatters by filetype
-   formatters_by_ft = {
-      lua = { "stylua" },
-      python = { "yapf" },
-      javascript = { "prettierd" },
-      typescript = { "prettierd" },
-      typescriptreact = { "prettierd" },
-      javascriptreact = { "prettierd" },
-      html = { "prettierd" },
-      css = { "prettierd" },
-      scss = { "prettierd" },
-      json = { "prettierd" },
-      yaml = { "prettierd" },
-      markdown = { "prettierd" },
-      go = { "gofumpt" },
-      c = { "clang_format" },
-      cpp = { "clang_format" },
-      rust = { "rustfmt" },
-      -- Add more filetypes and formatters as needed
-   },
+-- 1. Define which filetypes use 'prettierd'
+local prettierd_filetypes = {
+   "javascript",
+   "typescript",
+   "javascriptreact",
+   "typescriptreact",
+   "html",
+   "css",
+   "scss",
+   "json",
+   "yaml",
+   "markdown",
+}
 
-   -- Enable format on save
+-- 2. Build the formatters_by_ft table, starting with unique assignments
+local formatters_by_ft = {
+   lua = { "stylua" },
+   python = { "yapf" },
+   go = { "gofumpt" },
+   c = { "clang_format" },
+   cpp = { "clang_format" },
+   rust = { "rustfmt" },
+}
+
+-- 3. Assign 'prettierd' to each filetype in 'prettierd_filetypes'
+for _, ft in ipairs(prettierd_filetypes) do
+   formatters_by_ft[ft] = { "prettierd" }
+end
+
+-- 4. Set up Conform with the final table
+conform.setup({
+   formatters_by_ft = formatters_by_ft,
    format_on_save = {
-      -- These options will be passed to conform.format()
-      timeout_ms = 2000, -- Time in milliseconds to wait for a formatter to finish
-      lsp_fallback = true, -- Use LSP formatting if no formatter is defined for a filetype
+      timeout_ms = 1000,
+      lsp_fallback = true, -- Use LSP formatting if no formatter is defined
    },
 })

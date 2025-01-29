@@ -8,20 +8,23 @@ local schemastore = require("schemastore")
 require("mason").setup()
 require("mason-lspconfig").setup({
    ensure_installed = {
+      "clangd",
+      "cmake",
+      "cssls",
+      "docker_compose_language_service",
+      "dockerls",
+      "eslint",
+      "gopls",
+      "html",
+      "jsonls",
       "lua_ls",
       "pyright",
       "ruff",
       "rust_analyzer",
-      "ts_ls",
       "tailwindcss",
-      "eslint",
-      "gopls",
-      "clangd",
-      "html",
-      "cssls",
-      "jsonls",
+      "ts_ls",
       "yamlls",
-      -- Add other servers you want to ensure are installed
+      -- Add any other servers you want to ensure are installed
    },
 })
 
@@ -29,11 +32,11 @@ require("mason-lspconfig").setup({
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = cmp_nvim_lsp.default_capabilities(capabilities)
 
--- Custom on_attach function to set keybindings
+-- Custom on_attach function to set keybindings and disable LSP formatting
 local function custom_on_attach(client, bufnr)
-   -- Set up keybindings
    local opts = { noremap = true, silent = true }
    local keymap = vim.api.nvim_buf_set_keymap
+
    keymap(bufnr, "n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", opts)
    keymap(bufnr, "n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", opts)
    keymap(bufnr, "n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>", opts)
@@ -53,8 +56,21 @@ local function custom_on_attach(client, bufnr)
    end
 end
 
--- Configure LSP servers
+-- LSP server-specific settings
 local servers = {
+
+   -- cmake LSP server
+   cmake = {
+      cmd = { "cmake-language-server", "--stdio" },
+      filetypes = { "cmake" },
+      root_dir = util.root_pattern("CMakePresets.json", "CMakeLists.txt", ".git"),
+      init_options = {
+         -- Adjust if you have a specific build directory
+         buildDirectory = "build",
+      },
+      single_file_support = true,
+   },
+
    -- Lua LSP server
    lua_ls = {
       settings = {
@@ -103,7 +119,7 @@ local servers = {
                includeInlayVariableTypeHints = true,
             },
          },
-         javascript = { -- Add JavaScript settings if needed
+         javascript = {
             inlayHints = {
                includeInlayParameterNameHints = "all",
                includeInlayParameterNameHintsWhenArgumentMatchesName = false,
@@ -213,6 +229,23 @@ local servers = {
          },
       },
    },
+
+   -- Docker-related LSPs
+   -- Dockerfile language server
+   dockerls = {
+      filetypes = { "Dockerfile" },
+      root_dir = util.root_pattern("Dockerfile", ".git"),
+   },
+
+   -- Docker Compose language server (custom setup, since it's not standard in nvim-lspconfig)
+   docker_compose_language_service = {
+      -- Usually the npm package is: docker-compose-language-service
+      -- The binary is often named: docker-compose-langserver
+      cmd = { "docker-compose-langserver", "--stdio" },
+      filetypes = { "yaml", "yml" },
+      root_dir = util.root_pattern("docker-compose.yml", "docker-compose.yaml", ".git"),
+      settings = {},
+   },
 }
 
 -- Setup LSP servers with mason-lspconfig
@@ -222,7 +255,7 @@ require("mason-lspconfig").setup_handlers({
       -- Do nothing; rustaceanvim will handle rust_analyzer
    end,
 
-   -- Default handler for all servers
+   -- Default handler for all other servers
    function(server_name)
       local config = {
          on_attach = custom_on_attach,
@@ -239,67 +272,49 @@ require("mason-lspconfig").setup_handlers({
 })
 
 -- Rust setup using rustaceanvim
-
 vim.g.rustaceanvim = {
    server = {
       on_attach = custom_on_attach,
       capabilities = capabilities,
       settings = {
          ["rust-analyzer"] = {
-            -- Enable checking with Clippy on save for linting
             checkOnSave = {
-               command = "clippy", -- Alternatives: "check" for faster checks without lints
+               command = "clippy", -- Or "check" for faster checks
             },
-
-            -- Diagnostics settings
             diagnostics = {
                enable = true,
-               disabled = {}, -- List any diagnostics you want to disable
-               enableExperimental = true, -- Enable experimental diagnostics
+               disabled = {},
+               enableExperimental = true,
             },
-
-            -- Cargo settings
             cargo = {
-               features = "All", -- Features to enable for Cargo.toml
-               loadOutDirsFromCheck = true, -- Improves performance by caching build directories
+               features = "All",
+               loadOutDirsFromCheck = true,
             },
-
-            -- Proc macro settings
             procMacro = {
-               enable = true, -- Enables procedural macro support
+               enable = true,
             },
-
-            -- Completion settings
             completion = {
-               addCallArgumentSnippets = true, -- Adds snippets for function call arguments
+               addCallArgumentSnippets = true,
                postfix = {
-                  enable = true, -- Enables postfix completions (e.g., `.if`, `.match`)
+                  enable = true,
                },
             },
-
-            -- Hover settings
             hover = {
                actions = {
-                  references = true, -- Show references in hover
-                  implementation = true, -- Show implementations in hover
+                  references = true,
+                  implementation = true,
                },
             },
-
-            -- Rustfmt settings for formatting
             rustfmt = {
-               enableRangeFormatting = true, -- Enable formatting for selected ranges
-               extraArgs = { "--edition", "2021" }, -- Additional arguments for rustfmt
+               enableRangeFormatting = true,
+               extraArgs = { "--edition", "2021" },
             },
-
-            -- Experimental features
             experimental = {
-               procAttrMacros = true, -- Support for procedural attribute macros
+               procAttrMacros = true,
             },
-
-            -- Assist settings for code assistance
             assist = {
-               importGranularity = "module", -- Import granularity (e.g., "module" or "crate")
-               importPrefix = "by_self", -- Import prefix style
+               importGranularity = "module",
+               importPrefix = "by_self",
             },
          },
       },
