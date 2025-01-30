@@ -9,8 +9,10 @@ local enable_providers = {
 
 for _, plugin in pairs(enable_providers) do
    vim.g["loaded_" .. plugin] = nil
-   vim.cmd("runtime " .. plugin)
+   if vim.fn.exists("provider_" .. plugin) == 1 then
+      vim.cmd("runtime " .. plugin)
+   end
 end
 
 -- local o = vim.o
--- o.cursorlineopt ='both' -- to enable cursorline!
+-- o.cursorlineopt = 'both' -- to enable cursorline!
