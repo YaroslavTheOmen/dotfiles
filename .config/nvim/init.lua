@@ -1,5 +1,7 @@
 vim.g.base46_cache = vim.fn.stdpath("data") .. "/base46/"
 vim.g.mapleader = " "
+
+-- Added by me
 vim.o.shell = "/opt/homebrew/bin/fish"
 vim.g.python3_host_prog = "/Users/yaroslavaugustus/.config/nvim/venv/bin/python3"
 vim.g.loaded_python3_provider = 1
@@ -11,7 +13,7 @@ dofile(vim.g.base46_cache .. "statusline")
 -- bootstrap lazy and all plugins
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 
-if not vim.loop.fs_stat(lazypath) then
+if not vim.uv.fs_stat(lazypath) then
    local repo = "https://github.com/folke/lazy.nvim.git"
    vim.fn.system({ "git", "clone", "--filter=blob:none", repo, "--branch=stable", lazypath })
 end
@@ -39,12 +41,14 @@ require("lazy").setup({
 dofile(vim.g.base46_cache .. "defaults")
 dofile(vim.g.base46_cache .. "statusline")
 
+require("options")
 require("nvchad.autocmds")
 
 vim.schedule(function()
    require("mappings")
 end)
 
+-- RustAnalyzer Bug fix
 for _, method in ipairs({ "textDocument/diagnostic", "workspace/diagnostic" }) do
    local default_diagnostic_handler = vim.lsp.handlers[method]
    vim.lsp.handlers[method] = function(err, result, context, config)
@@ -55,6 +59,7 @@ for _, method in ipairs({ "textDocument/diagnostic", "workspace/diagnostic" }) d
    end
 end
 
+-- RustAnalyzer Bug fix
 vim.g.rustaceanvim = {
    tools = {},
    server = {
