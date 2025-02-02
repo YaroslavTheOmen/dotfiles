@@ -74,6 +74,16 @@ cmp.setup({
       { name = "path" },
    }),
 
+   formatting = {
+      fields = { "abbr", "kind" },
+      format = function(_, vim_item)
+         local orig_kind = vim_item.kind
+         local icon = lspkind.presets.default[orig_kind] or orig_kind
+         vim_item.kind = string.format("%s %s", icon, orig_kind)
+         return vim_item
+      end,
+   },
+
    window = {
       completion = cmp.config.window.bordered({
          border = "single", -- "single", "rounded", etc.
