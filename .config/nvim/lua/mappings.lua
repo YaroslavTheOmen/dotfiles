@@ -23,8 +23,8 @@ local function imap(lhs, rhs, desc, opts)
 end
 
 -- 1. Copilot
-nmap("<Leader>co", ":Copilot enable<CR>", " Enable Copilot")
-nmap("<Leader>cf", ":Copilot disable<CR>", " Disable Copilot")
+nmap("<Leader>ce", ":Copilot enable<CR>", "Copilot Enable")
+nmap("<Leader>cd", ":Copilot disable<CR>", "Copilot Disable")
 
 -- Copilot accept mapping in Insert mode (Meta + l)
 imap("<M-l>", 'copilot#Accept("<CR>")', "Accept Copilot suggestion", { expr = true })
@@ -33,12 +33,12 @@ imap("<M-l>", 'copilot#Accept("<CR>")', "Accept Copilot suggestion", { expr = tr
 vim.g.copilot_no_tab_map = true
 
 -- 2. General Mappings
-nmap(";", ":", "Enter command mode")
-imap("jk", "<ESC>", "Exit insert mode")
+nmap(";", ":", "Mode enter command")
+imap("jk", "<ESC>", "Mode exit insert")
 
 -- 3. Git Mappings
-nmap("<Leader>gg", ":G<CR>", " Git status")
-nmap("<Leader>gz", ":FloatermNew LazyGit<CR>", " Open Lazygit")
+nmap("<Leader>gg", ":G<CR>", "Git status")
+nmap("<Leader>gz", ":FloatermNew LazyGit<CR>", "Git Open Lazygit")
 
 -- Disable entering Command-line mode in LazyGit terminal
 local gitGroup = vim.api.nvim_create_augroup("LazyGitFixes", { clear = true })
@@ -60,7 +60,7 @@ end, "Open NvChad theme picker")
 
 nmap("<Leader>to", function()
    require("minty.huefy").open({ border = true })
-end, " Fancy color picker")
+end, "Picker Fancy color finder")
 
 -- 5. Menu (e.g. for RightMouse or <C-t>)
 nmap("<C-t>", function()
@@ -78,19 +78,19 @@ end, "Open menu (mouse)")
 -- 6. TODO-Comments Navigation
 nmap("]t", function()
    require("todo-comments").jump_next()
-end, "Next todo comment")
+end, "Todo comment next")
 
 nmap("[t", function()
    require("todo-comments").jump_prev()
-end, "Previous todo comment")
+end, "Todo comment previous")
 
 -- 7. Floaterm (Floating Terminal) Mappings
-nmap("<Leader>tN", "<cmd>FloatermNew<CR>", "New floating terminal")
-nmap("<Leader>tt", "<cmd>FloatermToggle<CR>", "Toggle floating terminal")
-nmap("<Leader>tk", "<cmd>FloatermKill<CR>", "Kill floating terminal")
-nmap("<Leader>tn", "<cmd>FloatermNext<CR>", "Next floating terminal")
-nmap("<Leader>tp", "<cmd>FloatermPrev<CR>", "Previous floating terminal")
-nmap("<Leader>ta", "<cmd>FloatermKill!<CR>", "Kill all floating terminals")
+nmap("<Leader>tN", "<cmd>FloatermNew<CR>", "Floaterm New terminal")
+nmap("<Leader>tt", "<cmd>FloatermToggle<CR>", "Floaterm Toggle terminal")
+nmap("<Leader>tK", "<cmd>FloatermKill<CR>", "Floaterm Kill terminal")
+nmap("<Leader>tn", "<cmd>FloatermNext<CR>", "Floaterm Next terminal")
+nmap("<Leader>tp", "<cmd>FloatermPrev<CR>", "Floaterm Previous terminal")
+nmap("<Leader>tA", "<cmd>FloatermKill!<CR>", "Floaterm Kill all terminals")
 
 -- Floaterm configuration
 vim.g.floaterm_height = 0.9

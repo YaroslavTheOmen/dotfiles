@@ -1,28 +1,29 @@
 local M = {}
 
 M.base46 = {
-   theme = "one_light",
-   transparency = false,
-   theme_toggle = { "one_light", "catppuccin" },
+   theme = "one_light", -- default theme
    hl_add = {},
    hl_override = {},
    integrations = {},
    changed_themes = {},
+   transparency = false,
+   theme_toggle = { "one_light", "catppuccin" },
 }
 
 M.ui = {
    cmp = {
-      icons_left = false,
-      lspkind_text = true,
-      style = "default",
+      icons_left = false, -- only for non-atom styles!
+      style = "default", -- default/flat_light/flat_dark/atom/atom_colored
+      abbr_maxwidth = 60,
       format_colors = {
-         tailwind = true,
+         tailwind = true, -- will work for css lsp too
          icon = "󱓻",
       },
    },
-   telescope = { style = "borderless" },
+   telescope = { style = "borderless" }, -- borderless / bordered
    statusline = {
-      theme = "vscode_colored",
+      enabled = true,
+      theme = "vscode_colored", -- default/vscode/vscode_colored/minimal
       separator_style = "default",
       order = nil,
       modules = nil,
@@ -32,6 +33,7 @@ M.ui = {
       lazyload = true,
       order = { "treeOffset", "buffers", "tabs", "btns" },
       modules = nil,
+      bufwidth = 21,
    },
 }
 
@@ -51,8 +53,15 @@ M.term = {
 M.lsp = { signature = true }
 
 M.cheatsheet = {
-   theme = "grid",
+   theme = "grid", -- simple/grid
    excluded_groups = { "terminal (t)", "autopairs", "Nvim", "Opens" },
+}
+
+M.colorify = {
+   enabled = true,
+   mode = "virtual", -- fg, bg, virtual
+   virt_text = "󱓻 ",
+   highlight = { hex = true, lspvars = true },
 }
 
 M.mason = {
@@ -87,13 +96,6 @@ M.mason = {
       "luacheck",
       "mypy",
    },
-}
-
-M.colorify = {
-   enabled = true,
-   mode = "virtual",
-   virt_text = "󱓻 ",
-   highlight = { hex = true, lspvars = true },
 }
 
 return M
