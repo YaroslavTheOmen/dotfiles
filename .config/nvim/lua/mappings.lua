@@ -22,21 +22,11 @@ local function imap(lhs, rhs, desc, opts)
    vim.keymap.set("i", lhs, rhs, default_opts)
 end
 
--- 1. Copilot
-nmap("<Leader>ce", ":Copilot enable<CR>", "Copilot Enable")
-nmap("<Leader>cd", ":Copilot disable<CR>", "Copilot Disable")
-
--- Copilot accept mapping in Insert mode (Meta + l)
-imap("<M-l>", 'copilot#Accept("<CR>")', "Accept Copilot suggestion", { expr = true })
-
--- Prevent <Tab> from being mapped by Copilot, if desired
-vim.g.copilot_no_tab_map = true
-
--- 2. General Mappings
+-- 1. General Mappings
 nmap(";", ":", "Mode enter command")
 imap("jk", "<ESC>", "Mode exit insert")
 
--- 3. Git Mappings
+-- 2. Git Mappings
 nmap("<Leader>gg", ":G<CR>", "Git status")
 nmap("<Leader>gz", ":FloatermNew LazyGit<CR>", "Git Open Lazygit")
 
@@ -50,7 +40,7 @@ vim.api.nvim_create_autocmd("TermOpen", {
    end,
 })
 
--- 4. Theme Picker / Colors
+-- 3. Theme Picker / Colors
 nmap("<leader-th>", function()
    require("nvchad.themes").open({
       icon = "",
@@ -62,7 +52,7 @@ nmap("<Leader>to", function()
    require("minty.huefy").open({ border = true })
 end, "Picker Fancy color finder")
 
--- 5. Menu (e.g. for RightMouse or <C-t>)
+-- 4. Menu (e.g. for RightMouse or <C-t>)
 nmap("<C-t>", function()
    require("menu").open("default")
 end, "Open menu (default)")
@@ -75,7 +65,7 @@ nmap("<RightMouse>", function()
    require("menu").open(opts, { mouse = true })
 end, "Open menu (mouse)")
 
--- 6. TODO-Comments Navigation
+-- 5. TODO-Comments Navigation
 nmap("]t", function()
    require("todo-comments").jump_next()
 end, "Todo comment next")
@@ -84,7 +74,7 @@ nmap("[t", function()
    require("todo-comments").jump_prev()
 end, "Todo comment previous")
 
--- 7. Floaterm (Floating Terminal) Mappings
+-- 6. Floaterm (Floating Terminal) Mappings
 nmap("<Leader>tN", "<cmd>FloatermNew<CR>", "Floaterm New terminal")
 nmap("<Leader>tt", "<cmd>FloatermToggle<CR>", "Floaterm Toggle terminal")
 nmap("<Leader>tK", "<cmd>FloatermKill<CR>", "Floaterm Kill terminal")

@@ -94,7 +94,6 @@ If you encounter any issues or have questions, please feel free to open an issue
   - [b0o/schemastore.nvim](https://github.com/b0o/schemastore.nvim)
   - [folke/todo-comments.nvim](https://github.com/folke/todo-comments.nvim)
   - [folke/trouble.nvim](https://github.com/folke/trouble.nvim)
-  - [github/copilot.vim](https://github.com/github/copilot.vim)
   - [mfussenegger/nvim-lint](https://github.com/mfussenegger/nvim-lint)
   - [mrcjkb/rustaceanvim](https://github.com/mrcjkb/rustaceanvim)
   - [neovim/nvim-lspconfig](https://github.com/neovim/nvim-lspconfig)
@@ -114,6 +113,7 @@ If you encounter any issues or have questions, please feel free to open an issue
   - [williamboman/mason-lspconfig.nvim](https://github.com/williamboman/mason-lspconfig.nvim)
   - [williamboman/mason.nvim](https://github.com/williamboman/mason.nvim)
   - [windwp/nvim-ts-autotag](https://github.com/windwp/nvim-ts-autotag)
+  - [zbirenbaum/copilot.lua](https://github.com/zbirenbaum/copilot.lua)
 
 - Nvim-cmp:
 

@@ -5,7 +5,6 @@ vim.g.mapleader = " "
 vim.o.shell = "/opt/homebrew/bin/fish"
 vim.g.python3_host_prog = "/Users/yaroslavaugustus/.config/nvim/venv/bin/python3"
 vim.g.loaded_python3_provider = 1
-vim.g.copilot_enabled = false
 
 dofile(vim.g.base46_cache .. "defaults")
 dofile(vim.g.base46_cache .. "statusline")
