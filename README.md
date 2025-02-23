@@ -142,6 +142,8 @@ If you encounter any issues or have questions, please feel free to open an issue
   - `pyright`
   - `ruff`
   - `rust-analyzer`
+  - `solidity`
+  - `sqls`
   - `tailwindcss-language-server`
   - `typescript-language-server`
 
@@ -151,6 +153,7 @@ If you encounter any issues or have questions, please feel free to open an issue
   - `gofumpt`
   - `prettierd`
   - `rustfmt`
+  - `sql-formatter`
   - `stylua`
   - `yapf`
 
@@ -159,6 +162,8 @@ If you encounter any issues or have questions, please feel free to open an issue
   - `golangci-lint`
   - `luacheck`
   - `mypy`
+  - `solhint`
+  - `sqlfluff`
 
 ## Acknowledgements
 
