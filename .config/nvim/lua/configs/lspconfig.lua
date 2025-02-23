@@ -21,10 +21,11 @@ require("mason-lspconfig").setup({
       "pyright",
       "ruff",
       "rust_analyzer",
+      "solidity",
+      "sqls",
       "tailwindcss",
       "ts_ls",
       "yamlls",
-      -- Add any other servers you want to ensure are installed
    },
 })
 
@@ -58,6 +59,36 @@ end
 
 -- LSP server-specific settings
 local servers = {
+
+   sqls = {
+      filetypes = { "sql" },
+      root_dir = util.root_pattern(".git"),
+      single_file_support = true,
+      -- If you have advanced settings, you can configure them below:
+      -- settings = {
+      --   sqls = {
+      --     connections = {
+      --       {
+      --         driver = 'mysql',
+      --         dataSourceName = 'root:root@tcp(127.0.0.1:3306)/test',
+      --       },
+      --       -- More connections here...
+      --     },
+      --   },
+      -- },
+   },
+
+   solidity = {
+      cmd = { "solidity-language-server", "--stdio" },
+      filetypes = { "solidity" },
+      root_dir = util.root_pattern("truffle-config.js", "hardhat.config.js", ".git"),
+      settings = {
+         solidity = {
+            -- Optionally, include solidity-specific settings here.
+            -- For example, you could specify a compiler version or remappings if needed.
+         },
+      },
+   },
 
    -- cmake LSP server
    cmake = {

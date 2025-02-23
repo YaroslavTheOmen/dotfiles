@@ -163,6 +163,7 @@ return {
             "lua",
             "python",
             "rust",
+            "solidity",
             "tsx",
             "typescript",
             "vim",

@@ -13,16 +13,38 @@ luacheck.args = {
    "-",
 }
 
+local solhint = require("lint.linters.solhint")
+solhint.args = {
+   "--max-warnings",
+   "0", -- or remove if you prefer to allow warnings
+   "--stdin",
+}
+
+-- Configure sqlfluff (optional: you can tweak args/dialect)
+local sqlfluff = require("lint.linters.sqlfluff")
+sqlfluff.args = {
+   "lint",
+   "-f",
+   "parsable",
+   "--dialect",
+   "ansi", -- change to e.g. "postgres" or "mysql" if needed
+   "--nofailon",
+   "warn", -- treat warnings as not failing the lint
+   "-",
+}
+
 -- 2. Define linters for filetypes
--- Some filetypes share the same linter (e.g., "eslint_d")
+-- share same linter
 local eslint_filetypes = { "javascript", "typescript" }
 
 local linters_by_ft = {
    python = { "mypy" },
    lua = { "luacheck" },
    go = { "golangcilint" },
+   solidity = { "solhint" },
    -- c   = { "clangtidy" },
    -- cpp = { "clangtidy" },
+   sql = { "sqlfluff" },
 }
 
 -- Assign 'eslint_d' to each filetype in eslint_filetypes

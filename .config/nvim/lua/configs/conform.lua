@@ -22,6 +22,7 @@ local formatters_by_ft = {
    c = { "clang_format" },
    cpp = { "clang_format" },
    rust = { "rustfmt" },
+   sql = { "sql_formatter" },
 }
 
 -- 3. Assign 'prettierd' to each filetype in 'prettierd_filetypes'

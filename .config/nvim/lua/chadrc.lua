@@ -79,6 +79,8 @@ M.mason = {
       "pyright",
       "ruff",
       "rust-analyzer",
+      "solidity",
+      "sqls",
       "tailwindcss-language-server",
       "typescript-language-server",
 
@@ -87,6 +89,7 @@ M.mason = {
       "gofumpt",
       "prettierd",
       "rustfmt",
+      "sql-formatter",
       "stylua",
       "yapf",
 
@@ -95,6 +98,8 @@ M.mason = {
       "golangci-lint",
       "luacheck",
       "mypy",
+      "solhint",
+      "sqlfluff",
    },
 }
 
