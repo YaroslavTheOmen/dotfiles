@@ -164,6 +164,7 @@ return {
             "python",
             "rust",
             "solidity",
+            "sql",
             "tsx",
             "typescript",
             "vim",
