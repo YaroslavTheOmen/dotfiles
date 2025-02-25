@@ -92,7 +92,7 @@ local servers = {
 
    -- cmake LSP server
    cmake = {
-      cmd = { "cmake-language-server", "--stdio" },
+      cmd = { "cmake-language-server" },
       filetypes = { "cmake" },
       root_dir = util.root_pattern("CMakePresets.json", "CMakeLists.txt", ".git"),
       init_options = {
