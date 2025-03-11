@@ -86,6 +86,7 @@ M.mason = {
 
       -- Formatters
       "clang-format",
+      "cmakelang",
       "gofumpt",
       "prettierd",
       "rustfmt",

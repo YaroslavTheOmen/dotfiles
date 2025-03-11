@@ -150,6 +150,7 @@ If you encounter any issues or have questions, please feel free to open an issue
 - Formatters
 
   - `clang-format`
+  - `cmakelang`
   - `gofumpt`
   - `prettierd`
   - `rustfmt`
