@@ -24,6 +24,7 @@ local formatters_by_ft = {
    rust = { "rustfmt" },
    sql = { "sql_formatter" },
    cmake = { "cmakelang" },
+   solidity = { "forge_fmt" },
 }
 
 -- 3. Assign 'prettierd' to each filetype in 'prettierd_filetypes'

@@ -153,7 +153,6 @@ If you encounter any issues or have questions, please feel free to open an issue
   - `cmakelang`
   - `gofumpt`
   - `prettierd`
-  - `rustfmt`
   - `sql-formatter`
   - `stylua`
   - `yapf`

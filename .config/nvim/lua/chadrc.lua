@@ -89,7 +89,6 @@ M.mason = {
       "cmakelang",
       "gofumpt",
       "prettierd",
-      "rustfmt",
       "sql-formatter",
       "stylua",
       "yapf",
