@@ -50,6 +50,7 @@ You need these fonts for NvChad and WezTerm:
 
 - git
 - go
+- foundry
 - lazygit
 - lua
 - luarocks
@@ -57,7 +58,7 @@ You need these fonts for NvChad and WezTerm:
 - python
 - rust
 
-_Install these packages via your package manager, as they are required for some Neovim plugins and LSP servers_
+_Install these packages via your package manager (or manually), as they are required for some Neovim plugins and LSP servers_
 
 ## Install
 
