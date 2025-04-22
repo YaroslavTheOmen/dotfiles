@@ -14,6 +14,23 @@ vim.diagnostic.config({
     update_in_insert = false,
 })
 
+-- terminal padding fix
+vim.api.nvim_create_augroup("TerminalPadding", { clear = true })
+vim.api.nvim_create_autocmd("TermOpen", {
+    group = "TerminalPadding",
+    pattern = "*",
+    callback = function()
+        local win = vim.api.nvim_get_current_win()
+        vim.wo[win].signcolumn = "no"
+        vim.wo[win].foldcolumn = "2"
+        vim.wo[win].number = false
+        vim.wo[win].relativenumber = false
+    end,
+})
+
+-- blinking cursor fix
+vim.opt.guicursor = "n-v-c:block,i:ver25,r-cr:hor20,a:blinkon0-blinkoff0"
+
 dofile(vim.g.base46_cache .. "defaults")
 dofile(vim.g.base46_cache .. "statusline")
 
