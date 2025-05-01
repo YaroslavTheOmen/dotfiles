@@ -32,7 +32,10 @@ mkdir -p "$HOME/.config"
 
 install_dir "$BASE_DIR/.config/nvim" "$HOME/.config/nvim"
 
+install_dir "$BASE_DIR/.config/doom" "$HOME/.config/doom"
+
 mkdir -p "$HOME/.config/fish"
+
 install_file "$BASE_DIR/.config/fish/config.fish" "$HOME/.config/fish/config.fish"
 
 install_file "$BASE_DIR/.config/starship.toml" "$HOME/.config/starship.toml"
