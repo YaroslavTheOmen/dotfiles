@@ -163,6 +163,7 @@ If you encounter any issues or have questions, please feel free to open an issue
 - Formatters
 
   - `clang-format`
+  - `cmakelang`
   - `gofumpt`
   - `prettierd`
   - `sql-formatter`
@@ -170,8 +171,10 @@ If you encounter any issues or have questions, please feel free to open an issue
   - `yapf`
 
 - Linters
+  - `eslint_d`
   - `golangci-lint`
   - `luacheck`
+  - `mypy`
   - `solhint`
   - `sqlfluff`
 
