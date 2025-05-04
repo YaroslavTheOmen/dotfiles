@@ -1,5 +1,4 @@
 return {
-
     -- v3.0 plugin
     "nvim-lua/plenary.nvim",
     {
@@ -45,11 +44,8 @@ return {
         end,
     },
 
-    -- vim-floaterm
-    {
-        "voldikss/vim-floaterm",
-        event = "VeryLazy",
-    },
+    -- floatterm
+    { "akinsho/toggleterm.nvim", version = "*", config = true, event = "VeryLazy" },
 
     -- v3.0
     {

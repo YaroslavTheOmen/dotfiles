@@ -6,7 +6,7 @@ vim.o.shell = "/opt/homebrew/bin/fish"
 vim.g.python3_host_prog = "/Users/yaroslavaugustus/.config/nvim/venv/bin/python3"
 vim.g.loaded_python3_provider = 1
 
--- Missing virtual_text fix
+-- Virtual_text
 vim.diagnostic.config({
     virtual_text = true,
     signs = true,
@@ -14,7 +14,23 @@ vim.diagnostic.config({
     update_in_insert = false,
 })
 
--- terminal padding fix
+local vt_toggle_grp = vim.api.nvim_create_augroup("ToggleVirtualText", { clear = true })
+
+vim.api.nvim_create_autocmd("InsertEnter", {
+    group = vt_toggle_grp,
+    callback = function()
+        vim.diagnostic.config({ virtual_text = false })
+    end,
+})
+
+vim.api.nvim_create_autocmd("InsertLeave", {
+    group = vt_toggle_grp,
+    callback = function()
+        vim.diagnostic.config({ virtual_text = true })
+    end,
+})
+
+-- terminal padding
 vim.api.nvim_create_augroup("TerminalPadding", { clear = true })
 vim.api.nvim_create_autocmd("TermOpen", {
     group = "TerminalPadding",
@@ -29,7 +45,13 @@ vim.api.nvim_create_autocmd("TermOpen", {
 })
 
 -- blinking cursor fix
-vim.opt.guicursor = "n-v-c:block,i:ver25,r-cr:hor20,a:blinkon0-blinkoff0"
+vim.opt.guicursor = table.concat({
+    "n-v-c:block",
+    "i-ci-ve:ver25",
+    "o:hor20",
+    "t:block",
+    "a:blinkon0",
+}, ",")
 
 dofile(vim.g.base46_cache .. "defaults")
 dofile(vim.g.base46_cache .. "statusline")
