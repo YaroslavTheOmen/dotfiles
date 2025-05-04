@@ -44,7 +44,7 @@ return {
         end,
     },
 
-    -- floatterm
+    -- toggleterm
     { "akinsho/toggleterm.nvim", version = "*", config = true, event = "VeryLazy" },
 
     -- v3.0

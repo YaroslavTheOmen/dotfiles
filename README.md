@@ -95,6 +95,7 @@ Alternatively, you can manually copy the files you need:
 - shell path in `.config/doom/config.el` (at the end)
 - shell path in `.wezterm.lua`
 - starship path and `$PATH` using `set -x PATH` in `.config/fish/config.fish`
+- `$VIMRUNTIME` using `set -gx` in `.config/fish/config.fish`
 
 If you encounter any issues or have questions, please feel free to open an issue on the project's GitHub repository.
 
@@ -104,6 +105,7 @@ If you encounter any issues or have questions, please feel free to open an issue
 
 - General:
 
+  - [akinsho/toggleterm.nvim](https://github.com/akinsho/toggleterm.nvim)
   - [b0o/schemastore.nvim](https://github.com/b0o/schemastore.nvim)
   - [folke/todo-comments.nvim](https://github.com/folke/todo-comments.nvim)
   - [folke/trouble.nvim](https://github.com/folke/trouble.nvim)
@@ -122,7 +124,6 @@ If you encounter any issues or have questions, please feel free to open an issue
   - [olexsmir/gopher.nvim](https://github.com/olexsmir/gopher.nvim)
   - [stevearc/conform.nvim](https://github.com/stevearc/conform.nvim)
   - [tpope/vim-fugitive](https://github.com/tpope/vim-fugitive)
-  - [voldikss/vim-floaterm](https://github.com/voldikss/vim-floaterm)
   - [williamboman/mason-lspconfig.nvim](https://github.com/williamboman/mason-lspconfig.nvim)
   - [williamboman/mason.nvim](https://github.com/williamboman/mason.nvim)
   - [windwp/nvim-ts-autotag](https://github.com/windwp/nvim-ts-autotag)
