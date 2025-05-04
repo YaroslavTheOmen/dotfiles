@@ -1,13 +1,12 @@
--- Set global variables
 vim.g.base46_cache = vim.fn.stdpath("data") .. "/base46/"
 vim.g.mapleader = " "
 
--- Custom settings
+-- Added by me
 vim.o.shell = "/opt/homebrew/bin/fish"
 vim.g.python3_host_prog = "/Users/yaroslavaugustus/.config/nvim/venv/bin/python3"
 vim.g.loaded_python3_provider = 1
 
--- Configure diagnostics
+-- Missing virtual_text fix
 vim.diagnostic.config({
     virtual_text = true,
     signs = true,
@@ -15,7 +14,7 @@ vim.diagnostic.config({
     update_in_insert = false,
 })
 
--- Terminal padding autocommand
+-- terminal padding fix
 vim.api.nvim_create_augroup("TerminalPadding", { clear = true })
 vim.api.nvim_create_autocmd("TermOpen", {
     group = "TerminalPadding",
@@ -29,20 +28,25 @@ vim.api.nvim_create_autocmd("TermOpen", {
     end,
 })
 
--- Set cursor behavior
+-- blinking cursor fix
 vim.opt.guicursor = "n-v-c:block,i:ver25,r-cr:hor20,a:blinkon0-blinkoff0"
 
--- Bootstrap Lazy plugin manager
+dofile(vim.g.base46_cache .. "defaults")
+dofile(vim.g.base46_cache .. "statusline")
+
+-- bootstrap lazy and all plugins
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+
 if not vim.uv.fs_stat(lazypath) then
     local repo = "https://github.com/folke/lazy.nvim.git"
     vim.fn.system({ "git", "clone", "--filter=blob:none", repo, "--branch=stable", lazypath })
 end
+
 vim.opt.rtp:prepend(lazypath)
 
 local lazy_config = require("configs.lazy")
 
--- Load plugins
+-- load plugins
 require("lazy").setup({
     {
         "NvChad/NvChad",
@@ -53,14 +57,14 @@ require("lazy").setup({
             require("options")
         end,
     },
+
     { import = "plugins" },
 }, lazy_config)
 
--- Load theme
+-- load theme
 dofile(vim.g.base46_cache .. "defaults")
 dofile(vim.g.base46_cache .. "statusline")
 
--- Load additional configurations
 require("options")
 require("nvchad.autocmds")
 

@@ -1,8 +1,10 @@
+-- Import necessary modules
 local lspconfig = require("lspconfig")
 local util = require("lspconfig/util")
 local cmp_nvim_lsp = require("cmp_nvim_lsp")
 local schemastore = require("schemastore")
 
+-- Initialize Mason and Mason-Lspconfig
 require("mason").setup()
 require("mason-lspconfig").setup({
     ensure_installed = {
@@ -27,46 +29,35 @@ require("mason-lspconfig").setup({
     },
 })
 
+-- Define capabilities
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = cmp_nvim_lsp.default_capabilities(capabilities)
 
+-- Custom on_attach function to set keybindings and disable LSP formatting
 local function custom_on_attach(client, bufnr)
-    -- Common options for all mappings
-    local opts = { buffer = bufnr, noremap = true, silent = true }
+    local opts = { noremap = true, silent = true }
+    local keymap = vim.api.nvim_buf_set_keymap
 
-    -- Go to definition
-    vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
-
-    -- Hover documentation
-    vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
-
-    -- Rename symbol
-    vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
-
-    -- Find references
-    vim.keymap.set("n", "gr", vim.lsp.buf.references, opts)
-
-    -- Code actions
-    vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, opts)
-
-    -- Diagnostics
-    vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float, opts)
-    vim.keymap.set("n", "[d", function()
-        vim.diagnostic.jump({ count = -1 })
-    end, opts)
-    vim.keymap.set("n", "]d", function()
-        vim.diagnostic.jump({ count = 1 })
-    end, opts)
+    keymap(bufnr, "n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", opts)
+    keymap(bufnr, "n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", opts)
+    keymap(bufnr, "n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>", opts)
+    keymap(bufnr, "n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)
+    keymap(bufnr, "n", "<C-k>", "<cmd>lua vim.lsp.buf.signature_help()<CR>", opts)
+    keymap(bufnr, "n", "<leader>rn", "<cmd>lua vim.lsp.buf.rename()<CR>", opts)
+    keymap(bufnr, "n", "<leader>ca", "<cmd>lua vim.lsp.buf.code_action()<CR>", opts)
+    keymap(bufnr, "n", "[d", "<cmd>lua vim.diagnostic.goto_prev()<CR>", opts)
+    keymap(bufnr, "n", "]d", "<cmd>lua vim.diagnostic.goto_next()<CR>", opts)
 
     -- Disable formatting via LSP to prevent conflicts with other formatters
-    -- if client.server_capabilities.document_formatting then
-    --    client.server_capabilities.document_formatting = false
-    -- end
-    -- if client.server_capabilities.document_range_formatting then
-    --   client.server_capabilities.document_range_formatting = false
-    -- end
+    if client.server_capabilities.document_formatting then
+        client.server_capabilities.document_formatting = false
+    end
+    if client.server_capabilities.document_range_formatting then
+        client.server_capabilities.document_range_formatting = false
+    end
 end
 
+-- LSP server-specific settings
 local servers = {
 
     sqls = {
@@ -99,16 +90,19 @@ local servers = {
         },
     },
 
+    -- cmake LSP server
     cmake = {
         cmd = { "cmake-language-server" },
         filetypes = { "cmake" },
         root_dir = util.root_pattern("CMakePresets.json", "CMakeLists.txt", ".git"),
         init_options = {
+            -- Adjust if you have a specific build directory
             buildDirectory = "build",
         },
         single_file_support = true,
     },
 
+    -- Lua LSP server
     lua_ls = {
         settings = {
             Lua = {
@@ -130,6 +124,7 @@ local servers = {
         },
     },
 
+    -- Python LSP servers
     pyright = {
         cmd = { "pyright-langserver", "--stdio", "--offset-encoding=utf-16" },
         settings = {
@@ -142,10 +137,10 @@ local servers = {
             },
         },
     },
-
     ruff = {},
 
-    ts_ls = {
+    -- Web development LSP servers
+    ts_ls = { -- Replaced from tsserver to ts_ls
         settings = {
             typescript = {
                 inlayHints = {
@@ -168,6 +163,7 @@ local servers = {
     tailwindcss = {},
     eslint = {},
 
+    -- Go LSP server
     gopls = {
         filetypes = { "go", "gomod", "gowork", "gotmpl" },
         settings = {
@@ -182,6 +178,7 @@ local servers = {
         },
     },
 
+    -- C/C++ LSP server
     clangd = {
         cmd = {
             "clangd",
@@ -195,6 +192,7 @@ local servers = {
         capabilities = capabilities,
     },
 
+    -- HTML LSP server
     html = {
         capabilities = vim.tbl_extend("keep", capabilities, {
             documentFormatting = false,
@@ -212,6 +210,7 @@ local servers = {
         },
     },
 
+    -- CSS LSP server
     cssls = {
         capabilities = vim.tbl_extend("keep", capabilities, {
             documentFormatting = false,
@@ -238,6 +237,7 @@ local servers = {
         },
     },
 
+    -- JSON LSP server with schemastore
     jsonls = {
         settings = {
             json = {
@@ -247,6 +247,7 @@ local servers = {
         },
     },
 
+    -- YAML LSP server with schemastore
     yamlls = {
         settings = {
             yaml = {
@@ -260,12 +261,17 @@ local servers = {
         },
     },
 
+    -- Docker-related LSPs
+    -- Dockerfile language server
     dockerls = {
         filetypes = { "Dockerfile" },
         root_dir = util.root_pattern("Dockerfile", ".git"),
     },
 
+    -- Docker Compose language server (custom setup, since it's not standard in nvim-lspconfig)
     docker_compose_language_service = {
+        -- Usually the npm package is: docker-compose-language-service
+        -- The binary is often named: docker-compose-langserver
         cmd = { "docker-compose-langserver", "--stdio" },
         filetypes = { "yaml", "yml" },
         root_dir = util.root_pattern("docker-compose.yml", "docker-compose.yaml", ".git"),
@@ -273,15 +279,21 @@ local servers = {
     },
 }
 
+-- Setup LSP servers with mason-lspconfig
 require("mason-lspconfig").setup_handlers({
-    ["rust_analyzer"] = function() end,
+    -- Handler for rust_analyzer to prevent double setup
+    ["rust_analyzer"] = function()
+        -- Do nothing; rustaceanvim will handle rust_analyzer
+    end,
 
+    -- Default handler for all other servers
     function(server_name)
         local config = {
             on_attach = custom_on_attach,
             capabilities = capabilities,
         }
 
+        -- Apply specific settings based on the server
         if servers[server_name] then
             config = vim.tbl_deep_extend("force", config, servers[server_name])
         end
@@ -296,40 +308,43 @@ vim.g.rustaceanvim = {
         capabilities = capabilities,
         settings = {
             ["rust-analyzer"] = {
-                checkOnSave = {
+                -- instead of a table here, this is just on/off
+                checkOnSave = true,
+                -- move your “clippy” override into `check`
+                check = {
                     command = "clippy",
                 },
+
                 diagnostics = {
                     enable = true,
                     disabled = {},
                     enableExperimental = true,
                 },
+
                 cargo = {
-                    features = "All",
+                    -- lowercase "all", or an array of feature-names
+                    features = "all",
                     loadOutDirsFromCheck = true,
                 },
-                procMacro = {
-                    enable = true,
-                },
+
+                procMacro = { enable = true },
+
                 completion = {
                     addCallArgumentSnippets = true,
-                    postfix = {
-                        enable = true,
-                    },
+                    postfix = { enable = true },
                 },
+
                 hover = {
-                    actions = {
-                        references = true,
-                        implementation = true,
-                    },
+                    actions = { references = true, implementation = true },
                 },
+
                 rustfmt = {
                     enableRangeFormatting = true,
                     extraArgs = { "--edition", "2021" },
                 },
-                experimental = {
-                    procAttrMacros = true,
-                },
+
+                experimental = { procAttrMacros = true },
+
                 assist = {
                     importGranularity = "module",
                     importPrefix = "by_self",

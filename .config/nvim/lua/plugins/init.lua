@@ -147,6 +147,7 @@ return {
     },
 
     -- Treesitter for syntax highlighting
+
     {
         "nvim-treesitter/nvim-treesitter",
         opts = {
@@ -168,6 +169,7 @@ return {
                 "typescript",
                 "vim",
             },
+            auto_install = true,
         },
     },
 
