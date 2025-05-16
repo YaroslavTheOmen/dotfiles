@@ -1,126 +1,110 @@
--- Set completeopt
+-- Neovim option that lets the popup behave like VS Code
 vim.opt.completeopt = { "menu", "menuone", "noselect" }
 
--- Snippets and Dependencies
-local luasnip = require("luasnip")
+-- Requirements
+local cmp = require "cmp"
+local luasnip = require "luasnip"
+local lspkind = require "lspkind" -- ✨ pictograms
+local autopairs = require "nvim-autopairs.completion.cmp"
+
+-- Load vscode-style snippets **lazily** (only when first used)
+luasnip.config.set_config { history = true, updateevents = "TextChanged,TextChangedI" }
 require("luasnip.loaders.from_vscode").lazy_load()
 
-local lspkind = require("lspkind") -- Optional for fancy symbols
-local cmp = require("cmp")
-
--- Helper: <Tab>/<S-Tab> logic
+-- Helper functions for <Tab> / <S-Tab>
 local function tab_complete(fallback)
-   if cmp.visible() then
-      cmp.select_next_item()
-   elseif luasnip.expand_or_jumpable() then
-      luasnip.expand_or_jump()
-   else
-      fallback()
-   end
+  if cmp.visible() then
+    cmp.select_next_item { behavior = cmp.SelectBehavior.Insert }
+  elseif luasnip.expand_or_jumpable() then
+    luasnip.expand_or_jump()
+  else
+    fallback()
+  end
 end
 
 local function shift_tab_complete(fallback)
-   if cmp.visible() then
-      cmp.select_prev_item()
-   elseif luasnip.jumpable(-1) then
-      luasnip.jump(-1)
-   else
-      fallback()
-   end
+  if cmp.visible() then
+    cmp.select_prev_item { behavior = cmp.SelectBehavior.Insert }
+  elseif luasnip.jumpable(-1) then
+    luasnip.jump(-1)
+  else
+    fallback()
+  end
 end
 
--- Setup capabilities for LSP (use in LSP config)
+-- Export these capabilities to your LSP config
 local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
--- Main CMP Setup
-cmp.setup({
-   snippet = {
-      expand = function(args)
-         luasnip.lsp_expand(args.body) -- Use LuaSnip
-      end,
-   },
+-- Main cmp setup
+cmp.setup {
 
-   mapping = cmp.mapping.preset.insert({
-      -- Scrolling docs
-      ["<C-b>"] = cmp.mapping.scroll_docs(-4),
-      ["<C-f>"] = cmp.mapping.scroll_docs(4),
+  snippet = {
+    expand = function(args)
+      luasnip.lsp_expand(args.body)
+    end,
+  },
 
-      -- Invoke completion
-      ["<C-Space>"] = cmp.mapping.complete(),
+  mapping = cmp.mapping.preset.insert {
+    ["<C-b>"] = cmp.mapping.scroll_docs(-4),
+    ["<C-f>"] = cmp.mapping.scroll_docs(4),
+    ["<C-Space>"] = cmp.mapping.complete(), -- manual trigger
+    ["<C-e>"] = cmp.mapping.abort(), -- close menu
+    ["<CR>"] = cmp.mapping.confirm { select = false },
+    ["<Tab>"] = cmp.mapping(tab_complete, { "i", "s" }),
+    ["<S-Tab>"] = cmp.mapping(shift_tab_complete, { "i", "s" }),
+  },
 
-      -- Abort completion
-      ["<C-e>"] = cmp.mapping.abort(),
+  sources = cmp.config.sources {
+    { name = "nvim_lsp" },
+    { name = "luasnip" },
+    { name = "path" },
+    { name = "buffer", keyword_length = 3 }, -- start after 3 chars
+  },
 
-      -- Confirm selection
-      ["<CR>"] = cmp.mapping.confirm({ select = false }),
+  formatting = {
+    format = lspkind.cmp_format {
+      mode = "symbol_text",
+      maxwidth = 50,
+      ellipsis_char = "…",
+      show_labelDetails = true,
+    },
+  },
 
-      -- Tab completion
-      ["<Tab>"] = cmp.mapping(tab_complete, { "i", "s" }),
-      ["<S-Tab>"] = cmp.mapping(shift_tab_complete, { "i", "s" }),
+  window = {
+    completion = cmp.config.window.bordered(),
+    documentation = cmp.config.window.bordered(),
+  },
 
-      -- Pass <Up>/<Down> to Neovim directly
-      ["<Up>"] = cmp.mapping(function(fallback)
-         fallback()
-      end, { "i", "s" }),
-      ["<Down>"] = cmp.mapping(function(fallback)
-         fallback()
-      end, { "i", "s" }),
-   }),
+  experimental = {
+    ghost_text = { hl_group = "Comment" }, -- unobtrusive grey
+  },
+}
 
-   sources = cmp.config.sources({
-      { name = "nvim_lsp" },
-      { name = "luasnip" },
-      { name = "buffer" },
-      { name = "path" },
-   }),
+-- Extra setups
+-- 1. Auto-insert parens/quotes for functions etc.
+cmp.event:on("confirm_done", autopairs.on_confirm_done())
 
-   formatting = {
-      fields = { "abbr", "kind" },
-      format = function(_, vim_item)
-         local orig_kind = vim_item.kind
-         local icon = lspkind.presets.default[orig_kind] or orig_kind
-         vim_item.kind = string.format("%s %s", icon, orig_kind)
-         return vim_item
-      end,
-   },
-
-   window = {
-      completion = cmp.config.window.bordered({
-         border = "single", -- "single", "rounded", etc.
-         col_offset = 0,
-         side_padding = 1,
-      }),
-      documentation = cmp.config.window.bordered({
-         border = "single",
-      }),
-   },
-
-   experimental = {
-      ghost_text = true,
-      native_menu = false,
-   },
-})
-
--- CMP Setup for Command-line mode
--- For searching in the buffer with '/'
+-- 2. Command-line completion
 cmp.setup.cmdline("/", {
-   mapping = cmp.mapping.preset.cmdline(),
-   sources = {
-      { name = "buffer" },
-   },
+  mapping = cmp.mapping.preset.cmdline(),
+  sources = { { name = "buffer" } },
 })
 
--- For command-line ':' completions
 cmp.setup.cmdline(":", {
-   mapping = cmp.mapping.preset.cmdline(),
-   sources = cmp.config.sources({
-      { name = "path" },
-   }, {
-      { name = "cmdline" },
-   }),
+  mapping = cmp.mapping.preset.cmdline(),
+  sources = cmp.config.sources({ { name = "path" } }, { { name = "cmdline" } }),
 })
 
--- Export LSP Capabilities (use in your LSP servers)
+-- 3. Filetype-specific tweaks (example: gitcommit)
+cmp.setup.filetype("gitcommit", {
+  sources = cmp.config.sources({
+    { name = "git" },
+  }, {
+    { name = "buffer" },
+  }),
+})
+
+-- Export for use in lspconfig.lua
 return {
-   capabilities = capabilities,
+  capabilities = capabilities,
 }

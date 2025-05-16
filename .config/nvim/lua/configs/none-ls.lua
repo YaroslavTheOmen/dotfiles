@@ -1,31 +1,35 @@
--- none-ls setup for additional linters and formatters
-local none_ls = require("none-ls")
+-- Diagnostics / code-actions via none-ls
+local null = require "none-ls"
 
--- 1. Helper: Get Python Executable Path
-local function get_python_executable()
-   -- Check for VIRTUAL_ENV or CONDA_PREFIX; otherwise default to /usr
-   local virtual_env = os.getenv("VIRTUAL_ENV") or os.getenv("CONDA_PREFIX") or "/usr"
-   return virtual_env .. "/bin/python3"
+-- helpers
+local function python_exec()
+  local venv = os.getenv "VIRTUAL_ENV" or os.getenv "CONDA_PREFIX" or "/usr"
+  return venv .. "/bin/python3"
 end
 
--- 2. none-ls Setup
-none_ls.setup({
-   -- Replace with your own on_attach logic, if needed
-   -- on_attach = custom_on_attach,
+-- setup
+null.setup {
+  sources = {
 
-   sources = {
-      -- Diagnostics (linters)
-      none_ls.builtins.diagnostics.mypy.with({
-         extra_args = function()
-            return { "--python-executable", get_python_executable() }
-         end,
-      }), -- Python
+    --  diagnostics
+    null.builtins.diagnostics.mypy.with {
+      extra_args = function()
+        return { "--python-executable", python_exec() }
+      end,
+    },
 
-      none_ls.builtins.diagnostics.eslint_d, -- JavaScript, TypeScript
+    null.builtins.diagnostics.eslint_d, -- js / ts
+    null.builtins.diagnostics.solhint, -- solidity
+    null.builtins.diagnostics.sqlfluff.with {
+      extra_args = { "lint", "-f", "parsable", "--dialect", "ansi", "-", "--nofailon", "warn" },
+    },
 
-      -- Additional linters/formatters go here...
-      -- e.g., none_ls.builtins.formatting.black,
-      --       none_ls.builtins.diagnostics.flake8,
-      --       none_ls.builtins.formatting.prettier,
-   },
-})
+    null.builtins.diagnostics.luacheck.with {
+      extra_args = { "--globals", "vim", "--std", "lua51", "--codes", "--no-color", "-" },
+    },
+
+    null.builtins.diagnostics.golangci_lint, -- go
+
+    --  (no formatters here – Conform handles them)
+  },
+}
