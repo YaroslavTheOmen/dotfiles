@@ -1,6 +1,6 @@
 return {
 
-  -- ► A. nvim-cmp  -----------------------------------------------------
+  -- ► A. nvim-cmp  ----------------------------------------------------------
   {
     "hrsh7th/nvim-cmp",
     event = "VeryLazy",
@@ -19,16 +19,22 @@ return {
     end,
   },
 
-  -- ► B. Blink  --------------------------------------------------------
+  -- ► B. Blink (commented − enable if you use it) --------------------------
   -- { import = "nvchad.blink.lazyspec" },
   -- { "Saghen/blink.cmp", opts = {} },
 
-  -- Core LSP / Mason stack
-  { "neovim/nvim-lspconfig" },
+  -- ► C. Core LSP / Mason stack -------------------------------------------
+  {
+    "neovim/nvim-lspconfig",
+    dependencies = { "b0o/schemastore.nvim" },
+    config = function()
+      require "configs.lspconfig"
+    end,
+  },
   { "williamboman/mason.nvim", build = ":MasonUpdate" },
   { "williamboman/mason-lspconfig.nvim" },
 
-  -- UI & NvChad core
+  -- ► D. UI & NvChad core --------------------------------------------------
   "nvim-lua/plenary.nvim",
   {
     "nvchad/ui",
@@ -43,13 +49,14 @@ return {
       require("base46").load_all_highlights()
     end,
   },
+  { "nvchad/showkeys", cmd = "ShowkeysToggle" },
 
-  -- Misc NvChad v3 additions
+  -- ► E. Misc NvChad v3 extras --------------------------------------------
   { "nvzone/volt", lazy = true },
   { "nvzone/menu", lazy = true },
   { "nvzone/minty", cmd = { "Shades", "Huefy" } },
 
-  -- Utilities
+  -- ► F. Utilities ---------------------------------------------------------
   {
     "kdheepak/lazygit.nvim",
     cmd = "LazyGit",
@@ -69,14 +76,14 @@ return {
   {
     "folke/todo-comments.nvim",
     event = "VeryLazy",
-    dependencies = "nvim-lua/plenary.nvim",
+    dependencies = { "nvim-lua/plenary.nvim" },
     opts = {},
     config = function(_, opts)
       require("todo-comments").setup(opts)
     end,
   },
 
-  -- Formatting / linting
+  -- ► G. Formatting / linting ---------------------------------------------
   {
     "nvimtools/none-ls.nvim",
     config = function()
@@ -98,7 +105,7 @@ return {
     end,
   },
 
-  -- Treesitter + extras
+  -- ► H. Treesitter + extras ----------------------------------------------
   {
     "nvim-treesitter/nvim-treesitter",
     opts = {
@@ -138,7 +145,7 @@ return {
     end,
   },
 
-  -- Language-specific helpers
+  -- ► I. Language-specific helpers ----------------------------------------
   {
     "olexsmir/gopher.nvim",
     ft = "go",
@@ -149,11 +156,16 @@ return {
       vim.cmd [[silent! GoInstallDeps]]
     end,
   },
-  { "mrcjkb/rustaceanvim", version = "^5", ft = "rust" },
+  {
+    "mrcjkb/rustaceanvim",
+    version = "^5",
+    ft = "rust",
+    dependencies = "neovim/nvim-lspconfig",
+  },
 
-  -- Git
+  -- ► J. Git ---------------------------------------------------------------
   { "tpope/vim-fugitive", event = "VeryLazy" },
 
-  -- JSON / YAML schemas
+  -- ► K. JSON / YAML schemas ----------------------------------------------
   { "b0o/schemastore.nvim", lazy = true },
 }

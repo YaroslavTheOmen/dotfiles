@@ -2,40 +2,68 @@ local lspconfig = require "lspconfig"
 local util = require "lspconfig.util"
 local schemastore = require "schemastore"
 
--- A. nvim-cmp (default)  ----------------------------------------------
+-- A. nvim-cmp (default) ------------------------------------------------
 local capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
 
 -- B. Blink -------------------------------------------------------------
 -- local capabilities = require("blink.cmp").get_lsp_capabilities(
 --   vim.lsp.protocol.make_client_capabilities()
 -- )
--- ======================================================================
 
 -- on_attach ------------------------------------------------------------
 local function custom_on_attach(client, bufnr)
-  local map, opts = vim.api.nvim_buf_set_keymap, { noremap = true, silent = true }
+  local map_opts = { noremap = true, silent = true }
+  local map = vim.api.nvim_buf_set_keymap
 
-  map(bufnr, "n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", opts)
-  map(bufnr, "n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", opts)
-  map(bufnr, "n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>", opts)
-  map(bufnr, "n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)
-  map(bufnr, "n", "<C-k>", "<cmd>lua vim.lsp.buf.signature_help()<CR>", opts)
-  map(bufnr, "n", "<leader>rn", "<cmd>lua vim.lsp.buf.rename()<CR>", opts)
-  map(bufnr, "n", "<leader>ca", "<cmd>lua vim.lsp.buf.code_action()<CR>", opts)
-  map(bufnr, "n", "[d", "<cmd>lua vim.diagnostic.goto_prev()<CR>", opts)
-  map(bufnr, "n", "]d", "<cmd>lua vim.diagnostic.goto_next()<CR>", opts)
+  map(bufnr, "n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", map_opts)
+  map(bufnr, "n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", map_opts)
+  map(bufnr, "n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>", map_opts)
+  map(bufnr, "n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", map_opts)
+  map(bufnr, "n", "<C-k>", "<cmd>lua vim.lsp.buf.signature_help()<CR>", map_opts)
+  map(bufnr, "n", "<leader>rn", "<cmd>lua vim.lsp.buf.rename()<CR>", map_opts)
+  map(bufnr, "n", "<leader>ca", "<cmd>lua vim.lsp.buf.code_action()<CR>", map_opts)
+  map(bufnr, "n", "[d", "<cmd>lua vim.diagnostic.goto_prev()<CR>", map_opts)
+  map(bufnr, "n", "]d", "<cmd>lua vim.diagnostic.goto_next()<CR>", map_opts)
 
-  if client.server_capabilities.document_formatting then
+  -- disable server-side formatting
+  if client.server_capabilities.documentFormattingProvider ~= nil then
+    client.server_capabilities.documentFormattingProvider = false
+  end
+  if client.server_capabilities.documentRangeFormattingProvider ~= nil then
+    client.server_capabilities.documentRangeFormattingProvider = false
+  end
+  -- ≤ 0.9 compatibility
+  if client.server_capabilities.document_formatting ~= nil then
     client.server_capabilities.document_formatting = false
   end
-  if client.server_capabilities.document_range_formatting then
+  if client.server_capabilities.document_range_formatting ~= nil then
     client.server_capabilities.document_range_formatting = false
   end
 end
 
+-- Lua ------------------------------------------------------------------
+lspconfig.lua_ls.setup {
+  on_attach = custom_on_attach,
+  capabilities = capabilities,
+  settings = {
+    Lua = {
+      runtime = { version = "LuaJIT" },
+      diagnostics = { globals = { "vim" } },
+      workspace = {
+        library = vim.api.nvim_get_runtime_file("", true),
+        checkThirdParty = false,
+      },
+      telemetry = { enable = false },
+    },
+  },
+}
+
 -- Per-server overrides -------------------------------------------------
 local servers = {
-  sqls = { filetypes = { "sql" }, root_dir = util.root_pattern ".git" },
+  sqls = {
+    filetypes = { "sql" },
+    root_dir = util.root_pattern(".git", "*.sql"),
+  },
 
   solidity = {
     cmd = { "solidity-language-server", "--stdio" },
@@ -50,22 +78,8 @@ local servers = {
     init_options = { buildDirectory = "build" },
   },
 
-  lua_ls = {
-    settings = {
-      Lua = {
-        runtime = { version = "LuaJIT", path = vim.split(package.path, ";") },
-        diagnostics = { globals = { "vim" } },
-        workspace = {
-          library = vim.api.nvim_get_runtime_file("", true),
-          checkThirdParty = false,
-        },
-        telemetry = { enable = false },
-      },
-    },
-  },
-
   pyright = {
-    cmd = { "pyright-langserver", "--stdio", "--offset-encoding=utf-16" },
+    cmd = { "pyright-langserver", "--stdio" },
     settings = {
       python = {
         analysis = {
@@ -83,7 +97,10 @@ local servers = {
       gopls = {
         completeUnimported = true,
         usePlaceholders = true,
-        analyses = { unusedparams = true, unreachable = true },
+        analyses = {
+          unusedparams = true,
+          unreachable = true,
+        },
       },
     },
   },
@@ -107,12 +124,15 @@ local servers = {
   },
 
   html = {
-    capabilities = vim.tbl_extend("keep", capabilities, { documentFormatting = false }),
-    settings = { html = { format = { enable = true }, hover = { documentation = true } } },
+    settings = {
+      html = {
+        format = { enable = true },
+        hover = { documentation = true },
+      },
+    },
   },
 
   cssls = {
-    capabilities = vim.tbl_extend("keep", capabilities, { documentFormatting = false }),
     settings = {
       css = { validate = true, lint = { unknownAtRules = "ignore" } },
       scss = { validate = true, lint = { unknownAtRules = "ignore" } },
@@ -121,7 +141,12 @@ local servers = {
   },
 
   jsonls = {
-    settings = { json = { schemas = schemastore.json.schemas(), validate = true } },
+    settings = {
+      json = {
+        schemas = schemastore.json.schemas(),
+        validate = true,
+      },
+    },
   },
 
   yamlls = {
@@ -134,7 +159,10 @@ local servers = {
     },
   },
 
-  dockerls = { filetypes = { "Dockerfile" }, root_dir = util.root_pattern("Dockerfile", ".git") },
+  dockerls = {
+    filetypes = { "Dockerfile" },
+    root_dir = util.root_pattern("Dockerfile", ".git"),
+  },
 
   docker_compose_language_service = {
     cmd = { "docker-compose-langserver", "--stdio" },
@@ -157,7 +185,7 @@ require("mason-lspconfig").setup {
     "gopls",
     "html",
     "jsonls",
-    "lua_ls",
+    -- "lua_ls", -- managed manually above
     "pyright",
     "ruff",
     "rust_analyzer",
@@ -172,10 +200,15 @@ require("mason-lspconfig").setup {
     ["rust_analyzer"] = function() end, -- rustaceanvim manages this one
 
     function(server)
-      local opts = { on_attach = custom_on_attach, capabilities = capabilities }
+      local opts = {
+        on_attach = custom_on_attach,
+        capabilities = capabilities,
+      }
+
       if servers[server] then
         opts = vim.tbl_deep_extend("force", opts, servers[server])
       end
+
       lspconfig[server].setup(opts)
     end,
   },
@@ -188,19 +221,35 @@ vim.g.rustaceanvim = {
     capabilities = capabilities,
     settings = {
       ["rust-analyzer"] = {
-        checkOnSave = true,
-        check = { command = "clippy" },
-        diagnostics = { enable = true, enableExperimental = true },
-        cargo = { features = "all", loadOutDirsFromCheck = true },
+        checkOnSave = { command = "clippy" },
+        diagnostics = {
+          enable = true,
+          enableExperimental = true,
+        },
+        cargo = {
+          features = "all",
+          loadOutDirsFromCheck = true,
+        },
         procMacro = { enable = true },
         completion = {
           addCallArgumentSnippets = true,
           postfix = { enable = true },
         },
-        hover = { actions = { references = true, implementation = true } },
-        rustfmt = { enableRangeFormatting = true, extraArgs = { "--edition", "2021" } },
+        hover = {
+          actions = {
+            references = true,
+            implementation = true,
+          },
+        },
+        rustfmt = {
+          enableRangeFormatting = true,
+          extraArgs = { "--edition", "2021" },
+        },
         experimental = { procAttrMacros = true },
-        assist = { importGranularity = "module", importPrefix = "by_self" },
+        assist = {
+          importGranularity = "module",
+          importPrefix = "by_self",
+        },
       },
     },
   },
