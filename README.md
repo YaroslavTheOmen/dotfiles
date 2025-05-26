@@ -101,6 +101,8 @@ If you encounter any issues or have questions, please feel free to open an issue
 
 ## All Plugins NvChad
 
+Here’s the list updated to exactly match the plugins in your return { … } spec (adding the one you were missing):
+
 ### 1. Lazy
 
 - General:
@@ -127,6 +129,7 @@ If you encounter any issues or have questions, please feel free to open an issue
   - [williamboman/mason-lspconfig.nvim](https://github.com/williamboman/mason-lspconfig.nvim)
   - [williamboman/mason.nvim](https://github.com/williamboman/mason.nvim)
   - [windwp/nvim-ts-autotag](https://github.com/windwp/nvim-ts-autotag)
+  - [kdheepak/lazygit.nvim](https://github.com/kdheepak/lazygit.nvim)
 
 - Nvim-cmp:
 
@@ -138,11 +141,9 @@ If you encounter any issues or have questions, please feel free to open an issue
   - [L3MON4D3/LuaSnip](https://github.com/L3MON4D3/LuaSnip)
   - [onsails/lspkind-nvim](https://github.com/onsails/lspkind-nvim)
   - [rafamadriz/friendly-snippets](https://github.com/rafamadriz/friendly-snippets)
-  - [saadparwaiz1/cmp_luasnip](https://github.com/saadparwaiz1/cmp_luasnip)
+  - [saadparwaiz1/cmp_luasnip](https://github.com/saadparwaiz1/cmp_luasnip)### 2. Mason
 
-### 2. Mason
-
-- Language Servers
+- Language Servers:
 
   - `clangd`
   - `cmake-language-server`
@@ -151,6 +152,7 @@ If you encounter any issues or have questions, please feel free to open an issue
   - `dockerfile-language-server`
   - `gopls`
   - `html-lsp`
+  - `jsonls`
   - `lua-language-server`
   - `pyright`
   - `ruff`
@@ -159,8 +161,9 @@ If you encounter any issues or have questions, please feel free to open an issue
   - `sqls`
   - `tailwindcss-language-server`
   - `typescript-language-server`
+  - `yamlls`
 
-- Formatters
+- Formatters:
 
   - `clang-format`
   - `cmakelang`
@@ -170,7 +173,8 @@ If you encounter any issues or have questions, please feel free to open an issue
   - `stylua`
   - `yapf`
 
-- Linters
+- Linters:
+
   - `eslint_d`
   - `golangci-lint`
   - `luacheck`
