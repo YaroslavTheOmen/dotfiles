@@ -104,3 +104,17 @@ end, "Todo comment next")
 nmap("[t", function()
     require("todo-comments").jump_prev()
 end, "Todo comment previous")
+
+-- +-----------------------------------------------------------+
+-- | 6. Diagnostics Virtual-Text Toggle                        |
+-- +-----------------------------------------------------------+
+
+-- <leader> e o  → show virtual text (warnings / errors)
+nmap("<Leader>eo", function()
+    vim.diagnostic.config({ virtual_text = true })
+end, "Diagnostics virtual-text ON")
+
+-- <leader> e f  → hide virtual text
+nmap("<Leader>ef", function()
+    vim.diagnostic.config({ virtual_text = false })
+end, "Diagnostics virtual-text OFF")
