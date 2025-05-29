@@ -2,6 +2,21 @@ local lspconfig = require("lspconfig")
 local util = require("lspconfig.util")
 local schemastore = require("schemastore")
 
+-- Diagnostic LSP
+local border = "rounded"
+require("lspconfig.ui.windows").default_options = { border = border }
+vim.diagnostic.config({
+    update_in_insert = false,
+    virtual_text = {
+        severity = { min = vim.diagnostic.severity.WARN },
+    },
+    signs = true,
+    underline = { severity = vim.diagnostic.severity.HINT },
+    virtual_lines = false,
+    float = { border = border },
+    jump = { float = true },
+})
+
 -- A. nvim-cmp (default) ------------------------------------------------
 local capabilities =
     require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())

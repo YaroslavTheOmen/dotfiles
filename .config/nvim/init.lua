@@ -6,14 +6,6 @@ vim.o.shell = "/opt/homebrew/bin/fish"
 vim.g.python3_host_prog = "/Users/yaroslavaugustus/.config/nvim/venv/bin/python3"
 vim.g.loaded_python3_provider = 1
 
--- Virtual_text
-vim.diagnostic.config({
-    virtual_text = true,
-    signs = true,
-    underline = true,
-    update_in_insert = false,
-})
-
 local vt_toggle_grp = vim.api.nvim_create_augroup("ToggleVirtualText", { clear = true })
 
 vim.api.nvim_create_autocmd("InsertEnter", {
