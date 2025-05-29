@@ -28,7 +28,7 @@ end
 -- +-----------------------------------------------------------+
 
 require("toggleterm").setup({
-    open_mapping = [[<C-\>]], -- default from ToggleTerm README
+    open_mapping = [[<C-\>]],
     insert_mappings = true,
     terminal_mappings = true,
     direction = "float",
@@ -49,10 +49,8 @@ imap("jk", "<ESC>", "Mode exit insert")
 -- | 2. Git Mappings                                           |
 -- +-----------------------------------------------------------+
 
--- \<leader> gg  → Fugitive status (classic)
 nmap("<Leader>gg", ":G<CR>", "Git status (Fugitive)")
 
--- \<leader> gz  → Lazygit inside floating ToggleTerm
 nmap("<Leader>gz", function()
     lazygit:toggle()
 end, "Git Open Lazygit (ToggleTerm)")
@@ -109,12 +107,10 @@ end, "Todo comment previous")
 -- | 6. Diagnostics Virtual-Text Toggle                        |
 -- +-----------------------------------------------------------+
 
--- <leader> e o  → show virtual text (warnings / errors)
-nmap("<Leader>eo", function()
+nmap("<Leader>wo", function()
     vim.diagnostic.config({ virtual_text = true })
 end, "Diagnostics virtual-text ON")
 
--- <leader> e f  → hide virtual text
-nmap("<Leader>ef", function()
+nmap("<Leader>wf", function()
     vim.diagnostic.config({ virtual_text = false })
 end, "Diagnostics virtual-text OFF")
