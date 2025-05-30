@@ -13,7 +13,13 @@ vim.diagnostic.config({
     signs = true,
     underline = { severity = vim.diagnostic.severity.HINT },
     virtual_lines = false,
-    float = { border = border },
+    float = {
+        border = border,
+        header = "",
+        scope = "line",
+        focusable = false,
+        severity_sort = true,
+    },
     jump = { float = true },
 })
 

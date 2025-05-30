@@ -112,6 +112,21 @@ nmap("<Leader>wo", function()
     vim.diagnostic.config({ virtual_text = new })
 end, "Toggle diagnostics virtual-text")
 
-nmap("<Leader>we", function()
-    vim.diagnostic.open_float()
-end, "Diagnostics float preview")
+local diag_float = { win = nil }
+local function toggle_diag_float()
+    if diag_float.win and vim.api.nvim_win_is_valid(diag_float.win) then
+        vim.api.nvim_win_close(diag_float.win, true)
+        diag_float.win = nil
+        return
+    end
+    local _, win = vim.diagnostic.open_float(nil, {
+        close_events = { "CursorMoved", "BufHidden", "InsertEnter", "WinScrolled" },
+    })
+    diag_float.win = win
+end
+vim.keymap.set(
+    "n",
+    "<Leader>we",
+    toggle_diag_float,
+    { desc = "Toggle diagnostic float preview", noremap = true, silent = true }
+)
