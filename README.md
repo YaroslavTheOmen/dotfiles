@@ -166,7 +166,6 @@ Here’s the list updated to exactly match the plugins in your return { … } sp
 - Formatters:
 
   - `clang-format`
-  - `cmakelang`
   - `gofumpt`
   - `prettierd`
   - `sql-formatter`
