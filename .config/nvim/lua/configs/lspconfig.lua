@@ -207,7 +207,7 @@ require("mason-lspconfig").setup({
         "gopls",
         "html",
         "jsonls",
-        -- "lua_ls", -- managed manually above
+        --"lua_ls",
         "pyright",
         "ruff",
         "rust_analyzer",
@@ -219,7 +219,8 @@ require("mason-lspconfig").setup({
     },
 
     handlers = {
-        ["rust_analyzer"] = function() end, -- rustaceanvim manages this one
+        ["rust_analyzer"] = function() end,
+        ["lua_ls"] = function() end,
 
         function(server)
             local opts = {
