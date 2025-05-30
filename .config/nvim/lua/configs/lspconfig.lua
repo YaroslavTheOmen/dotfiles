@@ -5,6 +5,7 @@ local schemastore = require("schemastore")
 -- Diagnostic LSP
 local border = "rounded"
 require("lspconfig.ui.windows").default_options = { border = border }
+
 vim.diagnostic.config({
     update_in_insert = false,
     virtual_text = {

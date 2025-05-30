@@ -104,13 +104,14 @@ nmap("[t", function()
 end, "Todo comment previous")
 
 -- +-----------------------------------------------------------+
--- | 6. Diagnostics Virtual-Text Toggle                        |
+-- | 6. Diagnostics Toggle                        |
 -- +-----------------------------------------------------------+
 
 nmap("<Leader>wo", function()
-    vim.diagnostic.config({ virtual_text = true })
-end, "Diagnostics virtual-text ON")
+    local new = not vim.diagnostic.config().virtual_text
+    vim.diagnostic.config({ virtual_text = new })
+end, "Toggle diagnostics virtual-text")
 
-nmap("<Leader>wf", function()
-    vim.diagnostic.config({ virtual_text = false })
-end, "Diagnostics virtual-text OFF")
+nmap("<Leader>we", function()
+    vim.diagnostic.open_float()
+end, "Diagnostics float preview")
