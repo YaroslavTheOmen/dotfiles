@@ -231,6 +231,14 @@ cfg["docker_compose_language_service"] = {
     root_markers = markers("docker-compose.yml", "docker-compose.yaml", ".git"),
 }
 
+cfg["marksman"] = {
+    cmd = { "marksman", "server" },
+    filetypes = { "markdown" },
+    on_attach = custom_on_attach,
+    capabilities = capabilities,
+    root_markers = markers(".git", ".marksman.toml", ".marksman.yaml"),
+}
+
 -- 6. Enable the servers ------------------------------------------------
 vim.lsp.enable({
     "lua_ls",
@@ -250,6 +258,7 @@ vim.lsp.enable({
     "cmake",
     "dockerls",
     "docker_compose_language_service",
+    "marksman",
 })
 
 -- 7. Mason (optional – download binaries only) -------------------------
@@ -275,6 +284,7 @@ require("mason-lspconfig").setup({
         "tailwindcss",
         "ts_ls",
         "yamlls",
+        "marksman",
     },
     handlers = {}, -- no auto-setup – we handle config above
 })

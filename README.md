@@ -162,24 +162,23 @@ Here’s the list updated to exactly match the plugins in your return { … } sp
   - `tailwindcss-language-server`
   - `typescript-language-server`
   - `yamlls`
+  - `marksman`
 
 - Formatters:
 
-  - `clang-format`
-  - `gofumpt`
-  - `prettierd`
-  - `sql-formatter`
+  - `prettierd_ft`
   - `stylua`
   - `yapf`
+  - `gofumpt`
+  - `clang_format`
+  - `rustfmt`
+  - `sql_formatter`
+  - `cmake_format`
+  - `forge_fmt`
 
 - Linters:
 
-  - `eslint_d`
-  - `golangci-lint`
-  - `luacheck`
-  - `mypy`
-  - `solhint`
-  - `sqlfluff`
+  - none
 
 ## Acknowledgements
 

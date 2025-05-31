@@ -75,7 +75,7 @@ M.mason = {
         "dockerfile-language-server",
         "gopls",
         "html-lsp",
-        --"lua-language-server",
+        "lua-language-server",
         "pyright",
         "ruff",
         "rust-analyzer",
@@ -83,6 +83,7 @@ M.mason = {
         "sqls",
         "tailwindcss-language-server",
         "typescript-language-server",
+        "marksman",
 
         -- Formatters
         "clang-format",
