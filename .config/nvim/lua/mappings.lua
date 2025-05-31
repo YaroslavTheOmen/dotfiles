@@ -1,32 +1,25 @@
--- Load NvChad's default mappings (if needed)
+pcall(vim.loader.enable)
+
+-- 0.  Base NvChad mappings (leave as-is)
 require("nvchad.mappings")
 
--- +-----------------------------------------------------------+
--- | Helper Functions                                          |
--- +-----------------------------------------------------------+
-
--- A small helper to define normal‑mode maps with common defaults
+-- Helper to DRY normal/insert mappings
+local function map(mode, lhs, rhs, desc, opts)
+    vim.keymap.set(
+        mode,
+        lhs,
+        rhs,
+        vim.tbl_extend("force", { desc = desc, noremap = true, silent = true }, opts or {})
+    )
+end
 local function nmap(lhs, rhs, desc, opts)
-    local default_opts = { desc = desc, noremap = true, silent = true }
-    if opts then
-        default_opts = vim.tbl_extend("force", default_opts, opts)
-    end
-    vim.keymap.set("n", lhs, rhs, default_opts)
+    map("n", lhs, rhs, desc, opts)
 end
-
--- A small helper to define insert‑mode maps
 local function imap(lhs, rhs, desc, opts)
-    local default_opts = { desc = desc, noremap = true, silent = true }
-    if opts then
-        default_opts = vim.tbl_extend("force", default_opts, opts)
-    end
-    vim.keymap.set("i", lhs, rhs, default_opts)
+    map("i", lhs, rhs, desc, opts)
 end
 
--- +-----------------------------------------------------------+
--- | 0. ToggleTerm ‑‑ global setup + default mapping           |
--- +-----------------------------------------------------------+
-
+-- 1.  ToggleTerm  + LazyGit terminal
 require("toggleterm").setup({
     open_mapping = [[<C-\>]],
     insert_mappings = true,
@@ -34,82 +27,64 @@ require("toggleterm").setup({
     direction = "float",
 })
 
--- Lazygit helper terminal
 local Terminal = require("toggleterm.terminal").Terminal
 local lazygit = Terminal:new({ cmd = "lazygit", hidden = true, direction = "float" })
 
--- +-----------------------------------------------------------+
--- | 1. General Mappings                                       |
--- +-----------------------------------------------------------+
+-- 2.  General mappings
+nmap(";", ":", "Enter command-line")
+imap("jk", "<Esc>", "Leave insert mode")
 
-nmap(";", ":", "Mode enter command")
-imap("jk", "<ESC>", "Mode exit insert")
-
--- +-----------------------------------------------------------+
--- | 2. Git Mappings                                           |
--- +-----------------------------------------------------------+
-
+-- 3.  Git helpers
 nmap("<Leader>gg", ":G<CR>", "Git status (Fugitive)")
-
 nmap("<Leader>gz", function()
     lazygit:toggle()
-end, "Git Open Lazygit (ToggleTerm)")
+end, "Toggle LazyGit")
 
--- Disable entering Command‑line mode in Lazygit terminal
-local gitGroup = vim.api.nvim_create_augroup("LazyGitFixes", { clear = true })
+-- Disable “:” inside the LazyGit TUI
 vim.api.nvim_create_autocmd("TermOpen", {
-    group = gitGroup,
+    group = vim.api.nvim_create_augroup("LazyGitFixes", { clear = true }),
     pattern = "term://*lazygit*",
     callback = function()
-        vim.keymap.set("t", ":", "<Nop>", { noremap = true, silent = true, buffer = 0 })
+        vim.keymap.set("t", ":", "<Nop>", { buffer = 0, noremap = true, silent = true })
     end,
 })
 
--- +-----------------------------------------------------------+
--- | 3. Theme Picker / Colors                                  |
--- +-----------------------------------------------------------+
-
-nmap("<leader-th>", function()
-    require("nvchad.themes").open({ icon = "", style = "compact" })
+-- 4.  Theme / colour pickers
+nmap("<leader>th", function()
+    require("nvchad.themes").open({ icon = "", style = "compact" })
 end, "Open NvChad theme picker")
 
 nmap("<Leader>to", function()
     require("minty.huefy").open({ border = true })
 end, "Picker Fancy color finder")
 
--- +-----------------------------------------------------------+
--- | 4. Menu (RightMouse & <C-t>)                              |
--- +-----------------------------------------------------------+
-
+-- 5.  Popup menu (keyboard & mouse)
 nmap("<C-t>", function()
     require("menu").open("default")
-end, "Open menu (default)")
+end, "Open menu")
 
 nmap("<RightMouse>", function()
-    vim.cmd.exec('"normal! \\<RightMouse>"')
-    local opts = (vim.bo.filetype == "NvimTree") and "nvimtree" or "default"
-    require("menu").open(opts, { mouse = true })
+    vim.api.nvim_feedkeys(
+        vim.api.nvim_replace_termcodes("<RightMouse>", true, false, true),
+        "n",
+        false
+    )
+    local preset = (vim.bo.filetype == "NvimTree") and "nvimtree" or "default"
+    require("menu").open(preset, { mouse = true })
 end, "Open menu (mouse)")
 
--- +-----------------------------------------------------------+
--- | 5. TODO‑Comments Navigation                               |
--- +-----------------------------------------------------------+
-
+-- 6.  TODO-comments navigation
 nmap("]t", function()
     require("todo-comments").jump_next()
-end, "Todo comment next")
-
+end, "Next TODO")
 nmap("[t", function()
     require("todo-comments").jump_prev()
-end, "Todo comment previous")
+end, "Prev TODO")
 
--- +-----------------------------------------------------------+
--- | 6. Diagnostics Toggle                        |
--- +-----------------------------------------------------------+
-
+-- 7. Diagnostics helpers
 nmap("<Leader>wo", function()
-    local new = not vim.diagnostic.config().virtual_text
-    vim.diagnostic.config({ virtual_text = new })
+    local cfg = vim.diagnostic.config()
+    vim.diagnostic.config({ virtual_text = not cfg.virtual_text })
 end, "Toggle diagnostics virtual-text")
 
 local diag_float = { win = nil }
@@ -119,7 +94,7 @@ local function toggle_diag_float()
         diag_float.win = nil
         return
     end
-    local _, win = vim.diagnostic.open_float(nil, {
+    local _, win = vim.diagnostic.open_float(nil, { -- Fixed this line
         close_events = { "CursorMoved", "BufHidden", "InsertEnter", "WinScrolled" },
     })
     diag_float.win = win

@@ -75,7 +75,7 @@ M.mason = {
         "dockerfile-language-server",
         "gopls",
         "html-lsp",
-        "lua-language-server",
+        --"lua-language-server",
         "pyright",
         "ruff",
         "rust-analyzer",

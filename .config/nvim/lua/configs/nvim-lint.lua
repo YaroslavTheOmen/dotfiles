@@ -1,7 +1,13 @@
--- Extra on-save linters that are NOT covered by none-ls
-local lint = require("lint")
+pcall(vim.loader.enable)
 
--- configure per-linter
+-- Gracefully fail if nvim-lint is missing (e.g. during first :Lazy sync)
+local ok, lint = pcall(require, "lint")
+if not ok then
+    vim.notify("nvim-lint not found!", vim.log.levels.ERROR)
+    return
+end
+
+-- 1.  Custom CLI arguments per linter
 lint.linters.luacheck.args = {
     "--globals",
     "vim",
@@ -25,18 +31,20 @@ lint.linters.sqlfluff.args = {
     "-",
 }
 
--- map filetypes → linters
+-- 2.  Map filetypes → linters
 lint.linters_by_ft = {
-    lua = { "luacheck" },
-    go = { "golangci_lint" },
-    solidity = { "solhint" },
-    sql = { "sqlfluff" },
-    -- js / ts diagnostics come from none-ls → eslint_d
+    --lua = { "luacheck" },
+    --go = { "golangci_lint" },
+    --solidity = { "solhint" },
+    --sql = { "sqlfluff" },
 }
 
--- auto-command: run after write
-vim.api.nvim_create_autocmd({ "BufWritePost" }, {
+-- 3.  Run the appropriate linter(s) on every write
+vim.api.nvim_create_autocmd("BufWritePost", {
+    group = vim.api.nvim_create_augroup("LintOnSave", { clear = true }),
     callback = function()
+        -- nvim-lint figures out the correct linter(s) from linters_by_ft
+        -- and spawns them asynchronously
         lint.try_lint()
     end,
 })

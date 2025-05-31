@@ -1,17 +1,21 @@
--- Neovim option that lets the popup behave like VS Code
-vim.opt.completeopt = { "menu", "menuone", "noselect" }
+pcall(vim.loader.enable)
 
+-- Completion popup behaves like VS Code
+vim.opt.completeopt = { "menu", "menuone", "noselect", "noinsert" }
 -- Requirements
 local cmp = require("cmp")
 local luasnip = require("luasnip")
-local lspkind = require("lspkind") -- ✨ pictograms
+local lspkind = require("lspkind")
 local autopairs = require("nvim-autopairs.completion.cmp")
 
--- Load vscode-style snippets **lazily** (only when first used)
-luasnip.config.set_config({ history = true, updateevents = "TextChanged,TextChangedI" })
+-- Lazily load VS Code-style snippets
+luasnip.config.set_config({
+    history = true,
+    updateevents = "TextChanged,TextChangedI",
+})
 require("luasnip.loaders.from_vscode").lazy_load()
 
--- Helper functions for <Tab> / <S-Tab>
+-- <Tab> helpers -----------------------------------------------------------
 local function tab_complete(fallback)
     if cmp.visible() then
         cmp.select_next_item({ behavior = cmp.SelectBehavior.Insert })
@@ -32,11 +36,13 @@ local function shift_tab_complete(fallback)
     end
 end
 
--- Export these capabilities to your LSP config
-local capabilities = require("cmp_nvim_lsp").default_capabilities()
+-- Capabilities for lspconfig ---------------------------------------------
+local capabilities =
+    require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
 
--- Main cmp setup
+-- MAIN nvim-cmp setup -----------------------------------------------------
 cmp.setup({
+    preselect = cmp.PreselectMode.None,
 
     snippet = {
         expand = function(args)
@@ -58,7 +64,7 @@ cmp.setup({
         { name = "nvim_lsp" },
         { name = "luasnip" },
         { name = "path" },
-        { name = "buffer", keyword_length = 3 }, -- start after 3 chars
+        { name = "buffer", keyword_length = 3 },
     }),
 
     formatting = {
@@ -75,17 +81,13 @@ cmp.setup({
         documentation = cmp.config.window.bordered(),
     },
 
-    experimental = {
-        ghost_text = { hl_group = "Comment" }, -- unobtrusive grey
-    },
+    experimental = { ghost_text = { hl_group = "CmpGhostText" } },
 })
 
--- Extra setups
--- 1. Auto-insert parens/quotes for functions etc.
+-- Extra setups -----------------------------------------------------------
 cmp.event:on("confirm_done", autopairs.on_confirm_done())
 
--- 2. Command-line completion
-cmp.setup.cmdline("/", {
+cmp.setup.cmdline({ "/", "?" }, {
     mapping = cmp.mapping.preset.cmdline(),
     sources = { { name = "buffer" } },
 })
@@ -95,16 +97,9 @@ cmp.setup.cmdline(":", {
     sources = cmp.config.sources({ { name = "path" } }, { { name = "cmdline" } }),
 })
 
--- 3. Filetype-specific tweaks (example: gitcommit)
 cmp.setup.filetype("gitcommit", {
-    sources = cmp.config.sources({
-        { name = "git" },
-    }, {
-        { name = "buffer" },
-    }),
+    sources = cmp.config.sources({ { name = "git" } }, { { name = "buffer" } }),
 })
 
--- Export for use in lspconfig.lua
-return {
-    capabilities = capabilities,
-}
+-- Export for lspconfig.lua -----------------------------------------------
+return { capabilities = capabilities }

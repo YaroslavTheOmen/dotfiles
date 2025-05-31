@@ -1,15 +1,27 @@
-local lspconfig = require("lspconfig")
-local util = require("lspconfig.util")
-local schemastore = require("schemastore")
+pcall(vim.loader.enable)
 
--- Diagnostic LSP
+-- 1. UI / Diagnostics --------------------------------------------------
 local border = "rounded"
-require("lspconfig.ui.windows").default_options = { border = border }
+--vim.lsp.ui.windows.default_options = { border = border }
+--
+local ok_ui, winmod = pcall(function()
+    return vim.lsp.ui and vim.lsp.ui.windows
+end)
+if not ok_ui or not winmod then
+    local ok_lspcfg, lspcfg_win = pcall(require, "lspconfig.ui.windows")
+    if ok_lspcfg then
+        winmod = lspcfg_win
+    end
+end
+if winmod then
+    winmod.default_options = { border = border }
+else
+    vim.notify("[LSP] Could not locate windows module to set border", vim.log.levels.WARN)
+end
+
 vim.diagnostic.config({
     update_in_insert = false,
-    virtual_text = {
-        severity = { min = vim.diagnostic.severity.WARN },
-    },
+    virtual_text = { severity = { min = vim.diagnostic.severity.WARN } },
     signs = true,
     underline = { severity = vim.diagnostic.severity.HINT },
     virtual_lines = false,
@@ -23,48 +35,48 @@ vim.diagnostic.config({
     jump = { float = true },
 })
 
--- A. nvim-cmp (default) ------------------------------------------------
+-- 2. Capabilities (cmp-nvim-lsp) ---------------------------------------
 local capabilities =
     require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
 
--- B. Blink -------------------------------------------------------------
--- local capabilities = require("blink.cmp").get_lsp_capabilities(
---   vim.lsp.protocol.make_client_capabilities()
--- )
-
--- on_attach ------------------------------------------------------------
+-- 3. on_attach ---------------------------------------------------------
 local function custom_on_attach(client, bufnr)
-    local map_opts = { noremap = true, silent = true }
-    local map = vim.api.nvim_buf_set_keymap
+    local map = vim.keymap.set
+    local opts = { noremap = true, silent = true, buffer = bufnr }
 
-    map(bufnr, "n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", map_opts)
-    map(bufnr, "n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", map_opts)
-    map(bufnr, "n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>", map_opts)
-    map(bufnr, "n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", map_opts)
-    map(bufnr, "n", "<C-k>", "<cmd>lua vim.lsp.buf.signature_help()<CR>", map_opts)
-    map(bufnr, "n", "<leader>rn", "<cmd>lua vim.lsp.buf.rename()<CR>", map_opts)
-    map(bufnr, "n", "<leader>ca", "<cmd>lua vim.lsp.buf.code_action()<CR>", map_opts)
-    map(bufnr, "n", "[d", "<cmd>lua vim.diagnostic.goto_prev()<CR>", map_opts)
-    map(bufnr, "n", "]d", "<cmd>lua vim.diagnostic.goto_next()<CR>", map_opts)
+    map("n", "gd", vim.lsp.buf.definition, opts)
+    map("n", "gD", vim.lsp.buf.declaration, opts)
+    map("n", "gr", vim.lsp.buf.references, opts)
+    map("n", "K", vim.lsp.buf.hover, opts)
+    map("n", "<C-k>", vim.lsp.buf.signature_help, opts)
+    map("n", "<leader>rn", vim.lsp.buf.rename, opts)
+    map("n", "<leader>ca", vim.lsp.buf.code_action, opts)
+    map("n", "[d", function()
+        vim.diagnostic.jump({ count = -1 })
+    end, opts)
+    map("n", "]d", function()
+        vim.diagnostic.jump({ count = 1 })
+    end, opts)
 
-    -- disable server-side formatting
-    if client.server_capabilities.documentFormattingProvider ~= nil then
-        client.server_capabilities.documentFormattingProvider = false
-    end
-    if client.server_capabilities.documentRangeFormattingProvider ~= nil then
-        client.server_capabilities.documentRangeFormattingProvider = false
-    end
-    -- ≤ 0.9 compatibility
-    if client.server_capabilities.document_formatting ~= nil then
-        client.server_capabilities.document_formatting = false
-    end
-    if client.server_capabilities.document_range_formatting ~= nil then
-        client.server_capabilities.document_range_formatting = false
-    end
+    client.server_capabilities.documentFormattingProvider = false
+    client.server_capabilities.documentRangeFormattingProvider = false
 end
 
--- Lua ------------------------------------------------------------------
-lspconfig.lua_ls.setup({
+---------------------------------------------------------------------
+-- 4. Shared helpers ----------------------------------------------------
+---------------------------------------------------------------------
+local schemastore = require("schemastore")
+
+-- Convert a util.root_pattern list → root_markers (Neovim 0.11 format)
+local function markers(...)
+    return { ... }
+end
+
+-- 5. Per-server configurations ----------------------------------------
+local cfg = vim.lsp.config -- shorthand
+
+cfg["lua_ls"] = {
+    cmd = { "lua-language-server" },
     on_attach = custom_on_attach,
     capabilities = capabilities,
     settings = {
@@ -78,122 +90,169 @@ lspconfig.lua_ls.setup({
             telemetry = { enable = false },
         },
     },
-})
+    root_markers = markers(".luarc.json", ".luarc.jsonc", ".stylua.toml", "stylua.toml", ".git"),
+}
 
--- Per-server overrides -------------------------------------------------
-local servers = {
-    sqls = {
-        filetypes = { "sql" },
-        root_dir = util.root_pattern(".git", "*.sql"),
-    },
-
-    solidity = {
-        cmd = { "solidity-language-server", "--stdio" },
-        filetypes = { "solidity" },
-        root_dir = util.root_pattern("truffle-config.js", "hardhat.config.js", ".git"),
-    },
-
-    cmake = {
-        cmd = { "cmake-language-server" },
-        filetypes = { "cmake" },
-        root_dir = util.root_pattern("CMakePresets.json", "CMakeLists.txt", ".git"),
-        init_options = { buildDirectory = "build" },
-    },
-
-    pyright = {
-        cmd = { "pyright-langserver", "--stdio" },
-        settings = {
-            python = {
-                analysis = {
-                    autoImportCompletions = true,
-                    useLibraryCodeForTypes = true,
-                    diagnosticMode = "openFilesOnly",
-                },
-            },
+cfg["jsonls"] = {
+    cmd = { "vscode-json-language-server", "--stdio" },
+    on_attach = custom_on_attach,
+    capabilities = capabilities,
+    settings = {
+        json = {
+            schemas = schemastore.json.schemas(),
+            validate = true,
         },
     },
+    root_markers = markers("package.json", ".git"),
+}
 
-    gopls = {
-        filetypes = { "go", "gomod", "gowork", "gotmpl" },
-        settings = {
-            gopls = {
-                completeUnimported = true,
-                usePlaceholders = true,
-                analyses = {
-                    unusedparams = true,
-                    unreachable = true,
-                },
-            },
+cfg["yamlls"] = {
+    cmd = { "yaml-language-server", "--stdio" },
+    on_attach = custom_on_attach,
+    capabilities = capabilities,
+    settings = {
+        yaml = {
+            schemas = schemastore.yaml.schemas(),
+            validate = true,
+            schemaStore = { enable = false, url = "" },
         },
     },
+    root_markers = markers(".git"),
+}
 
-    ts_ls = {},
-    tailwindcss = {},
-    eslint = {},
-    ruff = {},
+cfg["clangd"] = {
+    cmd = {
+        "clangd",
+        "--background-index",
+        "--clang-tidy",
+        "--completion-style=detailed",
+        "--offset-encoding=utf-16",
+    },
+    filetypes = { "c", "cpp", "objc", "objcpp" },
+    on_attach = custom_on_attach,
+    capabilities = capabilities,
+    root_markers = markers("compile_commands.json", "compile_flags.txt", ".git"),
+}
 
-    clangd = {
-        cmd = {
-            "clangd",
-            "--background-index",
-            "--clang-tidy",
-            "--completion-style=detailed",
-            "--offset-encoding=utf-16",
+cfg["html"] = {
+    on_attach = custom_on_attach,
+    capabilities = capabilities,
+    settings = {
+        html = {
+            format = { enable = true },
+            hover = { documentation = true },
         },
-        filetypes = { "c", "cpp", "objc", "objcpp" },
-        root_dir = util.root_pattern("compile_commands.json", "compile_flags.txt", ".git"),
-        capabilities = capabilities,
-    },
-
-    html = {
-        settings = {
-            html = {
-                format = { enable = true },
-                hover = { documentation = true },
-            },
-        },
-    },
-
-    cssls = {
-        settings = {
-            css = { validate = true, lint = { unknownAtRules = "ignore" } },
-            scss = { validate = true, lint = { unknownAtRules = "ignore" } },
-            less = { validate = true, lint = { unknownAtRules = "ignore" } },
-        },
-    },
-
-    jsonls = {
-        settings = {
-            json = {
-                schemas = schemastore.json.schemas(),
-                validate = true,
-            },
-        },
-    },
-
-    yamlls = {
-        settings = {
-            yaml = {
-                schemas = schemastore.yaml.schemas(),
-                validate = true,
-                schemaStore = { enable = false, url = "" },
-            },
-        },
-    },
-
-    dockerls = {
-        filetypes = { "Dockerfile" },
-        root_dir = util.root_pattern("Dockerfile", ".git"),
-    },
-
-    docker_compose_language_service = {
-        cmd = { "docker-compose-langserver", "--stdio" },
-        filetypes = { "yaml", "yml" },
-        root_dir = util.root_pattern("docker-compose.yml", "docker-compose.yaml", ".git"),
     },
 }
 
--- Mason ----------------------------------------------------------------
+cfg["cssls"] = {
+    on_attach = custom_on_attach,
+    capabilities = capabilities,
+    settings = {
+        css = { validate = true, lint = { unknownAtRules = "ignore" } },
+        scss = { validate = true, lint = { unknownAtRules = "ignore" } },
+        less = { validate = true, lint = { unknownAtRules = "ignore" } },
+    },
+}
+
+cfg["tailwindcss"] = { on_attach = custom_on_attach, capabilities = capabilities }
+cfg["eslint"] = { on_attach = custom_on_attach, capabilities = capabilities }
+cfg["ruff"] = { on_attach = custom_on_attach, capabilities = capabilities }
+
+cfg["ts_ls"] = { on_attach = custom_on_attach, capabilities = capabilities }
+
+cfg["pyright"] = {
+    cmd = { "pyright-langserver", "--stdio" },
+    on_attach = custom_on_attach,
+    capabilities = capabilities,
+    settings = {
+        python = {
+            analysis = {
+                autoImportCompletions = true,
+                useLibraryCodeForTypes = true,
+                diagnosticMode = "openFilesOnly",
+            },
+        },
+    },
+}
+
+cfg["gopls"] = {
+    filetypes = { "go", "gomod", "gowork", "gotmpl" },
+    on_attach = custom_on_attach,
+    capabilities = capabilities,
+    settings = {
+        gopls = {
+            completeUnimported = true,
+            usePlaceholders = true,
+            analyses = {
+                unusedparams = true,
+                unreachable = true,
+            },
+        },
+    },
+}
+
+cfg["sqls"] = {
+    filetypes = { "sql" },
+    on_attach = custom_on_attach,
+    capabilities = capabilities,
+    root_markers = markers(".git", "*.sql"),
+}
+
+cfg["solidity"] = {
+    cmd = { "solidity-language-server", "--stdio" },
+    filetypes = { "solidity" },
+    on_attach = custom_on_attach,
+    capabilities = capabilities,
+    root_markers = markers("truffle-config.js", "hardhat.config.js", ".git"),
+}
+
+cfg["cmake"] = {
+    cmd = { "cmake-language-server" },
+    filetypes = { "cmake" },
+    on_attach = custom_on_attach,
+    capabilities = capabilities,
+    init_options = { buildDirectory = "build" },
+    root_markers = markers("CMakePresets.json", "CMakeLists.txt", ".git"),
+}
+
+cfg["dockerls"] = {
+    filetypes = { "Dockerfile" },
+    on_attach = custom_on_attach,
+    capabilities = capabilities,
+    root_markers = markers("Dockerfile", ".git"),
+}
+
+cfg["docker_compose_language_service"] = {
+    cmd = { "docker-compose-langserver", "--stdio" },
+    filetypes = { "yaml", "yml" },
+    on_attach = custom_on_attach,
+    capabilities = capabilities,
+    root_markers = markers("docker-compose.yml", "docker-compose.yaml", ".git"),
+}
+
+-- 6. Enable the servers ------------------------------------------------
+vim.lsp.enable({
+    "lua_ls",
+    "jsonls",
+    "yamlls",
+    "clangd",
+    "html",
+    "cssls",
+    "tailwindcss",
+    "tsserver",
+    "eslint",
+    "ruff",
+    "pyright",
+    "gopls",
+    "sqls",
+    "solidity",
+    "cmake",
+    "dockerls",
+    "docker_compose_language_service",
+})
+
+-- 7. Mason (optional – download binaries only) -------------------------
 require("mason").setup()
 
 require("mason-lspconfig").setup({
@@ -207,7 +266,7 @@ require("mason-lspconfig").setup({
         "gopls",
         "html",
         "jsonls",
-        --"lua_ls",
+        "lua_ls",
         "pyright",
         "ruff",
         "rust_analyzer",
@@ -217,32 +276,16 @@ require("mason-lspconfig").setup({
         "ts_ls",
         "yamlls",
     },
-
-    handlers = {
-        ["rust_analyzer"] = function() end,
-        ["lua_ls"] = function() end,
-
-        function(server)
-            local opts = {
-                on_attach = custom_on_attach,
-                capabilities = capabilities,
-            }
-
-            if servers[server] then
-                opts = vim.tbl_deep_extend("force", opts, servers[server])
-            end
-
-            lspconfig[server].setup(opts)
-        end,
-    },
+    handlers = {}, -- no auto-setup – we handle config above
 })
 
--- RustaceanVim ---------------------------------------------------------
+-- 8. RustaceanVim ------------------------------------------------------
+-- Defer rust-analyzer lifecycle to RustaceanVim. Shares on_attach/caps.
 vim.g.rustaceanvim = {
     server = {
         on_attach = custom_on_attach,
         capabilities = capabilities,
-        settings = {
+        default_settings = {
             ["rust-analyzer"] = {
                 checkOnSave = { command = "clippy" },
                 diagnostics = {
@@ -259,10 +302,7 @@ vim.g.rustaceanvim = {
                     postfix = { enable = true },
                 },
                 hover = {
-                    actions = {
-                        references = true,
-                        implementation = true,
-                    },
+                    actions = { references = true, implementation = true },
                 },
                 rustfmt = {
                     enableRangeFormatting = true,

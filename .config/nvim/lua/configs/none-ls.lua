@@ -1,44 +1,57 @@
--- Diagnostics / code-actions via none-ls
-local null = require("none-ls")
+pcall(vim.loader.enable)
 
--- helpers
+local ok, nls = pcall(require, "none-ls")
+if not ok then
+    vim.notify("none-ls.nvim not found!", vim.log.levels.ERROR)
+    return
+end
+
+local extras = pcall(require, "none-ls-extras") and require("none-ls-extras") or nil
+
 local function python_exec()
-    local venv = os.getenv("VIRTUAL_ENV") or os.getenv("CONDA_PREFIX") or "/usr"
+    local venv = vim.env.VIRTUAL_ENV or vim.env.CONDA_PREFIX or "/usr"
     return venv .. "/bin/python3"
 end
 
--- setup
-null.setup({
-    sources = {
+local sources = {
+    nls.builtins.diagnostics.mypy.with({
+        extra_args = function()
+            return { "--python-executable", python_exec() }
+        end,
+    }),
 
-        --  diagnostics
-        null.builtins.diagnostics.mypy.with({
-            extra_args = function()
-                return { "--python-executable", python_exec() }
-            end,
+    (extras and extras.diagnostics.eslint_d) -- nil-safe: loads only if plugin present
+        or nls.builtins.diagnostics.eslint.with({ -- fallback to native eslint
+            command = "eslint_d", -- but still use eslint_d binary
         }),
 
-        null.builtins.diagnostics.eslint_d, -- js / ts
-        null.builtins.diagnostics.solhint, -- solidity
-        null.builtins.diagnostics.sqlfluff.with({
-            extra_args = {
-                "lint",
-                "-f",
-                "parsable",
-                "--dialect",
-                "ansi",
-                "-",
-                "--nofailon",
-                "warn",
-            },
-        }),
+    nls.builtins.diagnostics.solhint,
 
-        null.builtins.diagnostics.luacheck.with({
-            extra_args = { "--globals", "vim", "--std", "lua51", "--codes", "--no-color", "-" },
-        }),
+    nls.builtins.diagnostics.sqlfluff.with({
+        extra_args = {
+            "lint",
+            "-f",
+            "parsable",
+            "--dialect",
+            "ansi",
+            "-",
+            "--nofailon",
+            "warn",
+        },
+    }),
 
-        null.builtins.diagnostics.golangci_lint, -- go
+    nls.builtins.diagnostics.luacheck.with({
+        extra_args = { "--globals", "vim", "--std", "lua51", "--codes", "--no-color", "-" },
+    }),
 
-        --  (no formatters here – Conform handles them)
-    },
+    nls.builtins.diagnostics.golangci_lint,
+}
+
+nls.setup({
+    sources = sources,
+    diagnostics_format = "#{m} (#{s})",
+    on_attach = function(client, bufnr)
+        client.server_capabilities.documentFormattingProvider = false
+        client.server_capabilities.documentRangeFormattingProvider = false
+    end,
 })
