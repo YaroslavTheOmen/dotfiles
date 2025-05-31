@@ -62,12 +62,10 @@ local function custom_on_attach(client, bufnr)
     client.server_capabilities.documentRangeFormattingProvider = false
 end
 
----------------------------------------------------------------------
 -- 4. Shared helpers ----------------------------------------------------
----------------------------------------------------------------------
 local schemastore = require("schemastore")
 
--- Convert a util.root_pattern list → root_markers (Neovim 0.11 format)
+-- Convert a util.root_pattern list → root_markers
 local function markers(...)
     return { ... }
 end
@@ -200,11 +198,20 @@ cfg["sqls"] = {
 }
 
 cfg["solidity"] = {
-    cmd = { "solidity-language-server", "--stdio" },
+    cmd = { "nomicfoundation-solidity-language-server", "--stdio" },
     filetypes = { "solidity" },
     on_attach = custom_on_attach,
     capabilities = capabilities,
-    root_markers = markers("truffle-config.js", "hardhat.config.js", ".git"),
+
+    root_markers = markers(
+        "foundry.toml", -- Foundry
+        "remappings.txt", -- Forge remappings
+        "truffle-config.js", -- Truffle
+        "hardhat.config.js", -- Hardhat
+        ".git" -- fallback
+    ),
+
+    single_file_support = true,
 }
 
 cfg["cmake"] = {
@@ -248,7 +255,7 @@ vim.lsp.enable({
     "html",
     "cssls",
     "tailwindcss",
-    "tsserver",
+    "ts_ls",
     "eslint",
     "ruff",
     "pyright",
