@@ -40,15 +40,6 @@ nmap("<Leader>gz", function()
     lazygit:toggle()
 end, "Toggle LazyGit")
 
--- Disable “:” inside the LazyGit TUI
-vim.api.nvim_create_autocmd("TermOpen", {
-    group = vim.api.nvim_create_augroup("LazyGitFixes", { clear = true }),
-    pattern = "term://*lazygit*",
-    callback = function()
-        vim.keymap.set("t", ":", "<Nop>", { buffer = 0, noremap = true, silent = true })
-    end,
-})
-
 -- 4.  Theme / colour pickers
 nmap("<leader>th", function()
     require("nvchad.themes").open({ icon = "", style = "compact" })
