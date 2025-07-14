@@ -306,7 +306,8 @@ vim.g.rustaceanvim = {
         capabilities = capabilities,
         default_settings = {
             ["rust-analyzer"] = {
-                checkOnSave = { command = "clippy" },
+                checkOnSave = true,
+                check = { command = "clippy" },
                 diagnostics = {
                     enable = true,
                     enableExperimental = true,
