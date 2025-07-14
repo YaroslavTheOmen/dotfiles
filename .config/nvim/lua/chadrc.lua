@@ -50,7 +50,7 @@ M.term = {
     },
 }
 
-M.lsp = { signature = true }
+M.lsp = { signature = false }
 
 M.cheatsheet = {
     theme = "grid", -- simple/grid

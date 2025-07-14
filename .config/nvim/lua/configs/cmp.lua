@@ -6,7 +6,6 @@ vim.opt.completeopt = { "menu", "menuone", "noselect", "noinsert" }
 local cmp = require("cmp")
 local luasnip = require("luasnip")
 local lspkind = require("lspkind")
-local autopairs = require("nvim-autopairs.completion.cmp")
 
 -- Lazily load VS Code-style snippets
 luasnip.config.set_config({
@@ -85,8 +84,6 @@ cmp.setup({
 })
 
 -- Extra setups -----------------------------------------------------------
-cmp.event:on("confirm_done", autopairs.on_confirm_done())
-
 cmp.setup.cmdline({ "/", "?" }, {
     mapping = cmp.mapping.preset.cmdline(),
     sources = { { name = "buffer" } },

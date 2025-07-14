@@ -168,4 +168,29 @@ return {
 
     -- ► K. JSON / YAML schemas ----------------------------------------------
     { "b0o/schemastore.nvim", lazy = true },
+
+    -- ► L. X-Ray signature helper with syntax-highlighting
+    {
+        "ray-x/lsp_signature.nvim",
+        event = "InsertEnter",
+        opts = {
+            bind = true,
+            handler_opts = { border = "rounded" },
+            floating_window = true,
+            floating_window_above_cur_line = true,
+            max_width = 80,
+            floating_window_off_x = 1,
+            floating_window_off_y = 1,
+            wrap = true,
+            doc_lines = 8,
+            hint_enable = false,
+            toggle_key = "<M-x>",
+            hi_parameter = "LspSignatureActiveParameter",
+        },
+        config = function(_, opts)
+            require("lsp_signature").setup(opts)
+            -- reuse cmp’s matched-text highlight for active parameter
+            vim.cmd("hi! link LspSignatureActiveParameter CmpItemAbbrMatch")
+        end,
+    },
 }
