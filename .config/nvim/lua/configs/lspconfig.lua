@@ -287,7 +287,7 @@ require("mason-lspconfig").setup({
         "lua_ls",
         "pyright",
         "ruff",
-        "rust_analyzer",
+        -- "rust_analyzer",
         "solidity",
         "sqls",
         "tailwindcss",

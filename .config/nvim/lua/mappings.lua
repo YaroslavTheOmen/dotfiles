@@ -1,8 +1,23 @@
 pcall(vim.loader.enable)
-
--- 0.  Base NvChad mappings (leave as-is)
 require("nvchad.mappings")
 
+vim.opt.mousemodel = "extend"
+
+-- Single right-click mapping
+local function open_context_menu()
+    require("menu.utils").delete_old_menus()
+
+    local codes = vim.api.nvim_replace_termcodes("<RightMouse>", true, false, true)
+    vim.api.nvim_feedkeys(codes, "n", false) -- "n" = no-remap, avoids recursion
+
+    local mp = vim.fn.getmousepos()
+    local buf = vim.api.nvim_win_get_buf(mp.winid)
+    local preset = (vim.bo[buf].filetype == "NvimTree") and "nvimtree" or "default"
+
+    require("menu").open(preset, { mouse = true })
+end
+
+vim.keymap.set({ "n", "v" }, "<RightMouse>", open_context_menu, { silent = true, noremap = true })
 -- Helper to DRY normal/insert mappings
 local function map(mode, lhs, rhs, desc, opts)
     vim.keymap.set(
@@ -54,15 +69,17 @@ nmap("<C-t>", function()
     require("menu").open("default")
 end, "Open menu")
 
-nmap("<RightMouse>", function()
-    vim.api.nvim_feedkeys(
-        vim.api.nvim_replace_termcodes("<RightMouse>", true, false, true),
-        "n",
-        false
-    )
-    local preset = (vim.bo.filetype == "NvimTree") and "nvimtree" or "default"
+vim.keymap.set({ "n", "v" }, "<RightMouse>", function()
+    require("menu.utils").delete_old_menus()
+
+    local codes = vim.api.nvim_replace_termcodes("<RightMouse>", true, false, true)
+    vim.api.nvim_feedkeys(codes, "n", false)
+
+    local mp = vim.fn.getmousepos()
+    local buf = vim.api.nvim_win_get_buf(mp.winid)
+    local preset = (vim.bo[buf].filetype == "NvimTree") and "nvimtree" or "default"
     require("menu").open(preset, { mouse = true })
-end, "Open menu (mouse)")
+end, { silent = true, noremap = true })
 
 -- 6.  TODO-comments navigation
 nmap("]t", function()

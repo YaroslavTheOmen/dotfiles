@@ -78,7 +78,7 @@ M.mason = {
         "lua-language-server",
         "pyright",
         "ruff",
-        "rust-analyzer",
+        -- "rust-analyzer",
         "solidity",
         "sqls",
         "tailwindcss-language-server",
