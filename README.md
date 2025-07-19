@@ -106,7 +106,6 @@ Here’s the list updated to exactly match the plugins in your return { … } sp
 ### 1. Lazy
 
 - General:
-
   - [akinsho/toggleterm.nvim](https://github.com/akinsho/toggleterm.nvim)
   - [b0o/schemastore.nvim](https://github.com/b0o/schemastore.nvim)
   - [folke/todo-comments.nvim](https://github.com/folke/todo-comments.nvim)
@@ -124,6 +123,8 @@ Here’s the list updated to exactly match the plugins in your return { … } sp
   - [nvim-treesitter/nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter)
   - [nvimtools/none-ls.nvim](https://github.com/nvimtools/none-ls.nvim)
   - [olexsmir/gopher.nvim](https://github.com/olexsmir/gopher.nvim)
+  - [ray-x/lsp_signature.nvim](https://github.com/ray-x/lsp_signature.nvim)
+    ]
   - [stevearc/conform.nvim](https://github.com/stevearc/conform.nvim)
   - [tpope/vim-fugitive](https://github.com/tpope/vim-fugitive)
   - [williamboman/mason-lspconfig.nvim](https://github.com/williamboman/mason-lspconfig.nvim)
@@ -132,7 +133,6 @@ Here’s the list updated to exactly match the plugins in your return { … } sp
   - [kdheepak/lazygit.nvim](https://github.com/kdheepak/lazygit.nvim)
 
 - Nvim-cmp:
-
   - [hrsh7th/cmp-buffer](https://github.com/hrsh7th/cmp-buffer)
   - [hrsh7th/cmp-cmdline](https://github.com/hrsh7th/cmp-cmdline)
   - [hrsh7th/cmp-nvim-lsp](https://github.com/hrsh7th/cmp-nvim-lsp)
@@ -144,7 +144,6 @@ Here’s the list updated to exactly match the plugins in your return { … } sp
   - [saadparwaiz1/cmp_luasnip](https://github.com/saadparwaiz1/cmp_luasnip)### 2. Mason
 
 - Language Servers:
-
   - `clangd`
   - `cmake-language-server`
   - `css-lsp`
@@ -156,7 +155,7 @@ Here’s the list updated to exactly match the plugins in your return { … } sp
   - `lua-language-server`
   - `pyright`
   - `ruff`
-  - `rust-analyzer`
+  - `rust-analyzer` (rustaceanvim)
   - `solidity`
   - `sqls`
   - `tailwindcss-language-server`
@@ -165,7 +164,6 @@ Here’s the list updated to exactly match the plugins in your return { … } sp
   - `marksman`
 
 - Formatters:
-
   - `prettierd_ft`
   - `stylua`
   - `yapf`
@@ -177,7 +175,6 @@ Here’s the list updated to exactly match the plugins in your return { … } sp
   - `forge_fmt`
 
 - Linters:
-
   - none
 
 ## Acknowledgements
