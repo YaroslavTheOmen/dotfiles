@@ -296,6 +296,9 @@ require("mason-lspconfig").setup({
         "marksman",
     },
     handlers = {}, -- no auto-setup – we handle config above
+    automatic_enable = {
+        exclude = { "rust_analyzer" },
+    },
 })
 
 -- 8. RustaceanVim ------------------------------------------------------
