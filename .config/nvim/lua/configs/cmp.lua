@@ -2,6 +2,7 @@ pcall(vim.loader.enable)
 
 -- Completion popup behaves like VS Code
 vim.opt.completeopt = { "menu", "menuone", "noselect", "noinsert" }
+
 -- Requirements
 local cmp = require("cmp")
 local luasnip = require("luasnip")
@@ -9,7 +10,7 @@ local lspkind = require("lspkind")
 
 -- Lazily load VS Code-style snippets
 luasnip.config.set_config({
-    history = true,
+    history = false,
     updateevents = "TextChanged,TextChangedI",
 })
 require("luasnip.loaders.from_vscode").lazy_load()
