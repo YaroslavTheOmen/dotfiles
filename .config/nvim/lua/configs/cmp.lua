@@ -10,8 +10,10 @@ local lspkind = require("lspkind")
 
 -- Lazily load VS Code-style snippets
 luasnip.config.set_config({
-    history = false,
+    history = true,
     updateevents = "TextChanged,TextChangedI",
+    region_check_events = "InsertEnter",
+    delete_check_events = "TextChanged,InsertLeave",
 })
 require("luasnip.loaders.from_vscode").lazy_load()
 
