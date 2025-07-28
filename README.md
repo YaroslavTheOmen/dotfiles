@@ -124,7 +124,7 @@ Here’s the list updated to exactly match the plugins in your return { … } sp
   - [nvimtools/none-ls.nvim](https://github.com/nvimtools/none-ls.nvim)
   - [olexsmir/gopher.nvim](https://github.com/olexsmir/gopher.nvim)
   - [ray-x/lsp_signature.nvim](https://github.com/ray-x/lsp_signature.nvim)
-    ]
+  - [saecki/crates.nvim](https://github.com/saecki/crates.nvim)
   - [stevearc/conform.nvim](https://github.com/stevearc/conform.nvim)
   - [tpope/vim-fugitive](https://github.com/tpope/vim-fugitive)
   - [williamboman/mason-lspconfig.nvim](https://github.com/williamboman/mason-lspconfig.nvim)
@@ -159,6 +159,7 @@ Here’s the list updated to exactly match the plugins in your return { … } sp
   - `solidity`
   - `sqls`
   - `tailwindcss-language-server`
+  - `taplo`
   - `typescript-language-server`
   - `yamlls`
   - `marksman`
@@ -172,6 +173,7 @@ Here’s the list updated to exactly match the plugins in your return { … } sp
   - `rustfmt`
   - `sql_formatter`
   - `cmake_format`
+  - `taplo`
   - `forge_fmt`
 
 - Linters:

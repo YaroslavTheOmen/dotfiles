@@ -248,6 +248,18 @@ cfg["marksman"] = {
     root_markers = markers(".git", ".marksman.toml", ".marksman.yaml"),
 }
 
+local taplo_caps = vim.tbl_deep_extend("force", capabilities, {})
+taplo_caps.textDocument.completion.completionItem.snippetSupport = false
+
+cfg["taplo"] = {
+    cmd = { "taplo", "lsp", "stdio" },
+    filetypes = { "toml" },
+    on_attach = custom_on_attach,
+    capabilities = taplo_caps,
+    root_markers = markers(".taplo.toml", "Cargo.toml", ".git"),
+    single_file_support = true,
+}
+
 -- 6. Enable the servers ------------------------------------------------
 vim.lsp.enable({
     "lua_ls",
@@ -258,6 +270,7 @@ vim.lsp.enable({
     "cssls",
     "tailwindcss",
     "ts_ls",
+    "taplo",
     "eslint",
     "ruff",
     "pyright",
@@ -292,6 +305,7 @@ require("mason-lspconfig").setup({
         "sqls",
         "tailwindcss",
         "ts_ls",
+        "taplo",
         "yamlls",
         "marksman",
     },

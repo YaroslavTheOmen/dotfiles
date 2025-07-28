@@ -98,3 +98,37 @@ local function toggle_diag_float()
     diag_float.win = win
 end
 nmap("<Leader>we", toggle_diag_float, "Toggle diagnostic float preview")
+
+-- Crates.nvim
+local crates = require("crates")
+local opts = { silent = true }
+
+nmap("<leader>ct", crates.toggle, "Rust Crate: Toggle")
+nmap("<leader>cr", crates.reload, "Rust Crate: Reload")
+
+nmap("<leader>cv", crates.show_versions_popup, "Rust Crate: Show Versions")
+nmap("<leader>cf", crates.show_features_popup, "Rust Crate: Show Features")
+nmap("<leader>cd", crates.show_dependencies_popup, "Rust Crate: Show Dependencies")
+
+nmap("<leader>cu", crates.update_crate, "Rust Crate: Update (compatible)")
+vim.keymap.set(
+    "v",
+    "<leader>cu",
+    crates.update_crates,
+    vim.tbl_extend("keep", opts, { desc = "Rust Crates: Update (sel.)" })
+)
+nmap("<leader>ca", crates.update_all_crates, "Rust Crates: Update All")
+
+nmap("<leader>cU", crates.upgrade_crate, "Rust Crate: Upgrade (latest)")
+vim.keymap.set(
+    "v",
+    "<leader>cU",
+    crates.upgrade_crates,
+    vim.tbl_extend("keep", opts, { desc = "Rust Crates: Upgrade (sel.)" })
+)
+nmap("<leader>cA", crates.upgrade_all_crates, "Rust Crates: Upgrade All")
+
+nmap("<leader>cH", crates.open_homepage, "Rust Crate: Open Homepage")
+nmap("<leader>cR", crates.open_repository, "Rust Crate: Open Repository")
+nmap("<leader>cD", crates.open_documentation, "Rust Crate: Open Documentation")
+nmap("<leader>cC", crates.open_crates_io, "Rust Crate: Open Crates.io")

@@ -82,6 +82,23 @@ return {
             require("todo-comments").setup(opts)
         end,
     },
+    {
+        "saecki/crates.nvim",
+        event = { "BufRead Cargo.toml" },
+        tag = "stable",
+        config = function()
+            require("crates").setup({
+                completion = {
+                    cmp = { enabled = true },
+                    crates = {
+                        enabled = true,
+                        min_chars = 2,
+                        max_results = 10,
+                    },
+                },
+            })
+        end,
+    },
 
     -- ► G. Formatting / linting ---------------------------------------------
     {

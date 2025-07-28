@@ -82,6 +82,7 @@ M.mason = {
         "solidity",
         "sqls",
         "tailwindcss-language-server",
+        "taplo",
         "typescript-language-server",
         "marksman",
 

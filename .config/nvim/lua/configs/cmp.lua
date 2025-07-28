@@ -99,6 +99,15 @@ cmp.setup({
     experimental = { ghost_text = { hl_group = "CmpGhostText" } },
 })
 
+cmp.setup.filetype("toml", {
+    sources = {
+        { name = "crates" },
+        { name = "nvim_lsp" },
+        { name = "path" },
+        { name = "buffer", keyword_length = 3 },
+    },
+})
+
 -- Extra setups -----------------------------------------------------------
 cmp.setup.cmdline({ "/", "?" }, {
     mapping = cmp.mapping.preset.cmdline(),

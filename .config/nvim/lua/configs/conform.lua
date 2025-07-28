@@ -31,6 +31,7 @@ local formatters_by_ft = {
     sql = { "sql_formatter" },
     cmake = { "cmake_format" },
     solidity = { "forge_fmt" },
+    toml = { "taplo" },
 }
 
 -- 3.  Add Prettier-powered stacks
