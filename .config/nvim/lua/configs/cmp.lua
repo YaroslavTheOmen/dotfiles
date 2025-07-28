@@ -53,6 +53,19 @@ cmp.setup({
     },
 
     mapping = cmp.mapping.preset.insert({
+        ["<Up>"] = cmp.mapping(function(fallback)
+            fallback()
+        end, { "i", "s" }),
+        ["<Down>"] = cmp.mapping(function(fallback)
+            fallback()
+        end, { "i", "s" }),
+        ["<Left>"] = cmp.mapping(function(fallback)
+            fallback()
+        end, { "i", "s" }),
+        ["<Right>"] = cmp.mapping(function(fallback)
+            fallback()
+        end, { "i", "s" }),
+
         ["<C-b>"] = cmp.mapping.scroll_docs(-4),
         ["<C-f>"] = cmp.mapping.scroll_docs(4),
         ["<C-Space>"] = cmp.mapping.complete(), -- manual trigger
