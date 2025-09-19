@@ -8,17 +8,31 @@ vim.g.python3_host_prog = "/Users/yaroslavaugustus/.config/nvim/venv/bin/python3
 vim.g.loaded_python3_provider = 1 -- use the venv above
 
 -- ── diagnostics: hide virtual-text while typing ───────────────────────────────
-local vt_grp = vim.api.nvim_create_augroup("ToggleVirtualText", { clear = true })
+vim.diagnostic.config({
+    virtual_text = true,
+    signs = true,
+    underline = true,
+    severity_sort = true,
+    -- update_in_insert = true,
+})
+
+local grp = vim.api.nvim_create_augroup("ToggleVirtualText", { clear = true })
+
 vim.api.nvim_create_autocmd("InsertEnter", {
-    group = vt_grp,
+    group = grp,
     callback = function()
         vim.diagnostic.config({ virtual_text = false })
     end,
 })
+
 vim.api.nvim_create_autocmd("InsertLeave", {
-    group = vt_grp,
+    group = grp,
     callback = function()
-        vim.diagnostic.config({ virtual_text = true })
+        vim.defer_fn(function()
+            vim.diagnostic.config({
+                virtual_text = { spacing = 1, source = "if_many" }, -- or just `true`
+            })
+        end, 80)
     end,
 })
 
