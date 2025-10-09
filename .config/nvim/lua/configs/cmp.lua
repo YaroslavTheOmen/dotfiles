@@ -99,6 +99,32 @@ cmp.setup({
     experimental = { ghost_text = false },
 })
 
+vim.api.nvim_create_autocmd("FileType", {
+    pattern = { "sql", "mysql", "postgresql", "sqlite", "rust" },
+    callback = function()
+        local ok, cmp = pcall(require, "cmp")
+        if not ok then
+            return
+        end
+
+        cmp.setup.buffer({
+            sources = cmp.config.sources({
+                { name = "vim-dadbod-completion" },
+                { name = "nvim_lsp" },
+            }, {
+                { name = "path" },
+                { name = "buffer", keyword_length = 3 },
+                { name = "luasnip" },
+            }),
+        })
+
+        -- optional: pass DB URL to dadbod for this buffer
+        if vim.env.DATABASE_URL and not vim.b.db then
+            vim.b.db = vim.env.DATABASE_URL
+        end
+    end,
+})
+
 cmp.setup.filetype("toml", {
     sources = {
         { name = "crates" },

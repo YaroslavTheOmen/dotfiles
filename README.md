@@ -88,6 +88,7 @@ Alternatively, you can manually copy the files you need:
 3. WezTerm: `.wezterm.lua`
 4. Fish: `.config/fish/config.fish`
 5. Starship: `.config/starship.toml`
+6. You need to create `.config/sqls/config.yml` in order to connect to the database for the sqls LSP
 
 **Don't forget to update the necessary paths:**
 
@@ -131,6 +132,9 @@ Here’s the list updated to exactly match the plugins in your return { … } sp
   - [williamboman/mason.nvim](https://github.com/williamboman/mason.nvim)
   - [windwp/nvim-ts-autotag](https://github.com/windwp/nvim-ts-autotag)
   - [kdheepak/lazygit.nvim](https://github.com/kdheepak/lazygit.nvim)
+  - [tpope/vim-dadbod](https://github.com/tpope/vim-dadbod)
+  - [kristijanhusak/vim-dadbod-ui](https://github.com/kristijanhusak/vim-dadbod-ui)
+  - [kristijanhusak/vim-dadbod-completion](https://github.com/kristijanhusak/vim-dadbod-completion)
 
 - Nvim-cmp:
   - [hrsh7th/cmp-buffer](https://github.com/hrsh7th/cmp-buffer)
@@ -141,7 +145,9 @@ Here’s the list updated to exactly match the plugins in your return { … } sp
   - [L3MON4D3/LuaSnip](https://github.com/L3MON4D3/LuaSnip)
   - [onsails/lspkind-nvim](https://github.com/onsails/lspkind-nvim)
   - [rafamadriz/friendly-snippets](https://github.com/rafamadriz/friendly-snippets)
-  - [saadparwaiz1/cmp_luasnip](https://github.com/saadparwaiz1/cmp_luasnip)### 2. Mason
+  - [saadparwaiz1/cmp_luasnip](https://github.com/saadparwaiz1/cmp_luasnip)
+
+### 2. Mason
 
 - Language Servers:
   - `clangd`

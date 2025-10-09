@@ -193,10 +193,10 @@ cfg["gopls"] = {
 }
 
 cfg["sqls"] = {
-    filetypes = { "sql" },
+    filetypes = { "sql", "mysql", "plsql", "postgresql" },
     on_attach = custom_on_attach,
     capabilities = capabilities,
-    root_markers = markers(".git", "*.sql"),
+    root_markers = markers(".git", "sqls.yml", "config.yml", ".sqls"),
 }
 
 cfg["solidity"] = {
