@@ -196,7 +196,7 @@ cfg["sqls"] = {
     filetypes = { "sql", "mysql", "plsql", "postgresql" },
     on_attach = custom_on_attach,
     capabilities = capabilities,
-    root_markers = markers(".git", "sqls.yml", "config.yml", ".sqls"),
+    root_markers = markers(".git", "sqls.yml", ".sqls"),
 }
 
 cfg["solidity"] = {
