@@ -49,6 +49,13 @@ end
 local capabilities =
     require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
 
+local base_format = lspkind.cmp_format({
+    mode = "symbol_text",
+    maxwidth = 50,
+    ellipsis_char = "…",
+    show_labelDetails = true,
+})
+
 -- MAIN nvim-cmp setup -----------------------------------------------------
 cmp.setup({
     preselect = cmp.PreselectMode.None,
@@ -90,14 +97,19 @@ cmp.setup({
     }),
 
     formatting = {
-        format = lspkind.cmp_format({
-            mode = "symbol_text",
-            maxwidth = 50,
-            ellipsis_char = "…",
-            show_labelDetails = true,
-        }),
+        format = function(entry, item)
+            item = base_format(entry, item)
+            local dup = {
+                ["vim-dadbod-completion"] = 1,
+                nvim_lsp = 0,
+                buffer = 0,
+                path = 0,
+                luasnip = 0,
+            }
+            item.dup = dup[entry.source.name] or 0
+            return item
+        end,
     },
-
     window = {
         completion = cmp.config.window.bordered(),
         documentation = cmp.config.window.bordered(),
@@ -106,33 +118,48 @@ cmp.setup({
     experimental = { ghost_text = false },
 })
 
-vim.api.nvim_create_autocmd("FileType", {
-    pattern = { "sql", "mysql", "postgresql", "pgsql", "sqlite", "plsql" },
-    callback = function()
-        local ok, cmp = pcall(require, "cmp")
-        if not ok then
-            return
-        end
+-- SQL files + De-dup Dadbod items inside the source itself (instance-level patch)
+local types = require("cmp.types")
+local sql_fts = { "sql", "mysql", "postgresql", "pgsql", "psql", "sqlite", "plsql" }
 
+vim.api.nvim_create_autocmd("FileType", {
+    pattern = sql_fts,
+    callback = function()
         cmp.setup.buffer({
             sources = cmp.config.sources({
-                { name = "vim-dadbod-completion" },
-                { name = "nvim_lsp" },
-                { name = "luasnip" },
-                { name = "path" },
+                {
+                    name = "vim-dadbod-completion",
+                    keyword_length = 2,
+                    entry_filter = function(entry, ctx)
+                        local before = ctx.cursor_before_line or ""
+                        local after_dot = before:match("%.[%w_]*$") ~= nil
+                        local kind = types.lsp.CompletionItemKind[entry:get_kind()]
+                        if after_dot then
+                            return (kind == "Field" or kind == "Property")
+                        else
+                            return (kind ~= "Field" and kind ~= "Property")
+                        end
+                    end,
+                },
+                {
+                    name = "nvim_lsp", -- sqls
+                    entry_filter = function(entry, ctx)
+                        local before = ctx.cursor_before_line or ""
+                        local after_dot = before:match("%.[%w_]*$") ~= nil
+                        local kind = types.lsp.CompletionItemKind[entry:get_kind()]
+                        if after_dot then
+                            return (kind == "Field" or kind == "Property")
+                        else
+                            return (kind ~= "Field" and kind ~= "Property")
+                        end
+                    end,
+                },
                 { name = "buffer", keyword_length = 3 },
+                { name = "path" },
             }),
         })
-
-        vim.bo.omnifunc = "vim_dadbod_completion#omni"
-
-        -- optional: pass DB URL to dadbod for this buffer
-        if vim.env.DATABASE_URL and not vim.b.db then
-            vim.b.db = vim.env.DATABASE_URL
-        end
     end,
 })
-
 cmp.setup.filetype("toml", {
     sources = {
         { name = "crates" },

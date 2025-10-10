@@ -132,3 +132,17 @@ nmap("<leader>cH", crates.open_homepage, "Rust Crate: Open Homepage")
 nmap("<leader>cR", crates.open_repository, "Rust Crate: Open Repository")
 nmap("<leader>cD", crates.open_documentation, "Rust Crate: Open Documentation")
 nmap("<leader>cC", crates.open_crates_io, "Rust Crate: Open Crates.io")
+
+-- Disable <tab> in DBUI
+vim.api.nvim_create_autocmd("FileType", {
+    pattern = { "dbui", "dbout" },
+    callback = function(args)
+        nmap("<Tab>", function()
+            return vim.api.nvim_replace_termcodes("<CR>", true, false, true)
+        end, "DBUI: Tab as Enter", { buffer = args.buf, expr = true })
+
+        nmap("<S-Tab>", function()
+            return vim.api.nvim_replace_termcodes("<CR>", true, false, true)
+        end, "DBUI: S-Tab as Enter", { buffer = args.buf, expr = true })
+    end,
+})
