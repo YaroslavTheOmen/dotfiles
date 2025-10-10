@@ -15,7 +15,14 @@ luasnip.config.set_config({
     region_check_events = "InsertEnter",
     delete_check_events = "TextChanged,InsertLeave",
 })
+
 require("luasnip.loaders.from_vscode").lazy_load()
+
+luasnip.filetype_extend("mysql", { "sql" })
+luasnip.filetype_extend("postgresql", { "sql" })
+luasnip.filetype_extend("pgsql", { "sql" })
+luasnip.filetype_extend("sqlite", { "sql" })
+luasnip.filetype_extend("plsql", { "sql" })
 
 -- <Tab> helpers -----------------------------------------------------------
 local function tab_complete(fallback)
@@ -100,7 +107,7 @@ cmp.setup({
 })
 
 vim.api.nvim_create_autocmd("FileType", {
-    pattern = { "sql", "mysql", "postgresql", "sqlite", "rust" },
+    pattern = { "sql", "mysql", "postgresql", "pgsql", "sqlite", "plsql" },
     callback = function()
         local ok, cmp = pcall(require, "cmp")
         if not ok then
@@ -111,12 +118,13 @@ vim.api.nvim_create_autocmd("FileType", {
             sources = cmp.config.sources({
                 { name = "vim-dadbod-completion" },
                 { name = "nvim_lsp" },
-            }, {
+                { name = "luasnip" },
                 { name = "path" },
                 { name = "buffer", keyword_length = 3 },
-                { name = "luasnip" },
             }),
         })
+
+        vim.bo.omnifunc = "vim_dadbod_completion#omni"
 
         -- optional: pass DB URL to dadbod for this buffer
         if vim.env.DATABASE_URL and not vim.b.db then

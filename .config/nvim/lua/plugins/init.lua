@@ -221,34 +221,9 @@ return {
         end,
     },
 
-    -- completion source for nvim-cmp
     {
         "kristijanhusak/vim-dadbod-completion",
-        dependencies = { "tpope/vim-dadbod", "hrsh7th/nvim-cmp" },
-        ft = { "sql", "mysql", "plsql", "postgresql", "rust" },
-        config = function()
-            vim.api.nvim_create_autocmd("FileType", {
-                pattern = { "sql", "mysql", "plsql", "postgresql", "rust" },
-                callback = function()
-                    local ok, cmp = pcall(require, "cmp")
-                    if not ok then
-                        return
-                    end
-                    cmp.setup.buffer({
-                        sources = cmp.config.sources({
-                            { name = "vim-dadbod-completion" },
-                        }, {
-                            { name = "nvim_lsp" },
-                            { name = "path" },
-                            { name = "buffer" },
-                        }),
-                    })
-                    -- If DATABASE_URL is set, expose it to dadbod for this buffer
-                    if vim.env.DATABASE_URL and vim.b.db == nil then
-                        vim.b.db = vim.env.DATABASE_URL
-                    end
-                end,
-            })
-        end,
+        ft = { "sql", "mysql", "plsql", "postgresql", "pgsql", "sqlite" },
+        dependencies = { "tpope/vim-dadbod" },
     },
 }
