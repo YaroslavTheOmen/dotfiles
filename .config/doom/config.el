@@ -76,4 +76,4 @@
 ;; they are implemented.
 ;;
 ;; Setting default shell in vterm
-(setq vterm-shell "/opt/homebrew/bin/fish")
+(setq vterm-shell "/opt/homebrew/bin/fish") ;; (setq vterm-shell "/usr/bin/fish")

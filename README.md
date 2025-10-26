@@ -96,7 +96,6 @@ Alternatively, you can manually copy the files you need:
 - shell path in `.config/doom/config.el` (at the end)
 - shell path in `.wezterm.lua`
 - starship path and `$PATH` using `set -x PATH` in `.config/fish/config.fish`
-- `$VIMRUNTIME` using `set -gx` in `.config/fish/config.fish`
 
 If you encounter any issues or have questions, please feel free to open an issue on the project's GitHub repository.
 

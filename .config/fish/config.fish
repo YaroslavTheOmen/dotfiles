@@ -1,5 +1,3 @@
-set -gx VIMRUNTIME /opt/homebrew/opt/neovim/share/nvim/runtime
-
 if status is-interactive
     # Commands to run in interactive sessions can go here
 end
@@ -27,3 +25,30 @@ else
     end
 end
 # <<< conda initialize <<<
+
+
+# if status is-interactive
+#     # Commands to run in interactive sessions can go here
+# end
+#
+# /usr/local/bin/starship init fish | source
+#
+# function fish_greeting
+#     echo "Current Date and Time: "(date "+%Y-%m-%d %H:%M:%S")
+#     echo "Kernel: "(uname -s)" "(uname -r)
+# end
+#
+# set -Ux EDITOR nvim
+#
+# set -x PATH ~/.local/bin /home/yaroslavaugustus/miniconda3/bin /home/yaroslavaugustus/miniconda3/condabin /home/yaroslavaugustus/.cargo/bin /home/yaroslavaugustus/.local/bin /usr/local/sbin /usr/local/bin /usr/sbin /usr/bin /sbin /bin /usr/games /usr/local/games /snap/bin ~/.local/npm/bin  ~/.config/emacs/bin /snap/bin /home/yaroslavaugustus/.local/bin
+#
+# # >>> conda initialize >>>
+# # !! Contents within this block are managed by 'conda init' !!
+# if test -f "$HOME/miniconda3/bin/conda"
+#     eval "$HOME/miniconda3/bin/conda" "shell.fish" "hook" $argv | source
+# else if test -f "$HOME/miniconda3/etc/fish/conf.d/conda.fish"
+#     . "$HOME/miniconda3/etc/fish/conf.d/conda.fish"
+# else
+#     set -gx PATH "$HOME/miniconda3/bin" $PATH
+# end
+# # <<< conda initialize <<<

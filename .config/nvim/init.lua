@@ -3,8 +3,8 @@ vim.g.base46_cache = vim.fn.stdpath("data") .. "/base46/"
 vim.g.mapleader = " "
 
 -- ── extra runtime/host settings ───────────────────────────────────────────────
-vim.o.shell = "/opt/homebrew/bin/fish"
-vim.g.python3_host_prog = "/Users/yaroslavaugustus/.config/nvim/venv/bin/python3"
+vim.o.shell = "/opt/homebrew/bin/fish" -- "/usr/bin/fish"
+vim.g.python3_host_prog = "/Users/yaroslavaugustus/.config/nvim/venv/bin/python3" -- "~/.config/nvim/venv/bin/python3"
 vim.g.loaded_python3_provider = 1 -- use the venv above
 
 -- ── diagnostics: hide virtual-text while typing ───────────────────────────────

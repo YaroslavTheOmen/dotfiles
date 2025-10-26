@@ -2,7 +2,7 @@ local wezterm = require("wezterm")
 
 local config = wezterm.config_builder()
 
-config.default_prog = { "/opt/homebrew/bin/fish", "-l" }
+config.default_prog = { "/opt/homebrew/bin/fish", "-l" } -- "/usr/bin/fish"
 
 config.color_scheme = "One Light (base16)"
 
