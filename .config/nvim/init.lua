@@ -1,106 +1,106 @@
--- ── core paths & leader ────────────────────────────────────────────────────────
+--  core paths & leader
 vim.g.base46_cache = vim.fn.stdpath("data") .. "/base46/"
 vim.g.mapleader = " "
 
--- ── extra runtime/host settings ───────────────────────────────────────────────
+--  extra runtime/host settings
 vim.o.shell = "/opt/homebrew/bin/fish" -- "/usr/bin/fish"
 vim.g.python3_host_prog = "/Users/yaroslavaugustus/.config/nvim/venv/bin/python3" -- "~/.config/nvim/venv/bin/python3"
 vim.g.loaded_python3_provider = 1 -- use the venv above
 
--- ── diagnostics: hide virtual-text while typing ───────────────────────────────
+-- diagnostics: hide virtual-text while typing
 vim.diagnostic.config({
-    virtual_text = true,
-    signs = true,
-    underline = true,
-    severity_sort = true,
-    -- update_in_insert = true,
+  virtual_text = true,
+  signs = true,
+  underline = true,
+  severity_sort = true,
+  -- update_in_insert = true,
 })
 
 local grp = vim.api.nvim_create_augroup("ToggleVirtualText", { clear = true })
 
 vim.api.nvim_create_autocmd("InsertEnter", {
-    group = grp,
-    callback = function()
-        vim.diagnostic.config({ virtual_text = false })
-    end,
+  group = grp,
+  callback = function()
+    vim.diagnostic.config({ virtual_text = false })
+  end,
 })
 
 vim.api.nvim_create_autocmd("InsertLeave", {
-    group = grp,
-    callback = function()
-        vim.defer_fn(function()
-            vim.diagnostic.config({
-                virtual_text = { spacing = 1, source = "if_many" }, -- or just `true`
-            })
-        end, 80)
-    end,
+  group = grp,
+  callback = function()
+    vim.defer_fn(function()
+      vim.diagnostic.config({
+        virtual_text = { spacing = 1, source = "if_many" }, -- or just `true`
+      })
+    end, 80)
+  end,
 })
 
 vim.api.nvim_create_autocmd("FileType", {
-    pattern = { "sql", "mysql", "postgresql", "plsql" },
-    callback = function()
-        vim.opt_local.smartindent = false
-        vim.opt_local.cindent = false
-        vim.opt_local.autoindent = true
-        vim.opt_local.expandtab = true
-        vim.opt_local.shiftwidth = 2
-        vim.opt_local.tabstop = 2
-        vim.opt_local.softtabstop = 2
-        vim.opt_local.formatoptions:remove({ "c", "r", "o" })
-        vim.bo.indentexpr = ""
-    end,
+  pattern = { "sql", "mysql", "postgresql", "plsql" },
+  callback = function()
+    vim.opt_local.smartindent = false
+    vim.opt_local.cindent = false
+    vim.opt_local.autoindent = true
+    vim.opt_local.expandtab = true
+    vim.opt_local.shiftwidth = 2
+    vim.opt_local.tabstop = 2
+    vim.opt_local.softtabstop = 2
+    vim.opt_local.formatoptions:remove({ "c", "r", "o" })
+    vim.bo.indentexpr = ""
+  end,
 })
 
--- ── terminal-window look & feel ───────────────────────────────────────────────
+--  terminal-window look & feel
 local term_pad_grp = vim.api.nvim_create_augroup("TerminalPadding", { clear = true })
 vim.api.nvim_create_autocmd("TermOpen", {
-    group = term_pad_grp,
-    pattern = "*",
-    callback = function()
-        local win = vim.api.nvim_get_current_win()
-        vim.wo[win].signcolumn = "no"
-        vim.wo[win].foldcolumn = "2"
-        vim.wo[win].number = false
-        vim.wo[win].relativenumber = false
-    end,
+  group = term_pad_grp,
+  pattern = "*",
+  callback = function()
+    local win = vim.api.nvim_get_current_win()
+    vim.wo[win].signcolumn = "no"
+    vim.wo[win].foldcolumn = "2"
+    vim.wo[win].number = false
+    vim.wo[win].relativenumber = false
+  end,
 })
 
--- ── blinking-cursor fix (no blinking anywhere) ────────────────────────────────
+--  blinking-cursor fix (no blinking anywhere)
 vim.opt.guicursor = table.concat({
-    "n-v-c:block", -- normal / visual / command
-    "i-ci-ve:ver25", -- insert / command-insert / visual-ex
-    "o:hor20", -- operator-pending
-    "t:block", -- terminal
-    "a:blinkon0", -- disable blinking globally
+  "n-v-c:block", -- normal / visual / command
+  "i-ci-ve:ver25", -- insert / command-insert / visual-ex
+  "o:hor20", -- operator-pending
+  "t:block", -- terminal
+  "a:blinkon0", -- disable blinking globally
 }, ",")
 
--- ── NvChad bootstrap (unchanged, takes priority) ──────────────────────────────
+--  NvChad bootstrap (unchanged, takes priority)
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.uv.fs_stat(lazypath) then
-    vim.fn.system({
-        "git",
-        "clone",
-        "--filter=blob:none",
-        "https://github.com/folke/lazy.nvim.git",
-        "--branch=stable",
-        lazypath,
-    })
+  vim.fn.system({
+    "git",
+    "clone",
+    "--filter=blob:none",
+    "https://github.com/folke/lazy.nvim.git",
+    "--branch=stable",
+    lazypath,
+  })
 end
 vim.opt.rtp:prepend(lazypath)
 
 local lazy_config = require("configs.lazy")
 
 require("lazy").setup({
-    {
-        "NvChad/NvChad",
-        lazy = false,
-        branch = "v2.5",
-        import = "nvchad.plugins",
-    },
-    { import = "plugins" },
+  {
+    "NvChad/NvChad",
+    lazy = false,
+    branch = "v2.5",
+    import = "nvchad.plugins",
+  },
+  { import = "plugins" },
 }, lazy_config)
 
--- ── theme & user-side config load order ───────────────────────────────────────
+--  theme & user-side config load order
 dofile(vim.g.base46_cache .. "defaults")
 dofile(vim.g.base46_cache .. "statusline")
 
@@ -108,5 +108,5 @@ require("options") -- your own options module
 require("nvchad/autocmds") -- your custom autocmds (just "autocmds" in original init.lua)
 
 vim.schedule(function()
-    require("mappings") -- keep mappings lazy-loaded
+  require("mappings") -- keep mappings lazy-loaded
 end)

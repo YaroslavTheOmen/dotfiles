@@ -1,6 +1,6 @@
 return {
 
-    -- ► A. nvim-cmp  ----------------------------------------------------------
+    -- ► A. nvim-cmp
     {
         "hrsh7th/nvim-cmp",
         event = "VeryLazy",
@@ -19,11 +19,11 @@ return {
         end,
     },
 
-    -- ► B. Blink (commented − enable if you use it) --------------------------
+    -- ► B. Blink (commented − enable if you use it)
     -- { import = "nvchad.blink.lazyspec" },
     -- { "Saghen/blink.cmp", opts = {} },
 
-    -- ► C. Core LSP / Mason stack -------------------------------------------
+    -- ► C. Core LSP / Mason stack
     {
         "neovim/nvim-lspconfig",
         dependencies = { "b0o/schemastore.nvim" },
@@ -34,7 +34,7 @@ return {
     { "williamboman/mason.nvim", build = ":MasonUpdate" },
     { "williamboman/mason-lspconfig.nvim" },
 
-    -- ► D. UI & NvChad core --------------------------------------------------
+    -- ► D. UI & NvChad core
     "nvim-lua/plenary.nvim",
     {
         "nvchad/ui",
@@ -51,12 +51,12 @@ return {
     },
     { "nvchad/showkeys", cmd = "ShowkeysToggle" },
 
-    -- ► E. Misc NvChad v3 extras --------------------------------------------
+    -- ► E. Misc NvChad v3 extras
     { "nvzone/volt", lazy = true },
     { "nvzone/menu", lazy = true },
     { "nvzone/minty", cmd = { "Shades", "Huefy" } },
 
-    -- ► F. Utilities ---------------------------------------------------------
+    -- ► F. Utilities
     {
         "kdheepak/lazygit.nvim",
         cmd = "LazyGit",
@@ -100,7 +100,7 @@ return {
         end,
     },
 
-    -- ► G. Formatting / linting ---------------------------------------------
+    -- ► G. Formatting / linting
     {
         "nvimtools/none-ls.nvim",
         config = function()
@@ -122,7 +122,7 @@ return {
         end,
     },
 
-    -- ► H. Treesitter + extras ----------------------------------------------
+    -- ► H. Treesitter + extras
     {
         "nvim-treesitter/nvim-treesitter",
         opts = {
@@ -169,7 +169,7 @@ return {
         end,
     },
 
-    -- ► I. Language-specific helpers ----------------------------------------
+    -- ► I. Language-specific helpers
     {
         "olexsmir/gopher.nvim",
         ft = "go",
@@ -187,10 +187,10 @@ return {
         dependencies = "neovim/nvim-lspconfig",
     },
 
-    -- ► J. Git ---------------------------------------------------------------
+    -- ► J. Git
     { "tpope/vim-fugitive", event = "VeryLazy" },
 
-    -- ► K. JSON / YAML schemas ----------------------------------------------
+    -- ► K. JSON / YAML schemas
     { "b0o/schemastore.nvim", lazy = true },
 
     -- ► L. X-Ray signature helper with syntax-highlighting
@@ -211,7 +211,6 @@ return {
         },
         config = function(_, opts)
             require("lsp_signature").setup(opts)
-            -- reuse cmp’s matched-text highlight for active parameter
             vim.cmd("hi! link LspSignatureActiveParameter CmpItemAbbrMatch")
         end,
     },

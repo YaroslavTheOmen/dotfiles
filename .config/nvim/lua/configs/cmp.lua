@@ -1,21 +1,17 @@
 pcall(vim.loader.enable)
 
--- Completion popup behaves like VS Code
 vim.opt.completeopt = { "menu", "menuone", "noselect", "noinsert" }
 
--- Requirements
 local cmp = require("cmp")
 local luasnip = require("luasnip")
 local lspkind = require("lspkind")
 
--- Lazily load VS Code-style snippets
 luasnip.config.set_config({
-    history = true,
-    updateevents = "TextChanged,TextChangedI",
-    region_check_events = "InsertEnter",
-    delete_check_events = "TextChanged,InsertLeave",
+  history = true,
+  updateevents = "TextChanged,TextChangedI",
+  region_check_events = "InsertEnter",
+  delete_check_events = "TextChanged,InsertLeave",
 })
-
 require("luasnip.loaders.from_vscode").lazy_load()
 
 luasnip.filetype_extend("mysql", { "sql" })
@@ -24,165 +20,175 @@ luasnip.filetype_extend("pgsql", { "sql" })
 luasnip.filetype_extend("sqlite", { "sql" })
 luasnip.filetype_extend("plsql", { "sql" })
 
--- <Tab> helpers -----------------------------------------------------------
 local function tab_complete(fallback)
-    if cmp.visible() then
-        cmp.select_next_item({ behavior = cmp.SelectBehavior.Insert })
-    elseif luasnip.expand_or_jumpable() then
-        luasnip.expand_or_jump()
-    else
-        fallback()
-    end
+  if cmp.visible() then
+    cmp.select_next_item({ behavior = cmp.SelectBehavior.Insert })
+  elseif luasnip.expand_or_jumpable() then
+    luasnip.expand_or_jump()
+  else
+    fallback()
+  end
 end
 
 local function shift_tab_complete(fallback)
-    if cmp.visible() then
-        cmp.select_prev_item({ behavior = cmp.SelectBehavior.Insert })
-    elseif luasnip.jumpable(-1) then
-        luasnip.jump(-1)
-    else
-        fallback()
-    end
+  if cmp.visible() then
+    cmp.select_prev_item({ behavior = cmp.SelectBehavior.Insert })
+  elseif luasnip.jumpable(-1) then
+    luasnip.jump(-1)
+  else
+    fallback()
+  end
 end
 
--- Capabilities for lspconfig ---------------------------------------------
 local capabilities =
-    require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
+  require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
 
-local base_format = lspkind.cmp_format({
-    mode = "symbol_text",
-    maxwidth = 50,
-    ellipsis_char = "…",
-    show_labelDetails = true,
-})
-
--- MAIN nvim-cmp setup -----------------------------------------------------
 cmp.setup({
-    preselect = cmp.PreselectMode.None,
+  preselect = cmp.PreselectMode.None,
 
-    snippet = {
-        expand = function(args)
-            luasnip.lsp_expand(args.body)
-        end,
+  snippet = {
+    expand = function(args)
+      luasnip.lsp_expand(args.body)
+    end,
+  },
+
+  mapping = cmp.mapping.preset.insert({
+    ["<Up>"] = cmp.mapping(function(fallback)
+      fallback()
+    end, { "i", "s" }),
+    ["<Down>"] = cmp.mapping(function(fallback)
+      fallback()
+    end, { "i", "s" }),
+    ["<Left>"] = cmp.mapping(function(fallback)
+      fallback()
+    end, { "i", "s" }),
+    ["<Right>"] = cmp.mapping(function(fallback)
+      fallback()
+    end, { "i", "s" }),
+
+    ["<C-b>"] = cmp.mapping.scroll_docs(-4),
+    ["<C-f>"] = cmp.mapping.scroll_docs(4),
+    ["<C-Space>"] = cmp.mapping.complete(),
+    ["<C-e>"] = cmp.mapping.abort(),
+    ["<CR>"] = cmp.mapping.confirm({ select = false }),
+    ["<Tab>"] = cmp.mapping(tab_complete, { "i", "s" }),
+    ["<S-Tab>"] = cmp.mapping(shift_tab_complete, { "i", "s" }),
+  }),
+
+  sources = cmp.config.sources({
+    { name = "nvim_lsp" },
+    { name = "luasnip" },
+    { name = "path" },
+    { name = "buffer", keyword_length = 3 },
+  }),
+
+  formatting = {
+    format = function(entry, item)
+      return item
+    end,
+  },
+
+  duplicates_default = 0,
+  duplicates = { nvim_lsp = 1 },
+
+  sorting = {
+    comparators = {
+      function(entry1, entry2)
+        local s1, s2 = entry1.source.name, entry2.source.name
+        if s1 ~= s2 then
+          if s1 == "nvim_lsp" then
+            return true
+          end
+          if s2 == "nvim_lsp" then
+            return false
+          end
+        end
+        return nil
+      end,
+      require("cmp.config.compare").score,
+      require("cmp.config.compare").offset,
+      require("cmp.config.compare").exact,
+      require("cmp.config.compare").recently_used,
+      require("cmp.config.compare").kind,
+      require("cmp.config.compare").sort_text,
+      require("cmp.config.compare").length,
+      require("cmp.config.compare").order,
     },
+  },
 
-    mapping = cmp.mapping.preset.insert({
-        ["<Up>"] = cmp.mapping(function(fallback)
-            fallback()
-        end, { "i", "s" }),
-        ["<Down>"] = cmp.mapping(function(fallback)
-            fallback()
-        end, { "i", "s" }),
-        ["<Left>"] = cmp.mapping(function(fallback)
-            fallback()
-        end, { "i", "s" }),
-        ["<Right>"] = cmp.mapping(function(fallback)
-            fallback()
-        end, { "i", "s" }),
+  window = {
+    completion = cmp.config.window.bordered(),
+    documentation = cmp.config.window.bordered(),
+  },
 
-        ["<C-b>"] = cmp.mapping.scroll_docs(-4),
-        ["<C-f>"] = cmp.mapping.scroll_docs(4),
-        ["<C-Space>"] = cmp.mapping.complete(), -- manual trigger
-        ["<C-e>"] = cmp.mapping.abort(), -- close menu
-        ["<CR>"] = cmp.mapping.confirm({ select = false }),
-        ["<Tab>"] = cmp.mapping(tab_complete, { "i", "s" }),
-        ["<S-Tab>"] = cmp.mapping(shift_tab_complete, { "i", "s" }),
-    }),
-
-    sources = cmp.config.sources({
-        { name = "nvim_lsp" },
-        { name = "luasnip" },
-        { name = "path" },
-        { name = "buffer", keyword_length = 3 },
-    }),
-
-    formatting = {
-        format = function(entry, item)
-            item = base_format(entry, item)
-            local dup = {
-                ["vim-dadbod-completion"] = 1,
-                nvim_lsp = 0,
-                buffer = 0,
-                path = 0,
-                luasnip = 0,
-            }
-            item.dup = dup[entry.source.name] or 0
-            return item
-        end,
-    },
-    window = {
-        completion = cmp.config.window.bordered(),
-        documentation = cmp.config.window.bordered(),
-    },
-
-    experimental = { ghost_text = false },
+  experimental = { ghost_text = false },
 })
 
--- SQL files + De-dup Dadbod items inside the source itself (instance-level patch)
 local types = require("cmp.types")
 local sql_fts = { "sql", "mysql", "postgresql", "pgsql", "psql", "sqlite", "plsql" }
 
 vim.api.nvim_create_autocmd("FileType", {
-    pattern = sql_fts,
-    callback = function()
-        cmp.setup.buffer({
-            sources = cmp.config.sources({
-                {
-                    name = "vim-dadbod-completion",
-                    keyword_length = 2,
-                    entry_filter = function(entry, ctx)
-                        local before = ctx.cursor_before_line or ""
-                        local after_dot = before:match("%.[%w_]*$") ~= nil
-                        local kind = types.lsp.CompletionItemKind[entry:get_kind()]
-                        if after_dot then
-                            return (kind == "Field" or kind == "Property")
-                        else
-                            return (kind ~= "Field" and kind ~= "Property")
-                        end
-                    end,
-                },
-                {
-                    name = "nvim_lsp", -- sqls
-                    entry_filter = function(entry, ctx)
-                        local before = ctx.cursor_before_line or ""
-                        local after_dot = before:match("%.[%w_]*$") ~= nil
-                        local kind = types.lsp.CompletionItemKind[entry:get_kind()]
-                        if after_dot then
-                            return (kind == "Field" or kind == "Property")
-                        else
-                            return (kind ~= "Field" and kind ~= "Property")
-                        end
-                    end,
-                },
-                { name = "buffer", keyword_length = 3 },
-                { name = "path" },
-            }),
-        })
-    end,
-})
-cmp.setup.filetype("toml", {
-    sources = {
-        { name = "crates" },
-        { name = "nvim_lsp" },
-        { name = "path" },
+  pattern = sql_fts,
+  callback = function()
+    cmp.setup.buffer({
+      sources = cmp.config.sources({
+        {
+
+          name = "nvim_lsp",
+          entry_filter = function(entry, ctx)
+            local before = ctx.cursor_before_line or ""
+            local after_dot = before:match("%.[%w_]*$") ~= nil
+            local kind = types.lsp.CompletionItemKind[entry:get_kind()]
+            if after_dot then
+              return (kind == "Field" or kind == "Property")
+            else
+              return (kind ~= "Field" and kind ~= "Property")
+            end
+          end,
+        },
+        {
+
+          name = "vim-dadbod-completion",
+          keyword_length = 2,
+          entry_filter = function(entry, ctx)
+            local before = ctx.cursor_before_line or ""
+            local after_dot = before:match("%.[%w_]*$") ~= nil
+            local kind = types.lsp.CompletionItemKind[entry:get_kind()]
+            if after_dot then
+              return (kind == "Field" or kind == "Property")
+            else
+              return (kind ~= "Field" and kind ~= "Property")
+            end
+          end,
+        },
         { name = "buffer", keyword_length = 3 },
-    },
+        { name = "path" },
+      }),
+    })
+  end,
 })
 
--- Extra setups -----------------------------------------------------------
+cmp.setup.filetype("toml", {
+  sources = {
+    { name = "crates" },
+    { name = "nvim_lsp" },
+    { name = "path" },
+    { name = "buffer", keyword_length = 3 },
+  },
+})
+
 cmp.setup.cmdline({ "/", "?" }, {
-    mapping = cmp.mapping.preset.cmdline(),
-    sources = { { name = "buffer" } },
+  mapping = cmp.mapping.preset.cmdline(),
+  sources = { { name = "buffer" } },
 })
 
 cmp.setup.cmdline(":", {
-    mapping = cmp.mapping.preset.cmdline(),
-    sources = cmp.config.sources({ { name = "path" } }, { { name = "cmdline" } }),
+  mapping = cmp.mapping.preset.cmdline(),
+  sources = cmp.config.sources({ { name = "path" } }, { { name = "cmdline" } }),
 })
 
 cmp.setup.filetype("gitcommit", {
-    sources = cmp.config.sources({ { name = "git" } }, { { name = "buffer" } }),
+  sources = cmp.config.sources({ { name = "git" } }, { { name = "buffer" } }),
 })
 
--- Export for lspconfig.lua -----------------------------------------------
 return { capabilities = capabilities }
