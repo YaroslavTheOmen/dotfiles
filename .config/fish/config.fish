@@ -52,3 +52,4 @@ end
 #     set -gx PATH "$HOME/miniconda3/bin" $PATH
 # end
 # # <<< conda initialize <<<
+# bass source /opt/ros/jazzy/setup.bash
