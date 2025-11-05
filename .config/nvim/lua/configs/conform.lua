@@ -45,6 +45,9 @@ local prettierd_ft = {
 }
 
 local formatters_by_ft = {
+  elixir = { "mix" },
+  heex = { "mix" },
+  surface = { "mix" },
   lua = { "stylua" },
   python = { "yapf" },
   go = { "gofumpt" },

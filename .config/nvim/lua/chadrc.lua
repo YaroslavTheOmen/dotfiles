@@ -74,6 +74,7 @@ M.mason = {
     "docker-compose-language-service",
     "dockerfile-language-server",
     "gopls",
+    "elixir-ls",
     "html-lsp",
     "lua-language-server",
     "pyright",
@@ -94,6 +95,7 @@ M.mason = {
     "sql-formatter",
     "stylua",
     "yapf",
+    "mix",
 
     -- Linters
     "eslint_d",

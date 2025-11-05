@@ -24,6 +24,19 @@ local sources = {
     command = "eslint_d",
   }),
 
+  nls.builtins.diagnostics.credo.with({
+    command = "mix",
+    args = {
+      "credo",
+      "suggest",
+      "--strict",
+      "--format",
+      "flycheck",
+      "--read-from-stdin",
+      "$FILENAME",
+    },
+  }),
+
   nls.builtins.diagnostics.solhint,
 
   nls.builtins.diagnostics.sqlfluff.with({

@@ -66,6 +66,8 @@ local function markers(...)
   return { ... }
 end
 
+local MASON = vim.fn.stdpath("data") .. "/mason/bin/"
+
 local cfg = vim.lsp.config
 
 cfg["lua_ls"] = {
@@ -185,6 +187,20 @@ cfg["gopls"] = {
   },
 }
 
+cfg["elixirls"] = {
+  cmd = { MASON .. "elixir-ls" },
+  filetypes = { "elixir", "eelixir", "heex", "surface" },
+  on_attach = custom_on_attach,
+  capabilities = capabilities,
+  settings = {
+    elixirLS = {
+      dialyzerEnabled = false,
+      fetchDeps = false,
+    },
+  },
+  root_markers = markers("mix.exs", "mix.lock", ".git"),
+}
+
 cfg["sqls"] = {
   filetypes = { "sql", "mysql", "plsql", "postgresql" },
   on_attach = custom_on_attach,
@@ -193,7 +209,7 @@ cfg["sqls"] = {
 }
 
 cfg["solidity"] = {
-  cmd = { "nomicfoundation-solidity-language-server", "--stdio" },
+  cmd = { MASON .. "solidity-language-server", "--stdio" },
   filetypes = { "solidity" },
   on_attach = custom_on_attach,
   capabilities = capabilities,
@@ -210,12 +226,15 @@ cfg["solidity"] = {
 }
 
 cfg["cmake"] = {
-  cmd = { "cmake-language-server" },
+  cmd = { vim.fn.stdpath("data") .. "/mason/bin/cmake-language-server" },
   filetypes = { "cmake" },
   on_attach = custom_on_attach,
   capabilities = capabilities,
-  init_options = { buildDirectory = "build" },
+  init_options = {
+    buildDirectory = "build",
+  },
   root_markers = markers("CMakePresets.json", "CMakeLists.txt", ".git"),
+  single_file_support = false,
 }
 
 cfg["dockerls"] = {
@@ -263,6 +282,7 @@ vim.lsp.enable({
   "tailwindcss",
   "ts_ls",
   "taplo",
+  "elixirls",
   "eslint",
   "ruff",
   "pyright",
@@ -284,6 +304,7 @@ require("mason-lspconfig").setup({
     "cssls",
     "docker_compose_language_service",
     "dockerls",
+    "elixirls",
     "eslint",
     "gopls",
     "html",
