@@ -155,6 +155,7 @@ Here’s the list updated to exactly match the plugins in your return { … } sp
   - `docker-compose-language-service`
   - `dockerfile-language-server`
   - `gopls`
+  - `elixir-ls`
   - `html-lsp`
   - `jsonls`
   - `lua-language-server`
@@ -180,6 +181,7 @@ Here’s the list updated to exactly match the plugins in your return { … } sp
   - `cmake_format`
   - `taplo`
   - `forge_fmt`
+  - `mix`
 
 - Linters:
   - none

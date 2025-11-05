@@ -95,7 +95,6 @@ M.mason = {
     "sql-formatter",
     "stylua",
     "yapf",
-    "mix",
 
     -- Linters
     "eslint_d",
