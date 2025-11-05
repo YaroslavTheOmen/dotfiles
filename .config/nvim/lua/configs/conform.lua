@@ -1,26 +1,40 @@
 pcall(vim.loader.enable)
 
 vim.api.nvim_create_autocmd("FileType", {
-  desc = "4 spaces by default; Lua = 2; Makefiles use tabs",
-  pattern = "*",
+  desc = "Indent engines per filetype",
+  pattern = { "c", "cpp", "cmake", "python", "sql", "vim", "go" },
   callback = function(args)
     local ft = vim.bo[args.buf].filetype
 
-    if ft == "make" then
-      vim.opt_local.expandtab = false
-      vim.opt_local.tabstop = 8
-      vim.opt_local.shiftwidth = 8
-      vim.opt_local.softtabstop = 0
-    elseif ft == "lua" then
-      vim.opt_local.expandtab = true
-      vim.opt_local.shiftwidth = 2
-      vim.opt_local.tabstop = 2
-      vim.opt_local.softtabstop = 2
-    else
+    if ft == "c" or ft == "cpp" then
+      vim.bo.indentexpr = ""
+      vim.opt_local.cindent = true
+      vim.opt_local.cinoptions = ":0,g0,(0,W4"
       vim.opt_local.expandtab = true
       vim.opt_local.shiftwidth = 4
       vim.opt_local.tabstop = 4
       vim.opt_local.softtabstop = 4
+    elseif ft == "cmake" then
+    elseif ft == "python" then
+      vim.opt_local.expandtab = true
+      vim.opt_local.shiftwidth = 4
+      vim.opt_local.tabstop = 4
+      vim.opt_local.softtabstop = 4
+    elseif ft == "sql" then
+      vim.bo.indentexpr = ""
+      vim.opt_local.autoindent = true
+      vim.opt_local.copyindent = true
+      vim.opt_local.preserveindent = true
+    elseif ft == "vim" then
+      vim.opt_local.expandtab = true
+      vim.opt_local.shiftwidth = 2
+      vim.opt_local.tabstop = 2
+      vim.opt_local.softtabstop = 2
+    elseif ft == "go" then
+      vim.opt_local.expandtab = false
+      vim.opt_local.tabstop = 8
+      vim.opt_local.shiftwidth = 8
+      vim.opt_local.softtabstop = 0
     end
   end,
 })
