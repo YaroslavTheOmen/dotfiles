@@ -36,21 +36,6 @@ vim.api.nvim_create_autocmd("InsertLeave", {
   end,
 })
 
-vim.api.nvim_create_autocmd("FileType", {
-  pattern = { "sql", "mysql", "postgresql", "plsql" },
-  callback = function()
-    vim.opt_local.smartindent = false
-    vim.opt_local.cindent = false
-    vim.opt_local.autoindent = true
-    vim.opt_local.expandtab = true
-    vim.opt_local.shiftwidth = 2
-    vim.opt_local.tabstop = 2
-    vim.opt_local.softtabstop = 2
-    vim.opt_local.formatoptions:remove({ "c", "r", "o" })
-    vim.bo.indentexpr = ""
-  end,
-})
-
 --  terminal-window look & feel
 local term_pad_grp = vim.api.nvim_create_augroup("TerminalPadding", { clear = true })
 vim.api.nvim_create_autocmd("TermOpen", {

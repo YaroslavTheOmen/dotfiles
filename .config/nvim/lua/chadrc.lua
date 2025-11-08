@@ -81,7 +81,6 @@ M.mason = {
     "ruff",
     -- "rust-analyzer",
     "solidity",
-    "sqls",
     "tailwindcss-language-server",
     "taplo",
     "typescript-language-server",

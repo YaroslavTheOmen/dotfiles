@@ -73,8 +73,9 @@ local formatters_by_ft = {
   solidity = { "forge_fmt" },
   toml = { "taplo" },
 }
+
 for _, ft in ipairs(prettierd_ft) do
-  formatters_by_ft[ft] = { "prettierd" }
+  formatters_by_ft[ft] = { "prettierd", "prettier" }
 end
 
 conform.setup({
@@ -90,11 +91,31 @@ conform.setup({
 
   formatters = {
     prettierd = (function()
-      local path = vim.fn.expand("~/.config/nvim/.prettierrc.json")
-      local okf = vim.fn.filereadable(path) == 1
-      local content = okf and table.concat(vim.fn.readfile(path), "\n") or ""
-      return { env = { PRETTIERD_DEFAULT_CONFIG = content } }
+      local util = require("conform.util")
+      local default_cfg = vim.fn.expand("~/.config/nvim/.prettierrc.json")
+      return {
+        command = vim.fn.exepath("prettierd"),
+        cwd = util.root_file({
+          "package.json",
+          ".prettierrc",
+          ".prettierrc.json",
+          ".prettierrc.yaml",
+          "prettier.config.js",
+          "prettier.config.cjs",
+          ".git",
+        }),
+        env = {
+          PRETTIERD_DEFAULT_CONFIG = default_cfg,
+          PRETTIERD_LOCAL_PRETTIER_ONLY = "1",
+        },
+      }
     end)(),
+
+    prettier = {
+      command = "/opt/homebrew/bin/prettier",
+      args = { "--stdin-filepath", "$FILENAME" },
+      cwd = require("conform.util").root_file({ "package.json", ".git" }),
+    },
 
     clang_format = {
       prepend_args = function(ctx)

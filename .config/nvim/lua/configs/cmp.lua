@@ -4,7 +4,6 @@ vim.opt.completeopt = { "menu", "menuone", "noselect", "noinsert" }
 
 local cmp = require("cmp")
 local luasnip = require("luasnip")
-local lspkind = require("lspkind")
 
 luasnip.config.set_config({
   history = true,
@@ -13,12 +12,6 @@ luasnip.config.set_config({
   delete_check_events = "TextChanged,InsertLeave",
 })
 require("luasnip.loaders.from_vscode").lazy_load()
-
-luasnip.filetype_extend("mysql", { "sql" })
-luasnip.filetype_extend("postgresql", { "sql" })
-luasnip.filetype_extend("pgsql", { "sql" })
-luasnip.filetype_extend("sqlite", { "sql" })
-luasnip.filetype_extend("plsql", { "sql" })
 
 local function tab_complete(fallback)
   if cmp.visible() then
@@ -83,7 +76,7 @@ cmp.setup({
   }),
 
   formatting = {
-    format = function(entry, item)
+    format = function(_, item)
       return item
     end,
   },
@@ -122,50 +115,6 @@ cmp.setup({
   },
 
   experimental = { ghost_text = false },
-})
-
-local types = require("cmp.types")
-local sql_fts = { "sql", "mysql", "postgresql", "pgsql", "psql", "sqlite", "plsql" }
-
-vim.api.nvim_create_autocmd("FileType", {
-  pattern = sql_fts,
-  callback = function()
-    cmp.setup.buffer({
-      sources = cmp.config.sources({
-        {
-
-          name = "nvim_lsp",
-          entry_filter = function(entry, ctx)
-            local before = ctx.cursor_before_line or ""
-            local after_dot = before:match("%.[%w_]*$") ~= nil
-            local kind = types.lsp.CompletionItemKind[entry:get_kind()]
-            if after_dot then
-              return (kind == "Field" or kind == "Property")
-            else
-              return (kind ~= "Field" and kind ~= "Property")
-            end
-          end,
-        },
-        {
-
-          name = "vim-dadbod-completion",
-          keyword_length = 2,
-          entry_filter = function(entry, ctx)
-            local before = ctx.cursor_before_line or ""
-            local after_dot = before:match("%.[%w_]*$") ~= nil
-            local kind = types.lsp.CompletionItemKind[entry:get_kind()]
-            if after_dot then
-              return (kind == "Field" or kind == "Property")
-            else
-              return (kind ~= "Field" and kind ~= "Property")
-            end
-          end,
-        },
-        { name = "buffer", keyword_length = 3 },
-        { name = "path" },
-      }),
-    })
-  end,
 })
 
 cmp.setup.filetype("toml", {

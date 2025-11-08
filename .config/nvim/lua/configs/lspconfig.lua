@@ -201,13 +201,6 @@ cfg["elixirls"] = {
   root_markers = markers("mix.exs", "mix.lock", ".git"),
 }
 
-cfg["sqls"] = {
-  filetypes = { "sql", "mysql", "plsql", "postgresql" },
-  on_attach = custom_on_attach,
-  capabilities = capabilities,
-  root_markers = markers(".git", "sqls.yml", ".sqls"),
-}
-
 cfg["solidity"] = {
   cmd = { MASON .. "solidity-language-server", "--stdio" },
   filetypes = { "solidity" },
@@ -287,7 +280,6 @@ vim.lsp.enable({
   "ruff",
   "pyright",
   "gopls",
-  "sqls",
   "solidity",
   "cmake",
   "dockerls",
@@ -314,7 +306,6 @@ require("mason-lspconfig").setup({
     "ruff",
     -- "rust_analyzer",
     "solidity",
-    "sqls",
     "tailwindcss",
     "ts_ls",
     "taplo",

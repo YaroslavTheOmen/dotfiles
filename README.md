@@ -106,6 +106,7 @@ Here’s the list updated to exactly match the plugins in your return { … } sp
 ### 1. Lazy
 
 - General:
+
   - [akinsho/toggleterm.nvim](https://github.com/akinsho/toggleterm.nvim)
   - [b0o/schemastore.nvim](https://github.com/b0o/schemastore.nvim)
   - [folke/todo-comments.nvim](https://github.com/folke/todo-comments.nvim)
@@ -131,9 +132,6 @@ Here’s the list updated to exactly match the plugins in your return { … } sp
   - [williamboman/mason.nvim](https://github.com/williamboman/mason.nvim)
   - [windwp/nvim-ts-autotag](https://github.com/windwp/nvim-ts-autotag)
   - [kdheepak/lazygit.nvim](https://github.com/kdheepak/lazygit.nvim)
-  - [tpope/vim-dadbod](https://github.com/tpope/vim-dadbod)
-  - [kristijanhusak/vim-dadbod-ui](https://github.com/kristijanhusak/vim-dadbod-ui)
-  - [kristijanhusak/vim-dadbod-completion](https://github.com/kristijanhusak/vim-dadbod-completion)
 
 - Nvim-cmp:
   - [hrsh7th/cmp-buffer](https://github.com/hrsh7th/cmp-buffer)
@@ -149,6 +147,7 @@ Here’s the list updated to exactly match the plugins in your return { … } sp
 ### 2. Mason
 
 - Language Servers:
+
   - `clangd`
   - `cmake-language-server`
   - `css-lsp`
@@ -163,7 +162,6 @@ Here’s the list updated to exactly match the plugins in your return { … } sp
   - `ruff`
   - `rust-analyzer` (rustaceanvim)
   - `solidity`
-  - `sqls`
   - `tailwindcss-language-server`
   - `taplo`
   - `typescript-language-server`
@@ -171,6 +169,7 @@ Here’s the list updated to exactly match the plugins in your return { … } sp
   - `marksman`
 
 - Formatters:
+
   - `prettierd_ft`
   - `stylua`
   - `yapf`
