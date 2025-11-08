@@ -11,7 +11,7 @@ end
 
 set -Ux EDITOR nvim
 
-set -x PATH /usr/local/sbin /usr/local/bin /System/Cryptexes/App/usr/bin /usr/bin /bin /usr/sbin /sbin /var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin /var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin /var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin /opt/homebrew/bin /usr/bin /bin /usr/sbin /sbin /usr/local/bin ~/miniconda3/bin /opt/homebrew/opt/python@3.13/bin /Users/yaroslavaugustus/.foundry/bin ~/.config/emacs/bin ~/go/bin ~/.local/bin /opt/homebrew/opt/llvm/ 
+set -x PATH ~/.local/bin ~/.cargo/bin ~/go/bin ~/.config/emacs/bin /Users/yaroslavaugustus/.foundry/bin ~/.npm-global/bin ~/.local/share/npm/bin /opt/homebrew/opt/python@3.13/bin /opt/homebrew/opt/llvm/bin /opt/homebrew/bin /opt/homebrew/sbin /usr/local/bin /usr/local/sbin /System/Cryptexes/App/usr/bin /var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin /var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin /var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin /usr/bin /bin /usr/sbin /sbin
 
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
@@ -40,7 +40,7 @@ end
 #
 # set -Ux EDITOR nvim
 #
-# set -x PATH ~/.local/bin /home/yaroslavaugustus/miniconda3/bin /home/yaroslavaugustus/miniconda3/condabin /home/yaroslavaugustus/.cargo/bin /home/yaroslavaugustus/.local/bin /usr/local/sbin /usr/local/bin /usr/sbin /usr/bin /sbin /bin /usr/games /usr/local/games /snap/bin ~/.local/npm/bin  ~/.config/emacs/bin /snap/bin /home/yaroslavaugustus/.local/bin
+# set -x PATH ~/.local/bin ~/.cargo/bin ~/go/bin ~/.npm-global/bin ~/.local/share/npm/bin ~/.config/yarn/global/node_modules/.bin ~/.config/emacs/bin ~/.pyenv/shims ~/.pyenv/bin /usr/local/go/bin /home/yaroslavaugustus/miniconda3/condabin /usr/local/bin /usr/local/sbin /usr/bin /usr/sbin /bin /sbin /snap/bin /usr/games /usr/local/games
 #
 # # >>> conda initialize >>>
 # # !! Contents within this block are managed by 'conda init' !!
