@@ -77,3 +77,60 @@
 ;;
 ;; Setting default shell in vterm
 (setq vterm-shell "/opt/homebrew/bin/fish") ;; (setq vterm-shell "/usr/bin/fish")
+
+;; Emacs Tree-Sitter Grammars
+;; Where grammars are stored/loaded
+(setq treesit-extra-load-path
+      (list (expand-file-name "tree-sitter" user-emacs-directory))) ; ~/.config/emacs/tree-sitter
+
+(setq treesit-language-source-alist
+      '((bash        "https://github.com/tree-sitter/tree-sitter-bash")
+        (c           "https://github.com/tree-sitter/tree-sitter-c")
+        (cpp         "https://github.com/tree-sitter/tree-sitter-cpp")
+        (cmake       "https://github.com/uyha/tree-sitter-cmake")
+        (css         "https://github.com/tree-sitter/tree-sitter-css")
+        (elixir      "https://github.com/elixir-lang/tree-sitter-elixir")   ; needs elixir-ts-mode pkg for TS major mode
+        (heex        "https://github.com/phoenixframework/tree-sitter-heex") ; needs heex-ts-mode pkg
+        (go          "https://github.com/tree-sitter/tree-sitter-go")
+        (html        "https://github.com/tree-sitter/tree-sitter-html")
+        (javascript  "https://github.com/tree-sitter/tree-sitter-javascript")
+        (json        "https://github.com/tree-sitter/tree-sitter-json")
+        ;; (lua         "https://github.com/tree-sitter/tree-sitter-lua")
+        (lua "https://github.com/Azganoth/tree-sitter-lua")
+        (markdown    "https://github.com/ikatyang/tree-sitter-markdown")     ; no built-in markdown-ts-mode
+        (org         "https://github.com/milisims/tree-sitter-org")          ; no built-in org-ts-mode
+        (python      "https://github.com/tree-sitter/tree-sitter-python")
+        (qmljs       "https://github.com/yuja/tree-sitter-qmljs")            ; for :lang qt (QML), TS major mode not built-in
+        (rust        "https://github.com/tree-sitter/tree-sitter-rust")
+        ;; (solidity    "https://github.com/soliditylang/tree-sitter-solidity") ; needs solidity-ts-mode pkg
+        (solidity "https://github.com/JoranHonig/tree-sitter-solidity")
+        (toml        "https://github.com/tree-sitter/tree-sitter-toml")
+        (tsx         "https://github.com/tree-sitter/tree-sitter-typescript" "tsx/src")
+        (typescript  "https://github.com/tree-sitter/tree-sitter-typescript" "typescript/src")
+        (yaml        "https://github.com/ikatyang/tree-sitter-yaml")))
+
+;;;  Remap classic modes to TS modes (only when available)
+(dolist (pair '((c-mode          . c-ts-mode)
+                (c++-mode        . c++-ts-mode)
+                (python-mode     . python-ts-mode)
+                (go-mode         . go-ts-mode)
+                (js-mode         . js-ts-mode)
+                (typescript-mode . typescript-ts-mode)
+                (json-mode       . json-ts-mode)
+                (js-json-mode    . json-ts-mode)
+                (css-mode        . css-ts-mode)
+                (sh-mode         . bash-ts-mode)
+                (yaml-mode       . yaml-ts-mode)
+                (toml-mode       . toml-ts-mode)
+                (lua-mode        . lua-ts-mode)
+                (emacs-lisp-mode . elisp-ts-mode)
+                (elixir-mode     . elixir-ts-mode)
+                (heex-mode       . heex-ts-mode)
+                (rust-mode       . rust-ts-mode)))
+  (when (fboundp (cdr pair))
+    (add-to-list 'major-mode-remap-alist pair)))
+
+(add-to-list 'auto-mode-alist '("\\.\\(h\\|hh\\|hpp\\|hxx\\)\\'" . c++-ts-mode))
+(add-to-list 'auto-mode-alist '("\\.tsx\\'" . tsx-ts-mode))
+(add-to-list 'auto-mode-alist '("\\.ts\\'"  . typescript-ts-mode))
+(add-to-list 'auto-mode-alist '("\\.qml\\'" . qml-mode))

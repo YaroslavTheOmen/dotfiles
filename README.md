@@ -4,8 +4,6 @@
 
 </div>
 
-<img src="./images/dotfiles.png" alt="Nvchad + terminal image (config applied)"/>
-
 1. NvChad v3.0
 2. Doom
 3. WezTerm
@@ -106,7 +104,6 @@ Here’s the list updated to exactly match the plugins in your return { … } sp
 ### 1. Lazy
 
 - General:
-
   - [akinsho/toggleterm.nvim](https://github.com/akinsho/toggleterm.nvim)
   - [b0o/schemastore.nvim](https://github.com/b0o/schemastore.nvim)
   - [folke/todo-comments.nvim](https://github.com/folke/todo-comments.nvim)
@@ -147,7 +144,6 @@ Here’s the list updated to exactly match the plugins in your return { … } sp
 ### 2. Mason
 
 - Language Servers:
-
   - `clangd`
   - `cmake-language-server`
   - `css-lsp`
@@ -169,7 +165,6 @@ Here’s the list updated to exactly match the plugins in your return { … } sp
   - `marksman`
 
 - Formatters:
-
   - `prettierd_ft`
   - `stylua`
   - `yapf`
