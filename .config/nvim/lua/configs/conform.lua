@@ -112,7 +112,7 @@ conform.setup({
     end)(),
 
     prettier = {
-      command = "/opt/homebrew/bin/prettier",
+      command = vim.fn.exepath("prettier"),
       args = { "--stdin-filepath", "$FILENAME" },
       cwd = require("conform.util").root_file({ "package.json", ".git" }),
     },
