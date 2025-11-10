@@ -74,15 +74,15 @@
 ;;
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
-;;
+
 ;; Setting default shell in vterm
-(setq vterm-shell "/opt/homebrew/bin/fish") ;; (setq vterm-shell "/usr/bin/fish")
+(setq vterm-shell "/opt/homebrew/bin/fish") ; (setq vterm-shell "/usr/bin/fish")
 
 ;; Emacs Tree-Sitter Grammars
-;; Where grammars are stored/loaded
 (setq treesit-extra-load-path
       (list (expand-file-name "tree-sitter" user-emacs-directory))) ; ~/.config/emacs/tree-sitter
 
+;; Grammars' Sources
 (setq treesit-language-source-alist
       '((bash        "https://github.com/tree-sitter/tree-sitter-bash")
         (c           "https://github.com/tree-sitter/tree-sitter-c")
@@ -109,7 +109,7 @@
         (typescript  "https://github.com/tree-sitter/tree-sitter-typescript" "typescript/src")
         (yaml        "https://github.com/ikatyang/tree-sitter-yaml")))
 
-;;;  Remap classic modes to TS modes (only when available)
+;; Remap classic modes to TS modes (only when available)
 (dolist (pair '((c-mode          . c-ts-mode)
                 (c++-mode        . c++-ts-mode)
                 (python-mode     . python-ts-mode)
@@ -134,3 +134,24 @@
 (add-to-list 'auto-mode-alist '("\\.tsx\\'" . tsx-ts-mode))
 (add-to-list 'auto-mode-alist '("\\.ts\\'"  . typescript-ts-mode))
 (add-to-list 'auto-mode-alist '("\\.qml\\'" . qml-mode))
+
+;; Setup Web Lsps
+(after! eglot
+  ;; Server mappings
+  (add-to-list 'eglot-server-programs
+               '((html-mode mhtml-mode web-mode)
+                 . ("vscode-html-language-server" "--stdio")))
+  (add-to-list 'eglot-server-programs
+               '((css-mode css-ts-mode scss-mode scss-ts-mode less-css-mode)
+                 . ("vscode-css-language-server" "--stdio")))
+  (add-to-list 'eglot-server-programs
+               '((json-mode jsonc-mode json-ts-mode)
+                 . ("vscode-json-language-server" "--stdio")))
+  (add-to-list 'eglot-server-programs
+               '((yaml-mode yaml-ts-mode)
+                 . ("yaml-language-server" "--stdio"))))
+
+;; Auto-attach Eglot
+(dolist (mode '(yaml-mode yaml-ts-mode
+                json-mode jsonc-mode json-ts-mode))
+  (add-hook (intern (format "%s-hook" mode)) #'eglot-ensure))
