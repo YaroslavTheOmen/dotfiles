@@ -20,8 +20,6 @@
   - [Fish and Starship](#fish-and-starship)
   - [Packages](#packages)
 - [Install](#install)
-- [All Plugins](#all-plugins-nvchad)
-- [Acknowledgements](#Acknowledgements)
 
 ## Dependencies
 
