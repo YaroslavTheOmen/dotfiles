@@ -81,13 +81,13 @@ end
 conform.setup({
   formatters_by_ft = formatters_by_ft,
 
-  format_on_save = function(bufnr)
-    local ok_stat, stat = pcall((vim.uv or vim.loop).fs_stat, vim.api.nvim_buf_get_name(bufnr))
-    if ok_stat and stat and stat.size > 512 * 1024 then
-      return
-    end
-    return { timeout_ms = 1000, lsp_fallback = false }
-  end,
+  -- format_on_save = function(bufnr)
+  --   local ok_stat, stat = pcall((vim.uv or vim.loop).fs_stat, vim.api.nvim_buf_get_name(bufnr))
+  --   if ok_stat and stat and stat.size > 512 * 1024 then
+  --     return
+  --   end
+  --   return { timeout_ms = 1000, lsp_fallback = false }
+  -- end,
 
   formatters = {
     prettierd = (function()
