@@ -28,22 +28,19 @@ map("n", "[t", function()
   require("todo-comments").jump_prev()
 end, { desc = "Previous todo comment" })
 
-local function toggle_lazygit()
-  local ok, term = pcall(require, "toggleterm.terminal")
-  if not ok then
-    vim.notify("toggleterm not available", vim.log.levels.WARN)
+local function open_lazygit()
+  if vim.fn.executable("lazygit") == 0 then
+    vim.notify("lazygit is not installed", vim.log.levels.ERROR)
     return
   end
-  _LAZYGIT_TERM = _LAZYGIT_TERM
-    or term.Terminal:new {
-      cmd = "lazygit",
-      hidden = true,
-      direction = "float",
-    }
-  _LAZYGIT_TERM:toggle()
+  if vim.fn.exists(":LazyGit") == 2 then
+    vim.cmd("LazyGit")
+  else
+    vim.notify("LazyGit.nvim not available (install 'kdheepak/lazygit.nvim')", vim.log.levels.WARN)
+  end
 end
 
-map("n", "<Leader>gz", toggle_lazygit, { desc = "Toggle LazyGit (float)" })
+map("n", "<Leader>gz", open_lazygit, { desc = "Open LazyGit" })
 
 map("n", "<Leader>wo", function()
   local cfg = vim.diagnostic.config()
