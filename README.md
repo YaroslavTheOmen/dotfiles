@@ -84,7 +84,7 @@ _Install these packages, LSP servers, and formatters; they’re required for NvC
 - `dockerfile-language-server-nodejs`
 - `qmlls`
 
-**Formatters:**
+**Formatters (Doom Emacs):**
 
 - `clang-format`
 - `mix`
