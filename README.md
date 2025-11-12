@@ -16,14 +16,14 @@
   - [Doom](#doom)
   - [WezTerm](#wezterm)
   - [Fish and Starship](#fish-and-starship)
-  - [Packages and LSP Servers](#packages-and-lsp-servers)
+  - [Packages, LSP Servers, and Formatters](#packages-lsp-servers-and-formatters)
 - [Install](#install)
 
 ## Dependencies
 
 ### Fonts
 
-You need these fonts for NvChad, Doom and WezTerm:
+You need these fonts for NvChad, Doom, and WezTerm:
 
 - [Install JetBrains Mono](https://github.com/JetBrains/JetBrainsMono#installation)
 - [Install Hack Nerd Font](https://github.com/ryanoasis/nerd-fonts?tab=readme-ov-file#font-installation)
@@ -36,7 +36,7 @@ You need these fonts for NvChad, Doom and WezTerm:
 
 ### Doom
 
-- [Install Emacs (linux)](https://www.gnu.org/software/emacs/)
+- [Install Emacs (Linux)](https://www.gnu.org/software/emacs/)
 - [Install Emacs (macOS)](https://github.com/d12frosted/homebrew-emacs-plus)
 - [Install Doom](https://github.com/doomemacs/doomemacs?tab=readme-ov-file#install)
 
@@ -49,9 +49,9 @@ You need these fonts for NvChad, Doom and WezTerm:
 - [Install Fish Shell](https://github.com/fish-shell/fish-shell#getting-fish)
 - [Install Starship](https://github.com/starship/starship#-installation)
 
-### Packages and LSP Servers
+### Packages, LSP Servers, and Formatters
 
-_Install these packages and LSP servers; they’re required for NvChad, Doom Emacs, and related plugins._
+_Install these packages, LSP servers, and formatters; they’re required for NvChad, Doom Emacs, and related plugins._
 
 **Packages:**
 
@@ -70,6 +70,7 @@ _Install these packages and LSP servers; they’re required for NvChad, Doom Ema
 
 **LSP Servers (Doom Emacs):**
 
+- `pyright`
 - `clangd`
 - `elixir-ls`
 - `gopls`
@@ -80,6 +81,21 @@ _Install these packages and LSP servers; they’re required for NvChad, Doom Ema
 - `vscode-html-language-server`
 - `vscode-css-language-server`
 - `yaml-language-server`
+- `dockerfile-language-server-nodejs`
+- `qmlls`
+
+**Formatters:**
+
+- `clang-format`
+- `mix`
+- `gofmt`
+- `prettier`
+- `rustfmt`
+- `shfmt`
+- `stylua`
+- `ruff`
+- `qmlformat`
+- `forge`
 
 ## Install
 
@@ -91,9 +107,9 @@ Manually copy the files you need:
 4. Fish: `.config/fish/config.fish`
 5. Starship: `.config/starship.toml`
 
-**Don't forget to update the necessary paths:**
+**Don’t forget to update the necessary paths:**
 
-- shell path and python venv path in `.config/nvim/init.lua`
-- shell path in `.config/doom/config.el`
-- shell path in `.wezterm.lua`
-- starship path and `$PATH` using `set -x PATH` in `.config/fish/config.fish`
+- Shell path and Python venv path in `.config/nvim/init.lua`
+- Shell path in `.config/doom/config.el`
+- Shell path in `.wezterm.lua`
+- Starship path and `$PATH` (using `set -x PATH`) in `.config/fish/config.fish`
