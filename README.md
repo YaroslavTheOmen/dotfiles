@@ -49,11 +49,11 @@ You need these fonts for NvChad, Doom and WezTerm:
 - [Install Fish Shell](https://github.com/fish-shell/fish-shell#getting-fish)
 - [Install Starship](https://github.com/starship/starship#-installation)
 
-### Packages & LSP Servers
+### Packages and LSP Servers
 
 _Install these packages and LSP servers; they’re required for NvChad, Doom Emacs, and related plugins._
 
-\***\*Packages:\*\***
+**Packages:**
 
 - `coreutils` (macOS)
 - `fd`
