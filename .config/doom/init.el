@@ -74,7 +74,7 @@
        ;;eww               ; the internet is gross
        ;;ibuffer           ; interactive buffer management
        tramp               ; remote files at your arthritic fingertips
-       (undo +tree)       ; persistent, smarter undo for your inevitable mistakes
+       (undo +tree)        ; persistent, smarter undo for your inevitable mistakes
        vc                  ; version-control and Emacs, sitting in a tree
 
        :term
@@ -101,7 +101,7 @@
        lookup              ; navigate your code and its documentation
        ;;llm               ; when I said you needed friends, I didn't mean...
        (lsp +eglot)        ; M-x vscode
-       magit               ; a git porcelain for Emacs
+       (magit +forge)      ; a git porcelain for Emacs
        make                ; run make tasks from Emacs
        ;;pass              ; password manager for nerds
        ;;pdf               ; pdf enhancements
@@ -112,7 +112,7 @@
 
        :os
        (:if (featurep :system 'macos) macos)  ; improve compatibility with macOS
-       tty               ; improve the terminal Emacs experience
+       tty                 ; improve the terminal Emacs experience
 
        :lang
        ;;ada               ; In strong typing we (blindly) trust
@@ -152,8 +152,8 @@
        ;;latex             ; writing papers in Emacs has never been so fun
        ;;lean              ; for folks with too much to prove
        ;;ledger            ; be audit you can be
-       (lua +lsp +tree-sitter)                ; one-based indices? one-based indices
-       (markdown +tree-sitter)            ; writing docs for people to ignore
+       (lua +lsp +tree-sitter)          ; one-based indices? one-based indices
+       (markdown +tree-sitter)          ; writing docs for people to ignore
        ;;nim               ; python + lisp at the speed of c
        ;;nix               ; I hereby declare "nix geht mehr!"
        ;;ocaml             ; an objective camel
@@ -163,7 +163,7 @@
        ;;graphviz          ; diagrams for confusing yourself even more
        ;;purescript        ; javascript, but functional
        (python +lsp +pyenv +pyright +conda +tree-sitter)       ; beautiful is better than ugly
-       (qt +lsp +tree-sitter)                  ; the 'cutest' gui framework ever
+       (qt +lsp +tree-sitter)            ; the 'cutest' gui framework ever
        ;;racket            ; a DSL for DSLs
        ;;raku              ; the artist formerly known as perl6
        ;;rest              ; Emacs as a REST client
@@ -177,7 +177,7 @@
        solidity            ; do you need a blockchain? No.
        ;;swift             ; who asked for emoji variables?
        ;;terra             ; Earth and Moon in alignment for performance.
-       (web +lsp +tree-sitter)          ; the tubes
+       (web +lsp +tree-sitter)           ; the tubes
        (yaml +lsp +tree-sitter )         ; JSON, but readable
        ;;zig               ; C, but simpler
 

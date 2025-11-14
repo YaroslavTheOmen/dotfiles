@@ -78,6 +78,10 @@
 ;; Setting default shell in vterm
 (setq vterm-shell "/opt/homebrew/bin/fish") ; (setq vterm-shell "/usr/bin/fish")
 
+;; Forge
+(setq auth-sources '("~/.authinfo"))
+;;(setq auth-sources '("~/.authinfo.gpg"))
+
 ;; Where to look for compiled grammars
 (setq treesit-extra-load-path
       (delq nil
