@@ -82,6 +82,11 @@
 (setq auth-sources '("~/.authinfo"))
 ;;(setq auth-sources '("~/.authinfo.gpg"))
 
+;; Deft
+(setq deft-directory "~/deft/"
+      deft-extensions '("org" "txt" "md")
+      deft-recursive t)
+
 ;; Where to look for compiled grammars
 (setq treesit-extra-load-path
       (delq nil
