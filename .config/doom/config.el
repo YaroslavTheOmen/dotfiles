@@ -80,7 +80,7 @@
       explicit-shell-file-name (executable-find "bash"))
 
 ;; Use fish in terminal emulators
-(setq-default vterm-shell "/opt/homebrew/bin/fish") ; (setq vterm-shell "/usr/bin/fish")
+(setq-default vterm-shell "/opt/homebrew/bin/fish") ; "/usr/bin/fish"
 
 ;; Forge
 (setq auth-sources '("~/.authinfo"))
@@ -166,7 +166,11 @@
                  . ("vscode-json-language-server" "--stdio")))
   (add-to-list 'eglot-server-programs
                '((yaml-mode yaml-ts-mode)
-                 . ("yaml-language-server" "--stdio"))))
+                 . ("yaml-language-server" "--stdio")))
+  ;; (add-to-list 'eglot-server-programs
+  ;;              `((elixir-mode elixir-ts-mode heex-mode heex-ts-mode)
+  ;;                . (,(expand-file-name "~/.elixir-ls/release/language_server.sh"))))
+  )
 
 ;; Auto-attach Eglot
 (dolist (mode '(yaml-mode yaml-ts-mode
