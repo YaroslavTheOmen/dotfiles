@@ -75,8 +75,12 @@
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
 
-;; Setting default shell in vterm
-(setq vterm-shell "/opt/homebrew/bin/fish") ; (setq vterm-shell "/usr/bin/fish")
+;; Use bash internally
+(setq shell-file-name (executable-find "bash")
+      explicit-shell-file-name (executable-find "bash"))
+
+;; Use fish in terminal emulators
+(setq-default vterm-shell "/opt/homebrew/bin/fish") ; (setq vterm-shell "/usr/bin/fish")
 
 ;; Forge
 (setq auth-sources '("~/.authinfo"))

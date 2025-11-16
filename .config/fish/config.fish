@@ -48,7 +48,7 @@ end
 #
 # set -Ux EDITOR nvim
 #
-# set -x PATH ~/.local/bin ~/.cargo/bin ~/go/bin ~/.npm-global/bin ~/.local/share/npm/bin ~/.config/yarn/global/node_modules/.bin ~/.config/emacs/bin ~/.pyenv/shims ~/.pyenv/bin /usr/local/go/bin /home/yaroslavaugustus/miniconda3/condabin /usr/local/bin /usr/local/sbin /usr/bin /usr/sbin /bin /sbin /snap/bin /usr/games /usr/local/games ~/.local/elixir-ls
+# set -x PATH ~/.local/bin ~/.cargo/bin ~/go/bin ~/.npm-global/bin ~/.local/share/npm/bin ~/.config/yarn/global/node_modules/.bin ~/.config/emacs/bin ~/.pyenv/shims ~/.pyenv/bin /usr/local/go/bin /home/yaroslavaugustus/miniconda3/condabin /usr/local/bin /usr/local/sbin /usr/bin /usr/sbin /bin /sbin /snap/bin /usr/games /usr/local/games ~/elixir-ls
 #
 # # >>> conda initialize >>>
 # # !! Contents within this block are managed by 'conda init' !!
@@ -62,3 +62,4 @@ end
 # # <<< conda initialize <<<
 #
 # bass source /opt/ros/jazzy/setup.bash
+# source ~/.asdf/asdf.fish
