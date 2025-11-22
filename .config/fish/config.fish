@@ -62,5 +62,4 @@ end
 # # <<< conda initialize <<<
 
 # bass source /opt/ros/jazzy/setup.bash
-# source ~/.cargo/env.fish
 # source ~/.asdf/asdf.fish
