@@ -21,6 +21,7 @@
 ;; See 'C-h v doom-font' for documentation and more examples of what they
 ;; accept. For example:
 ;;
+;; JetBrainsMono Nerd Font (Ubuntu Font)
 (setq doom-font (font-spec :family "JetBrains Mono" :size 12 :weight 'semi-light)
       doom-variable-pitch-font (font-spec :family "JetBrains Mono" :size 13))
 ;;
