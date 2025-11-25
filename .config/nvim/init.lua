@@ -2,7 +2,7 @@ vim.g.base46_cache = vim.fn.stdpath "data" .. "/base46/"
 vim.g.mapleader = " "
 
 vim.o.shell = "/opt/homebrew/bin/fish" -- "/usr/bin/fish"
-vim.g.python3_host_prog = "~/.config/nvim/venv/bin/python3"
+vim.g.python3_host_prog = "~/.config/nvim/.venv/bin/python3"
 vim.g.loaded_python3_provider = 1
 
 -- Turn On/Off virtual_text on InsertLeave/InsertEnter
