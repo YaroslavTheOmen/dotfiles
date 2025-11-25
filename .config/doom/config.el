@@ -107,7 +107,7 @@
         (cpp         "https://github.com/tree-sitter/tree-sitter-cpp")
         (cmake       "https://github.com/uyha/tree-sitter-cmake")
         (css         "https://github.com/tree-sitter/tree-sitter-css" ) ; "v0.23.1"
-        (elixir      "https://github.com/elixir-lang/tree-sitter-elixir")   ; needs elixir-ts-mode pkg for TS major mode
+        (elixir      "https://github.com/elixir-lang/tree-sitter-elixir") ; needs elixir-ts-mode pkg for TS major mode
         (heex        "https://github.com/phoenixframework/tree-sitter-heex") ; needs heex-ts-mode pkg
         (go          "https://github.com/tree-sitter/tree-sitter-go" ) ; "v0.23.3"
         (html        "https://github.com/tree-sitter/tree-sitter-html")
@@ -115,10 +115,10 @@
         (json        "https://github.com/tree-sitter/tree-sitter-json")
         ;; (lua         "https://github.com/tree-sitter/tree-sitter-lua")
         (lua "https://github.com/Azganoth/tree-sitter-lua")
-        (markdown    "https://github.com/ikatyang/tree-sitter-markdown")     ; no built-in markdown-ts-mode
-        (org         "https://github.com/milisims/tree-sitter-org")          ; no built-in org-ts-mode
+        (markdown    "https://github.com/ikatyang/tree-sitter-markdown") ; no built-in markdown-ts-mode
+        (org         "https://github.com/milisims/tree-sitter-org") ; no built-in org-ts-mode
         (python      "https://github.com/tree-sitter/tree-sitter-python" ) ; "v0.23.6"
-        (qmljs       "https://github.com/yuja/tree-sitter-qmljs")            ; for :lang qt (QML), TS major mode not built-in
+        (qmljs       "https://github.com/yuja/tree-sitter-qmljs") ; for :lang qt (QML), TS major mode not built-in
         (rust        "https://github.com/tree-sitter/tree-sitter-rust" ) ; "v0.23.2"
         ;; (solidity    "https://github.com/soliditylang/tree-sitter-solidity") ; needs solidity-ts-mode pkg
         (solidity "https://github.com/JoranHonig/tree-sitter-solidity" ) ; "v1.2.8"
