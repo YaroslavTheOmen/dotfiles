@@ -170,7 +170,7 @@
                  . ("yaml-language-server" "--stdio")))
   ;; (add-to-list 'eglot-server-programs
   ;;              `((elixir-mode elixir-ts-mode heex-mode heex-ts-mode)
-  ;;                . (,(expand-file-name "~/.elixir-ls/release/language_server.sh"))))
+  ;;                . (,(expand-file-name "~/elixir-ls/release/language_server.sh"))))
   )
 
 ;; Auto-attach Eglot
