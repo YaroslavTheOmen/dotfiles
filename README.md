@@ -4,6 +4,8 @@
 
 </div>
 
+*macOS / Ubuntu*
+
 1. NvChad
 2. Doom
 3. WezTerm
@@ -67,6 +69,8 @@ _Install these packages, LSP servers, and formatters; they’re required for NvC
 - `python`
 - `rust`
 - `ripgrep`
+- `fisher`
+- `bass` (fisher)
 
 **LSP Servers (Doom Emacs):**
 
