@@ -71,6 +71,7 @@ _Install these packages, LSP servers, and formatters; they’re required for NvC
 - `ripgrep`
 - `fisher`
 - `bass` (fisher)
+- `nvm` (fisher)
 
 **LSP Servers (Doom Emacs):**
 
