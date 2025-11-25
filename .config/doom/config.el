@@ -177,3 +177,8 @@
 (dolist (mode '(yaml-mode yaml-ts-mode
                 json-mode jsonc-mode json-ts-mode))
   (add-hook (intern (format "%s-hook" mode)) #'eglot-ensure))
+
+;; Mappings
+(after! dired
+  (map! :map dired-mode-map
+        "C-c c" #'dired-create-empty-file))
