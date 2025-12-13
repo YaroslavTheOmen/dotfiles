@@ -48,7 +48,7 @@ end
 
 # set -Ux EDITOR nvim
 
-# set -x PATH ~/.local/bin ~/.cargo/bin ~/go/bin ~/.npm-global/bin ~/.local/share/npm/bin ~/.config/yarn/global/node_modules/.bin ~/.config/emacs/bin ~/.pyenv/shims ~/.pyenv/bin /usr/local/go/bin /home/yaroslavaugustus/miniconda3/condabin /usr/local/bin /usr/local/sbin /usr/bin /usr/sbin /bin /sbin /snap/bin /usr/games /usr/local/games ~/elixir-ls/release/ ~/.asdf/shims/
+# set -x PATH ~/.local/bin ~/.cargo/bin ~/go/bin ~/.npm-global/bin ~/.local/share/npm/bin ~/.config/yarn/global/node_modules/.bin ~/.config/emacs/bin ~/.pyenv/shims ~/.pyenv/bin /usr/local/go/bin /home/yaroslavaugustus/miniconda3/condabin /usr/local/bin /usr/local/sbin /usr/bin /usr/sbin /bin /sbin /snap/bin /usr/games /usr/local/games ~/elixir-ls/release/ ~/.asdf/shims/ /usr/local/cuda/bin /usr/local/cuda/lib64 ~/.bun/bin
 
 # # >>> conda initialize >>>
 # # !! Contents within this block are managed by 'conda init' !!
