@@ -89,7 +89,7 @@
 
 ;; Deft
 (setq deft-directory "~/deft/"
-      deft-extensions '("org" "txt" "md")
+      deft-extensions '("org" "md" "txt")
       deft-recursive t)
 
 ;; Where to look for compiled grammars
@@ -102,29 +102,29 @@
 
 ;; Grammars' Sources
 (setq treesit-language-source-alist
-      '((bash        "https://github.com/tree-sitter/tree-sitter-bash" ) ; "v0.23.3"
-        (c           "https://github.com/tree-sitter/tree-sitter-c" ) ; "v0.23.4"
+      '((bash        "https://github.com/tree-sitter/tree-sitter-bash" "v0.23.3")
+        (c           "https://github.com/tree-sitter/tree-sitter-c" "v0.23.4")
         (cpp         "https://github.com/tree-sitter/tree-sitter-cpp")
         (cmake       "https://github.com/uyha/tree-sitter-cmake")
-        (css         "https://github.com/tree-sitter/tree-sitter-css" ) ; "v0.23.1"
-        (elixir      "https://github.com/elixir-lang/tree-sitter-elixir") ; needs elixir-ts-mode pkg for TS major mode
-        (heex        "https://github.com/phoenixframework/tree-sitter-heex") ; needs heex-ts-mode pkg
-        (go          "https://github.com/tree-sitter/tree-sitter-go" ) ; "v0.23.3"
+        (css         "https://github.com/tree-sitter/tree-sitter-css" "v0.23.1")
+        (elixir      "https://github.com/elixir-lang/tree-sitter-elixir")
+        (heex        "https://github.com/phoenixframework/tree-sitter-heex")
+        (go          "https://github.com/tree-sitter/tree-sitter-go" "v0.23.3")
         (html        "https://github.com/tree-sitter/tree-sitter-html")
         (javascript  "https://github.com/tree-sitter/tree-sitter-javascript")
         (json        "https://github.com/tree-sitter/tree-sitter-json")
-        ;; (lua         "https://github.com/tree-sitter/tree-sitter-lua")
-        (lua "https://github.com/Azganoth/tree-sitter-lua")
+        ;; (lua      "https://github.com/tree-sitter/tree-sitter-lua")
+        (lua         "https://github.com/Azganoth/tree-sitter-lua")
         (markdown    "https://github.com/ikatyang/tree-sitter-markdown") ; no built-in markdown-ts-mode
-        (org         "https://github.com/milisims/tree-sitter-org") ; no built-in org-ts-mode
-        (python      "https://github.com/tree-sitter/tree-sitter-python" ) ; "v0.23.6"
-        (qmljs       "https://github.com/yuja/tree-sitter-qmljs") ; for :lang qt (QML), TS major mode not built-in
-        (rust        "https://github.com/tree-sitter/tree-sitter-rust" ) ; "v0.23.2"
-        ;; (solidity    "https://github.com/soliditylang/tree-sitter-solidity") ; needs solidity-ts-mode pkg
-        (solidity "https://github.com/JoranHonig/tree-sitter-solidity" ) ; "v1.2.8"
+        (org         "https://github.com/milisims/tree-sitter-org")      ; no built-in org-ts-mode
+        (python      "https://github.com/tree-sitter/tree-sitter-python" "v0.23.6")
+        (qmljs       "https://github.com/yuja/tree-sitter-qmljs") ; needs external TS major mode
+        (rust        "https://github.com/tree-sitter/tree-sitter-rust" "v0.23.2")
+        ;; (solidity "https://github.com/soliditylang/tree-sitter-solidity") ; needs external TS major mode
+        (solidity    "https://github.com/JoranHonig/tree-sitter-solidity" "v1.2.8")
         (toml        "https://github.com/tree-sitter/tree-sitter-toml")
-        (tsx         "https://github.com/tree-sitter/tree-sitter-typescript" "tsx/src")
-        (typescript  "https://github.com/tree-sitter/tree-sitter-typescript" "typescript/src")
+        (tsx         "https://github.com/tree-sitter/tree-sitter-typescript" nil "tsx/src")
+        (typescript  "https://github.com/tree-sitter/tree-sitter-typescript" nil "typescript/src")
         (yaml        "https://github.com/ikatyang/tree-sitter-yaml")))
 
 ;; Remap classic modes to TS modes (only when available)
@@ -144,20 +144,27 @@
                 (emacs-lisp-mode . elisp-ts-mode)
                 (elixir-mode     . elixir-ts-mode)
                 (heex-mode       . heex-ts-mode)
-                (rust-mode       . rust-ts-mode)))
+                (rust-mode       . rust-ts-mode)
+                (html-mode       . html-ts-mode)))
   (when (fboundp (cdr pair))
     (add-to-list 'major-mode-remap-alist pair)))
 
+;; File associations
 (add-to-list 'auto-mode-alist '("\\.\\(h\\|hh\\|hpp\\|hxx\\)\\'" . c++-ts-mode))
 (add-to-list 'auto-mode-alist '("\\.tsx\\'" . tsx-ts-mode))
 (add-to-list 'auto-mode-alist '("\\.ts\\'"  . typescript-ts-mode))
+
+;; NOTE: If you have a qml tree-sitter major mode package, map *.qml to it.
 (add-to-list 'auto-mode-alist '("\\.qml\\'" . qml-mode))
 
-;; Setup Web Lsps
+(add-to-list 'auto-mode-alist '("\\.jsx\\'" . js-ts-mode))
+(add-to-list 'auto-mode-alist '("\\.mjs\\'" . js-ts-mode))
+(add-to-list 'auto-mode-alist '("\\.cjs\\'" . js-ts-mode))
+
+;; Setup Web LSPs
 (after! eglot
-  ;; Server mappings
   (add-to-list 'eglot-server-programs
-               '((html-mode mhtml-mode web-mode)
+               '((html-mode mhtml-mode web-mode html-ts-mode)
                  . ("vscode-html-language-server" "--stdio")))
   (add-to-list 'eglot-server-programs
                '((css-mode css-ts-mode scss-mode scss-ts-mode less-css-mode)
@@ -168,14 +175,19 @@
   (add-to-list 'eglot-server-programs
                '((yaml-mode yaml-ts-mode)
                  . ("yaml-language-server" "--stdio")))
-  ;; (add-to-list 'eglot-server-programs
-  ;;              `((elixir-mode elixir-ts-mode heex-mode heex-ts-mode)
-  ;;                . (,(expand-file-name "~/elixir-ls/release/language_server.sh"))))
-  )
+  (add-to-list 'eglot-server-programs
+               `((elixir-mode elixir-ts-mode heex-mode heex-ts-mode)
+                 . (,(expand-file-name "~/elixir-ls/release/language_server.sh"))))
+  (add-to-list 'eglot-server-programs
+               '((js-ts-mode tsx-ts-mode typescript-ts-mode)
+                 . ("typescript-language-server" "--stdio"))))
 
 ;; Auto-attach Eglot
 (dolist (mode '(yaml-mode yaml-ts-mode
-                json-mode jsonc-mode json-ts-mode))
+                json-mode jsonc-mode json-ts-mode
+                js-ts-mode tsx-ts-mode typescript-ts-mode
+                html-mode html-ts-mode
+                css-mode css-ts-mode))
   (add-hook (intern (format "%s-hook" mode)) #'eglot-ensure))
 
 ;; Mappings
