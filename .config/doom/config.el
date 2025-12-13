@@ -156,7 +156,6 @@
 
 ;; NOTE: If you have a qml tree-sitter major mode package, map *.qml to it.
 (add-to-list 'auto-mode-alist '("\\.qml\\'" . qml-mode))
-
 (add-to-list 'auto-mode-alist '("\\.jsx\\'" . js-ts-mode))
 (add-to-list 'auto-mode-alist '("\\.mjs\\'" . js-ts-mode))
 (add-to-list 'auto-mode-alist '("\\.cjs\\'" . js-ts-mode))
@@ -175,9 +174,9 @@
   (add-to-list 'eglot-server-programs
                '((yaml-mode yaml-ts-mode)
                  . ("yaml-language-server" "--stdio")))
-  (add-to-list 'eglot-server-programs
-               `((elixir-mode elixir-ts-mode heex-mode heex-ts-mode)
-                 . (,(expand-file-name "~/elixir-ls/release/language_server.sh"))))
+  ;; (add-to-list 'eglot-server-programs
+  ;;              `((elixir-mode elixir-ts-mode heex-mode heex-ts-mode)
+  ;;                . (,(expand-file-name "~/elixir-ls/release/language_server.sh"))))
   (add-to-list 'eglot-server-programs
                '((js-ts-mode tsx-ts-mode typescript-ts-mode)
                  . ("typescript-language-server" "--stdio"))))
