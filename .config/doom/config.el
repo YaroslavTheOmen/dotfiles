@@ -189,6 +189,10 @@
                 css-mode css-ts-mode))
   (add-hook (intern (format "%s-hook" mode)) #'eglot-ensure))
 
+;; Flymake-Eglot desync solution
+(after! eglot
+  (setq eglot-send-changes-idle-time 0))
+
 ;; Mappings
 (after! dired
   (map! :map dired-mode-map
