@@ -57,6 +57,8 @@ return {
         "tsx",
         "typescript",
         "vim",
+        "bash",
+        "fish",
       },
     },
   },
