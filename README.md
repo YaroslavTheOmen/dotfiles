@@ -1,8 +1,4 @@
-<div align="center">
-
 # .dotfiles
-
-</div>
 
 *macOS / Ubuntu*
 
