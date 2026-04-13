@@ -1,4 +1,5 @@
-set -Ux EDITOR nvim
+set -gx EDITOR emacs
+set -gx VISUAL emacs
 
 set -x PATH ~/.local/bin ~/.cargo/bin ~/go/bin ~/.config/emacs/bin /Users/yaroslavaugustus/.foundry/bin ~/.npm-global/bin ~/.local/share/npm/bin /opt/homebrew/opt/python@3.13/bin /opt/homebrew/opt/llvm/bin /opt/homebrew/bin /opt/homebrew/sbin /usr/local/bin /usr/local/sbin /System/Cryptexes/App/usr/bin /var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin /var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin /var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin /usr/bin /bin /usr/sbin /sbin /Applications/Obsidian.app/Contents/MacOS
 
@@ -43,7 +44,8 @@ function use_system_python
 end
 
 
-# set -Ux EDITOR nvim
+# set -gx EDITOR emacs
+# set -gx VISUAL emacs
 #
 # set -x PATH ~/.local/bin ~/.cargo/bin ~/go/bin ~/.npm-global/bin ~/.local/share/npm/bin ~/.config/yarn/global/node_modules/.bin ~/.config/emacs/bin /usr/local/go/bin /usr/local/bin /usr/local/sbin /usr/bin /usr/sbin /bin /sbin /snap/bin /usr/games /usr/local/games ~/elixir-ls/release ~/.asdf/shims /usr/local/cuda/bin /usr/local/cuda/lib64 ~/.bun/bin /usr/local/bin/obsidian
 #
